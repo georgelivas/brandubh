@@ -1,0 +1,39 @@
+.wooden-table {
+ border: 2px solid white;
+ height: 700px;
+ width: 700px;
+ margin-bottom: 400px;
+ background-image: url("../images/backgrounds/lightwood.jpg");
+}
+
+.cell {
+  height: 100px;
+  width: 100px;
+  border: 2px solid white;
+  text-align: center;
+}
+
+.corner {
+    background-image: url("../images/backgrounds/darkwood.jpg");
+    text-align: center;
+}
+
+.piece {
+  height: 90px;
+  width: 90px;
+}
+
+.button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.h1 {
+  color: green;
+}
