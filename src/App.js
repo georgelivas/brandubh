@@ -4,7 +4,7 @@ import {
   Button,
 } from './components';
 
-import { board } from './redux/modules/brandubh/index.js';
+import { board } from './libs/brandubh/index.js';
 
 import './App.css';
 
