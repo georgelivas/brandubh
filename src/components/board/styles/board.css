@@ -4,6 +4,7 @@
  width: 700px;
  margin-bottom: 400px;
  background-image: url("../images/backgrounds/lightwood.jpg");
+ margin: 0 auto 0 auto;
 }
 
 .cell {
