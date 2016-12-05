@@ -4,14 +4,18 @@
  width: 700px;
  margin-bottom: 400px;
  background-image: url("../images/backgrounds/lightwood.jpg");
- margin: 0 auto 0 auto;
+ margin: 0 auto 50px auto;
 }
 
 .cell {
   height: 100px;
   width: 100px;
-  border: 2px solid white;
+  /*border: 2px solid white;*/
   text-align: center;
+}
+
+.tr {
+  border: 2px solid white;
 }
 
 .corner {

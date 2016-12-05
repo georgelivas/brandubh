@@ -32,7 +32,7 @@ const Board = ({ board }) => (
     <Kitsos mitsos="hello" color="black"/>
     <table className="wooden-table">
       {[1, 2, 3, 4, 5, 6, 7].map((rowNum) => (
-        <tr key={`board-row-${rowNum}`}>
+        <tr className="tr" key={`board-row-${rowNum}`}>
           <td className={rowNum === 1 || rowNum === 7 ? 'corner' : 'cell'}>
             <Img piece={board[rowNum - 1][0]} />
           </td>
