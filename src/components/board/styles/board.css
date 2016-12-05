@@ -3,14 +3,14 @@
  height: 700px;
  width: 700px;
  margin-bottom: 400px;
- background-image: url("../images/backgrounds/lightwood.jpg");
+ /*background-image: url("../images/backgrounds/lightwood.jpg");*/
  margin: 0 auto 50px auto;
 }
 
 .cell {
   height: 100px;
   width: 100px;
-  /*border: 2px solid white;*/
+  border: 2px solid white;
   text-align: center;
 }
 
@@ -21,6 +21,7 @@
 .corner {
     background-image: url("../images/backgrounds/darkwood.jpg");
     text-align: center;
+    border: 2px solid white;
 }
 
 .piece {
