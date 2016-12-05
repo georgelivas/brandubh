@@ -4,7 +4,7 @@
  width: 700px;
  margin-bottom: 400px;
  /*background-image: url("../images/backgrounds/lightwood.jpg");*/
- margin: 0 auto 50px auto;
+ margin: 20px auto 50px auto;
 }
 
 .cell {
@@ -19,7 +19,9 @@
 }
 
 .corner {
-    background-image: url("../images/backgrounds/darkwood.jpg");
+    /*background-image: url("../images/backgrounds/darkwood.jpg");*/
+    /*background-color: #6b1111;*/
+    background-color: #2c2c2c;
     text-align: center;
     border: 2px solid white;
 }
