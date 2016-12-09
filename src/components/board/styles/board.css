@@ -4,7 +4,7 @@
  width: 700px;
  margin-bottom: 400px;
  /*background-image: url("../images/backgrounds/lightwood.jpg");*/
- margin: 20px auto 50px auto;
+ margin: 50px auto 50px auto;
 }
 
 .cell {
@@ -44,4 +44,8 @@
 
 .h1 {
   color: green;
+}
+
+.cellNum {
+  color: white;
 }

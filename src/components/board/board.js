@@ -27,6 +27,9 @@ const Board = ({ board }) => (
     <table className="wooden-table">
       {[1, 2, 3, 4, 5, 6, 7].map((rowNum) => (
         <tr key={`board-row-${rowNum}`}>
+          <td className="cellNum" >
+              {rowNum}
+          </td>
           <td className={rowNum === 1 || rowNum === 7 ? 'corner' : 'cell'}>
             <Img piece={board[rowNum - 1][0]} />
           </td>

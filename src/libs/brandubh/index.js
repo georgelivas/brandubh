@@ -83,8 +83,8 @@ class King extends Piece {
   static color = 'GREY';
   static type = 'KING';
 
-  constructor (board) {
-    super(board, 3, 3, King.type);
+  constructor (board, x, y) {
+    super(board, x, y, King.type);
   }
 
   isKing () {
@@ -121,7 +121,7 @@ class Board {
 
     // Pieces starting posisions on Board
     new Red(this.board, 0, 3);
-    new Red(this.board, 1, 3);
+    new Red(this.board, 1, 4);
     new Grey(this.board, 2, 3);
     new King(this.board, 3, 3);
     new Grey(this.board, 4, 3);
