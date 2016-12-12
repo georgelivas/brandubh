@@ -18,7 +18,7 @@
   border: 2px solid white;
 }
 
-.corner {
+.corner, .center {
     /*background-image: url("../images/backgrounds/darkwood.jpg");*/
     /*background-color: #6b1111;*/
     background-color: #000000;
@@ -48,4 +48,7 @@
 
 .cellNum {
   color: white;
+  text-align: center;
+  min-width: 30px;
+  height: 30px;
 }

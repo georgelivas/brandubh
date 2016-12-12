@@ -116,12 +116,13 @@ class Board {
       [ null, null, null, null, null, null, null ],
       [ null, null, null, null, null, null, null ],
       [ null, null, null, null, null, null, null ],
+      [ null, null, null, null, null, null, null ],
       [ null, null, null, null, null, null, null ]
     ];
 
     // Pieces starting posisions on Board
     new Red(this.board, 0, 3);
-    new Red(this.board, 1, 4);
+    new Red(this.board, 1, 3);
     new Grey(this.board, 2, 3);
     new King(this.board, 3, 3);
     new Grey(this.board, 4, 3);
@@ -149,7 +150,7 @@ class Board {
 // create the board
 export const board = new Board();
 
-////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const printIt = [
   'Start!'
 ];

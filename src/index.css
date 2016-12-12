@@ -4,4 +4,6 @@ body {
   font-family: sans-serif;
   background-image: url(./components/board/images/backgrounds/pageBackground.png);
   background-size: cover;
+  background-repeat: no-repeat;
+  background-position: right;
 }
