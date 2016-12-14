@@ -121,7 +121,7 @@ class Board {
     ];
 
     // Pieces starting posisions on Board
-    new Red(this.board, 0, 3);
+    new Red(this.board, 0, 4);
     new Red(this.board, 1, 3);
     new Grey(this.board, 2, 3);
     new King(this.board, 3, 3);

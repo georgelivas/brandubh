@@ -10,7 +10,6 @@ import {orange500, cyan500} from 'material-ui/styles/colors';
 import RaisedButton from 'material-ui/RaisedButton';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
-
 import Popover from 'material-ui/Popover';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
@@ -25,6 +24,10 @@ import './App.css';
 
 injectTapEventPlugin();
 
+const titleStyle = {
+  color: 'white',
+};
+
 const style = {
     marginRight: 20,
     top: 'auto',
@@ -32,6 +35,7 @@ const style = {
     bottom: 20,
     left: 'auto',
     position: 'fixed',
+
 };
 
 const textStyle = {
@@ -100,18 +104,8 @@ const RaisedButtonExampleSimple = () => (
   </div>
 );
 
-const AppBarMenu = () => (
-  <div>
-    <AppBar
-      title="Brandubh"
-      iconClassNameRight="muidocs-icon-navigation-expand-more"
-      onLeftIconButtonTouchTap={() => { alert('You pressed me!'); }} >
-      //PopoverExampleSimple.this.handleTouchTap
-    </AppBar>
-  </div>
-);
 
-class PopoverExampleSimple extends React.Component {
+class AppBarMenu extends React.Component {
 
   constructor(props) {
     super(props);
@@ -139,32 +133,31 @@ class PopoverExampleSimple extends React.Component {
 
   render() {
     return (
-      <div>
-        <RaisedButton
-          onTouchTap={this.handleTouchTap}
-          label="Click me"
-        />
-        <AppBar
-          title="Brandubh"
-          iconClassNameRight="muidocs-icon-navigation-expand-more"
-          onLeftIconButtonTouchTap={this.handleTouchTap} >
-          //PopoverExampleSimple.this.handleTouchTap
-        </AppBar>
+      <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
+        <div>
+          <AppBar
+            title={<span style={titleStyle} >Brandubh</span>}
+            className='pageTitle'
+            iconClassNameRight="muidocs-icon-navigation-expand-more"
+            onLeftIconButtonTouchTap={this.handleTouchTap} >
+          </AppBar>
 
-        <Popover
-          open={this.state.open}
-          anchorEl={this.state.anchorEl}
-          anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
-          targetOrigin={{horizontal: 'left', vertical: 'top'}}
-          onRequestClose={this.handleRequestClose}
-        >
-          <Menu>
-            <MenuItem primaryText="Undo" />
-            <MenuItem primaryText="New Game" />
-            <MenuItem primaryText="Edit Name" />
-          </Menu>
-        </Popover>
-      </div>
+          <Popover
+            open={this.state.open}
+            anchorEl={this.state.anchorEl}
+            anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+            targetOrigin={{horizontal: 'left', vertical: 'top'}}
+            onRequestClose={this.handleRequestClose}
+          >
+            <Menu>
+              <MenuItem primaryText="Undo" onTouchTap={() => { alert('You pressed me!'); }} />
+              <MenuItem primaryText="New Game" onTouchTap={() => { alert('You pressed me!'); }} />
+              <MenuItem primaryText="Edit Name" onTouchTap={() => { alert('You pressed me!'); }} />
+            </Menu>
+          </Popover>
+        </div>
+      </MuiThemeProvider>
+
     );
   }
 }
@@ -174,14 +167,14 @@ class App extends Component {
     return (
       <MuiThemeProvider>
         <div>
-          <AppBarMenu />
+        <AppBarMenu />
             <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
               <TextFieldExampleSimple className="enterName" />
             </MuiThemeProvider>
-            <PopoverExampleSimple />
             <RaisedButtonExampleSimple />
           <Board board={board.board} />
           <div>
+          <i class="material-icons">laptop_mac</i>
             <FloatingActionButton
               zDepth={2} style={style}
               onTouchTap={() => { alert('You pressed me!'); }}>
