@@ -14,6 +14,12 @@ import Popover from 'material-ui/Popover';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 
+import FlatButton from 'material-ui/FlatButton';
+import FontIcon from 'material-ui/FontIcon';
+import ActionAndroid from 'material-ui/svg-icons/action/android';
+import {fullWhite} from 'material-ui/styles/colors';
+
+
 import {
   Board,
 } from './components';
@@ -40,21 +46,21 @@ const style = {
 
 const textStyle = {
     marginRight: 20,
-    top: 80,
-    right: 20,
+    marginTop: 0,
+    right: 120,
     bottom: 'auto',
     left: 'auto',
     position: 'absolute',
     color: 'white',
 
     underlineStyle: {
-    borderColor: orange500,
+    borderColor: 'white',
     },
     floatingLabelStyle: {
-      color: orange500,
+      color: 'white',
     },
     floatingLabelFocusStyle: {
-      color: cyan500,
+      color: orange500,
     },
 };
  // eslint-disable-next-line
@@ -67,6 +73,10 @@ const muiTheme = getMuiTheme({
   },
 });
 
+const iconStyle = {
+  margin: 12,
+};
+
 const buttonStyle = {
     marginRight: 20,
     top: 160,
@@ -77,6 +87,23 @@ const buttonStyle = {
     color: 'white',
 
 };
+
+const undoButtonStyle = {
+    marginRight: 20,
+    top: 200,
+    right: 'auto',
+    bottom: 'auto',
+    left: 20,
+    position: 'absolute',
+    color: 'white',
+
+};
+
+const AppBarButtonStyle = {
+  marginRight: 20,
+  top: 30,
+
+}
 
 const TextFieldExampleSimple = () => (
   <div>
@@ -103,6 +130,18 @@ const RaisedButtonExampleSimple = () => (
     <br />
   </div>
 );
+
+
+
+const FlatButtonExampleIcon = () => (
+  <div>
+    <FlatButton
+      icon={<ActionAndroid color={fullWhite}/>}
+      style={iconStyle}
+    />
+  </div>
+);
+
 
 
 class AppBarMenu extends React.Component {
@@ -133,6 +172,7 @@ class AppBarMenu extends React.Component {
 
   render() {
     return (
+
       <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
         <div>
           <AppBar
@@ -140,6 +180,12 @@ class AppBarMenu extends React.Component {
             className='pageTitle'
             iconClassNameRight="muidocs-icon-navigation-expand-more"
             onLeftIconButtonTouchTap={this.handleTouchTap} >
+            <FlatButton label="Submit" style={AppBarButtonStyle }
+              onTouchTap={() => { alert('You pressed me!'); }}/>
+            <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
+              <TextFieldExampleSimple className="enterName" />
+            </MuiThemeProvider>
+
           </AppBar>
 
           <Popover
@@ -168,11 +214,15 @@ class App extends Component {
       <MuiThemeProvider>
         <div>
         <AppBarMenu />
-            <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-              <TextFieldExampleSimple className="enterName" />
-            </MuiThemeProvider>
-            <RaisedButtonExampleSimple />
-          <Board board={board.board} />
+            <FlatButtonExampleIcon />
+            <RaisedButton
+              label="Undo" primary={true}
+              style={undoButtonStyle} onTouchTap={() => {
+                alert('You pressed me!');
+              }}/>
+            <br />
+            <br />
+              <Board board={board.board} />
           <div>
           <i class="material-icons">laptop_mac</i>
             <FloatingActionButton
