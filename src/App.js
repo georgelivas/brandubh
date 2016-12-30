@@ -17,14 +17,16 @@ import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
 import FontIcon from 'material-ui/FontIcon';
 import ActionAndroid from 'material-ui/svg-icons/action/android';
-import {fullWhite} from 'material-ui/styles/colors';
+import { fullWhite } from 'material-ui/styles/colors';
 
+
+import { actions, store } from './redux-mvc';
 
 import {
   Board,
 } from './components';
 
-import { board } from './libs/brandubh/index.js';
+
 
 import './App.css';
 
@@ -41,7 +43,6 @@ const style = {
     bottom: 20,
     left: 'auto',
     position: 'fixed',
-
 };
 
 const textStyle = {
@@ -142,8 +143,6 @@ const FlatButtonExampleIcon = () => (
   </div>
 );
 
-
-
 class AppBarMenu extends React.Component {
 
   constructor(props) {
@@ -197,7 +196,9 @@ class AppBarMenu extends React.Component {
           >
             <Menu>
               <MenuItem primaryText="Undo" onTouchTap={() => { alert('You pressed me!'); }} />
-              <MenuItem primaryText="New Game" onTouchTap={() => { alert('You pressed me!'); }} />
+              <MenuItem primaryText="New Game" onTouchTap={() => {
+                alert(actions.newGame('George', 'George'));
+                store.dispatch(actions.newGame('George', 'George')); }} />
               <MenuItem primaryText="Edit Name" onTouchTap={() => { alert('You pressed me!'); }} />
             </Menu>
           </Popover>
@@ -222,9 +223,9 @@ class App extends Component {
               }}/>
             <br />
             <br />
-              <Board board={board.board} />
+            <Board />
           <div>
-          <i class="material-icons">laptop_mac</i>
+          <i className="material-icons">laptop_mac</i>
             <FloatingActionButton
               zDepth={2} style={style}
               onTouchTap={() => { alert('You pressed me!'); }}>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import './styles';
 import {
@@ -41,31 +42,37 @@ const ColHeaders = () => (
 );
 
 const Cell = ({ rowNum, colSymbol, piece }) => (
-  <td className={cellClass(rowNum, colSymbol)}>
+  <td className={cellClass(rowNum, colSymbol)} onTouchTap={() => {moveFrom(rowNum, colSymbol);}}>
     <Img piece={piece} />
   </td>
 );
 
+const moveFrom = (fromX, fromY) => (alert(fromX + fromY));
+
 const Board = ({ board }) => (
-  <div>
-    <table className="wooden-table">
-      <ColHeaders />
-      {[ 1, 2, 3, 4, 5, 6, 7].map((rowNum) => (
-        <tr key={`board-row-${rowNum}`}>
-          <td className={'cellNum'} children={rowNum} />
-          <Cell rowNum={rowNum} colSymbol={'A'} piece={board[rowNum - 1][0]} />
-          <Cell rowNum={rowNum} colSymbol={'B'} piece={board[rowNum - 1][1]} />
-          <Cell rowNum={rowNum} colSymbol={'C'} piece={board[rowNum - 1][2]} />
-          <Cell rowNum={rowNum} colSymbol={'D'} piece={board[rowNum - 1][3]} />
-          <Cell rowNum={rowNum} colSymbol={'E'} piece={board[rowNum - 1][4]} />
-          <Cell rowNum={rowNum} colSymbol={'F'} piece={board[rowNum - 1][5]} />
-          <Cell rowNum={rowNum} colSymbol={'G'} piece={board[rowNum - 1][6]} />
-          <td className={'cellNum'} children={rowNum} />
-        </tr>
-      ))}
-      <ColHeaders />
-    </table>
-  </div>
+  board ? (
+    <div>
+      <table className="wooden-table">
+        <ColHeaders />
+        {[ 1, 2, 3, 4, 5, 6, 7].map((rowNum) => (
+          <tr key={`board-row-${rowNum}`}>
+            <td className={'cellNum'} children={rowNum} />
+            <Cell rowNum={rowNum} colSymbol={'A'} piece={board[rowNum - 1][0]} />
+            <Cell rowNum={rowNum} colSymbol={'B'} piece={board[rowNum - 1][1]} />
+            <Cell rowNum={rowNum} colSymbol={'C'} piece={board[rowNum - 1][2]} />
+            <Cell rowNum={rowNum} colSymbol={'D'} piece={board[rowNum - 1][3]} />
+            <Cell rowNum={rowNum} colSymbol={'E'} piece={board[rowNum - 1][4]} />
+            <Cell rowNum={rowNum} colSymbol={'F'} piece={board[rowNum - 1][5]} />
+            <Cell rowNum={rowNum} colSymbol={'G'} piece={board[rowNum - 1][6]} />
+            <td className={'cellNum'} children={rowNum} />
+          </tr>
+        ))}
+        <ColHeaders />
+      </table>
+    </div>
+  ) : (
+    <div />
+  )
 
 );
 
@@ -73,4 +80,4 @@ Board.propTypes = {
   board: React.PropTypes.array,
 };
 
-export default Board;
+export default connect(({ board }) => ({ board }))(Board);
