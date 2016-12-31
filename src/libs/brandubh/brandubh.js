@@ -100,6 +100,8 @@ const Board = {
     board[3][4] = new Grey();
     board[3][5] = new Red();
     board[3][6] = new Red();
+
+    return board;
   },
 
   isCornerOrCenter(x, y) {

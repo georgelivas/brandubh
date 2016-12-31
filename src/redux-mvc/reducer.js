@@ -7,7 +7,7 @@ import {
   newGame,
 } from './actions';
 
-import Board from '../libs/brandubh'
+import Board from '../libs/brandubh';
 
 export default (state = { board: null }, action) => {
   switch (action.type) {
@@ -17,15 +17,11 @@ export default (state = { board: null }, action) => {
         board: Board.create(),
         currentPlayer: action.payload.starterName,
       };
-
     case MOVE:
       return state;
-
     case UNDO:
       return state;
-
     default:
       return state;
-
   }
 };
