@@ -126,6 +126,10 @@ const Board = {
     );
   },
 
+  isNotStraight(fromX, fromY, toX, toY) {
+    return (fromX === toX && fromY !== toY) || (fromX !== toX && fromY === toY);
+  },
+
   move(board, fromX, fromY, toX, toY) {
     const piece = board[fromX][fromY];
     if (piece === null) {
@@ -135,6 +139,9 @@ const Board = {
       return board;
     }
     if (Board.isCornerOrCenter(toX, toY) && !piece.isKing()) {
+      return board;
+    }
+    if (!Board.isNotStraight(fromX, fromY, toX, toY)) {
       return board;
     }
 

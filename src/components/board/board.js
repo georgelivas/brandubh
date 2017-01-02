@@ -9,18 +9,27 @@ import {
   greyImg,
 } from './images';
 
-const Img = ({ piece }) => {
+let Img = ({piece, rowNum, colSymbol, dispatch}) => {
   if (!piece) {
     return <span />;
   }
 
   const imgStr = piece.isKing() ? kingImg : piece.isRed() ? redImg : greyImg;
-  return <img className="piece" src={imgStr} alt={imgStr}/>;
+  return (
+    <img
+      className="piece"
+      src={imgStr}
+      alt={imgStr}
+      draggable="true"
+      onDragStart={() => dispatch(actions.move(rowNum, colSymbol))}
+      />);
 };
 
 Img.propTypes = {
   piece: React.PropTypes.object,
 };
+
+Img = connect()(Img);
 
 const cellClass = (rowNum, colSymbol) => {
   if ((rowNum === 1 || rowNum === 7) && (colSymbol === 'A' || colSymbol === 'G')) {
@@ -35,7 +44,7 @@ const cellClass = (rowNum, colSymbol) => {
 const ColHeaders = () => (
   <tr>
   {[' ', 'A', 'B', 'C', 'D', 'E', 'F', 'G'].map((colSymbol) => (
-    <td className={'cellNum'} >
+    <td className={'cellNum'} key={`col-head${colSymbol}`}>
     {colSymbol}
     </td>
   ))}
@@ -43,8 +52,11 @@ const ColHeaders = () => (
 );
 
 const Cell = ({ rowNum, colSymbol, piece, dispatch }) => (
-  <td className={cellClass(rowNum, colSymbol)} onTouchTap={() => {dispatch(actions.move(rowNum, colSymbol))}}>
-    <Img piece={piece} />
+  <td
+    className={cellClass(rowNum, colSymbol)}
+    onDrop={() => {dispatch(actions.move(rowNum, colSymbol))}}
+    onDragOver={(ev) => ev.preventDefault()}>
+    <Img piece={piece} rowNum={rowNum} colSymbol={colSymbol} />
   </td>
 );
 const C = connect()(Cell);
