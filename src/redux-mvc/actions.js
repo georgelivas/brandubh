@@ -2,14 +2,15 @@ const MOVE = 'MOVE';
 const UNDO = 'UNDO';
 const NEW_GAME = 'NEW_GAME';
 
-const move = (fromX, fromY, toX, toY) => {
+const move = (inX, inY) => {
+  const x = parseInt(inX) - 1;
+  const y = inY.charCodeAt(0) - 65;
+  
   return {
     type:MOVE,
     payload: {
-      fromX,
-      fromY,
-      toX,
-      toY,
+      x,
+      y,
     },
   };
 };
@@ -27,7 +28,7 @@ const newGame = (guestName, starterName) => ({
     guest: {
       name: guestName,
     },
-    starterName,
+    currentPlayer: starterName,
   }
 });
 

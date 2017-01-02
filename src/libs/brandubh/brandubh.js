@@ -8,6 +8,18 @@ class Piece {
     this.color = color;
   }
 
+  isRed () {
+    return false;
+  }
+
+  isGrey () {
+    return false;
+  }
+
+  isKing () {
+    return false;
+  }
+
   toString () {
     return `${this.type} ${this.color} ${this.x} ${this.y}`;
   }
@@ -128,10 +140,13 @@ const Board = {
 
     const newBoard = [...board];
     newBoard[fromX] = [...board[fromX]];
-    newBoard[fromX][fromY] = null;
 
     newBoard[toX] = [...board[toX]];
     newBoard[toX][toY] = piece;
+
+    newBoard[fromX][fromY] = null;
+
+    return newBoard;
   }
 };
 

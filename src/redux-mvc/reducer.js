@@ -15,10 +15,45 @@ export default (state = { board: null }, action) => {
       return {
         players: action.payload,
         board: Board.create(),
-        currentPlayer: action.payload.starterName,
       };
     case MOVE:
-      return state;
+      let currentMoveFrom = state.currentMoveFrom;
+      if (!currentMoveFrom) {
+        return {
+          ...state,
+          currentMoveFrom: action.payload,
+        };
+      }
+      const board = Board.move(
+        state.board,
+        currentMoveFrom.x,
+        currentMoveFrom.y,
+        action.payload.x,
+        action.payload.y
+      );
+
+      if (board !== state.board) {
+        const { host, guest, currentPlayer } = state.players;
+
+        let nextPlayer = (currentPlayer === host.name) ? guest.name : host.name;
+        const players = {
+          ...state.players,
+          currentPlayer,
+        };
+
+        return {
+          ...state,
+          board,
+          players,
+          currentMoveFrom: null,
+        };
+      }
+
+      return {
+        ...state,
+        currentMoveFrom: null,
+      };
+
     case UNDO:
       return state;
     default:

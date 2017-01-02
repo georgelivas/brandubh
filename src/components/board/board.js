@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import { actions } from '../../redux-mvc';
 import './styles';
 import {
   kingImg,
@@ -13,7 +14,7 @@ const Img = ({ piece }) => {
     return <span />;
   }
 
-  const imgStr = piece.isKing ? kingImg : piece.isRed ? redImg : greyImg;
+  const imgStr = piece.isKing() ? kingImg : piece.isRed() ? redImg : greyImg;
   return <img className="piece" src={imgStr} alt={imgStr}/>;
 };
 
@@ -41,13 +42,12 @@ const ColHeaders = () => (
   </tr>
 );
 
-const Cell = ({ rowNum, colSymbol, piece }) => (
-  <td className={cellClass(rowNum, colSymbol)} onTouchTap={() => {moveFrom(rowNum, colSymbol);}}>
+const Cell = ({ rowNum, colSymbol, piece, dispatch }) => (
+  <td className={cellClass(rowNum, colSymbol)} onTouchTap={() => {dispatch(actions.move(rowNum, colSymbol))}}>
     <Img piece={piece} />
   </td>
 );
-
-const moveFrom = (fromX, fromY) => (alert(fromX + fromY));
+const C = connect()(Cell);
 
 const Board = ({ board }) => (
   board ? (
@@ -57,13 +57,13 @@ const Board = ({ board }) => (
         {[ 1, 2, 3, 4, 5, 6, 7].map((rowNum) => (
           <tr key={`board-row-${rowNum}`}>
             <td className={'cellNum'} children={rowNum} />
-            <Cell rowNum={rowNum} colSymbol={'A'} piece={board[rowNum - 1][0]} />
-            <Cell rowNum={rowNum} colSymbol={'B'} piece={board[rowNum - 1][1]} />
-            <Cell rowNum={rowNum} colSymbol={'C'} piece={board[rowNum - 1][2]} />
-            <Cell rowNum={rowNum} colSymbol={'D'} piece={board[rowNum - 1][3]} />
-            <Cell rowNum={rowNum} colSymbol={'E'} piece={board[rowNum - 1][4]} />
-            <Cell rowNum={rowNum} colSymbol={'F'} piece={board[rowNum - 1][5]} />
-            <Cell rowNum={rowNum} colSymbol={'G'} piece={board[rowNum - 1][6]} />
+            <C rowNum={rowNum} colSymbol={'A'} piece={board[rowNum - 1][0]} />
+            <C rowNum={rowNum} colSymbol={'B'} piece={board[rowNum - 1][1]} />
+            <C rowNum={rowNum} colSymbol={'C'} piece={board[rowNum - 1][2]} />
+            <C rowNum={rowNum} colSymbol={'D'} piece={board[rowNum - 1][3]} />
+            <C rowNum={rowNum} colSymbol={'E'} piece={board[rowNum - 1][4]} />
+            <C rowNum={rowNum} colSymbol={'F'} piece={board[rowNum - 1][5]} />
+            <C rowNum={rowNum} colSymbol={'G'} piece={board[rowNum - 1][6]} />
             <td className={'cellNum'} children={rowNum} />
           </tr>
         ))}
