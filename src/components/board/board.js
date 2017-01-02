@@ -9,12 +9,13 @@ import {
   greyImg,
 } from './images';
 
-let Img = ({piece, rowNum, colSymbol, dispatch}) => {
+let Img = ({ piece, rowNum, colSymbol, dispatch }) => {
   if (!piece) {
     return <span />;
   }
 
   const imgStr = piece.isKing() ? kingImg : piece.isRed() ? redImg : greyImg;
+
   return (
     <img
       className="piece"
@@ -22,32 +23,39 @@ let Img = ({piece, rowNum, colSymbol, dispatch}) => {
       alt={imgStr}
       draggable="true"
       onDragStart={() => dispatch(actions.move(rowNum, colSymbol))}
-      />);
+    />
+  );
 };
 
 Img.propTypes = {
-  piece: React.PropTypes.object,
+  piece: React.PropTypes.Object,
+  rowNum: React.PropTypes.string,
+  colSymbol: React.PropTypes.string,
+  dispatch: React.PropTypes.func,
 };
 
 Img = connect()(Img);
 
 const cellClass = (rowNum, colSymbol) => {
-  if ((rowNum === 1 || rowNum === 7) && (colSymbol === 'A' || colSymbol === 'G')) {
+  if ((rowNum === 1 || rowNum === 7) &&
+  (colSymbol === 'A' || colSymbol === 'G')) {
     return 'corner';
   }
-  if (rowNum === 4  && colSymbol === 'D') {
+
+  if (rowNum === 4 && colSymbol === 'D') {
     return 'center';
   }
+
   return 'cell';
 };
 
 const ColHeaders = () => (
   <tr>
-  {[' ', 'A', 'B', 'C', 'D', 'E', 'F', 'G'].map((colSymbol) => (
-    <td className={'cellNum'} key={`col-head${colSymbol}`}>
-    {colSymbol}
-    </td>
-  ))}
+    {[' ', 'A', 'B', 'C', 'D', 'E', 'F', 'G'].map((colSymbol) => (
+      <td className={'cellNum'} key={`col-head${colSymbol}`}>
+        {colSymbol}
+      </td>
+    ))}
   </tr>
 );
 

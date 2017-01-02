@@ -2,6 +2,8 @@
  border: 2px solid white;
  height: 700px;
  width: 700px;
+ min-width: 700px;
+
  margin-bottom: 400px;
  /*background-image: url("../images/backgrounds/lightwood.jpg");*/
  margin: 50px auto 50px auto;
@@ -10,6 +12,7 @@
 .cell {
   height: 100px;
   width: 100px;
+  min-width: 100px;
   border: 2px solid white;
   text-align: center;
 }

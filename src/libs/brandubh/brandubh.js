@@ -1,26 +1,17 @@
-import React from 'react';
 
 class Piece {
   static type = 'PIECE';
 
-  constructor (color, type = Piece.type) {
+  constructor(color, type = Piece.type) {
     this.type = type;
     this.color = color;
   }
 
-  isRed () {
-    return false;
-  }
+  isRed = () => false;
+  isGrey = () => false;
+  isKing = () => false;
 
-  isGrey () {
-    return false;
-  }
-
-  isKing () {
-    return false;
-  }
-
-  toString () {
+  toString() {
     return `${this.type} ${this.color} ${this.x} ${this.y}`;
   }
 }
@@ -28,73 +19,48 @@ class Piece {
 class Red extends Piece {
   static color = 'RED';
 
-  constructor () {
+  constructor() {
     super(Red.color);
   }
 
-  isRed () {
-    return true;
-  }
-
-  oppositeColor () {
-    return Grey.color;
-  }
+  isRed = () => true;
+  oppositeColor = () => Grey.color;
 }
 
 class Grey extends Piece {
   static color = 'GREY';
-  constructor () {
+  constructor() {
     super(Grey.color);
   }
 
-  isGrey () {
-    return true;
-  }
-
-  oppositeColor () {
-    return Red.color;
-  }
+  isGrey = () => true;
+  oppositeColor = () => Red.color;
 }
 
 class King extends Piece {
   static color = 'GREY';
   static type = 'KING';
 
-  constructor () {
+  constructor() {
     super(King.type);
   }
 
-  isKing () {
-    return true;
-  }
+  isKing = () => true;
 
-  oppositeColor () {
-    return Red.color;
-  }
+  oppositeColor = () => Red.color;
 }
-
-/*
-#### ##    ## #### ########        ########   #######     ###    ########  ########
- ##  ###   ##  ##     ##           ##     ## ##     ##   ## ##   ##     ## ##     ##
- ##  ####  ##  ##     ##           ##     ## ##     ##  ##   ##  ##     ## ##     ##
- ##  ## ## ##  ##     ##           ########  ##     ## ##     ## ########  ##     ##
- ##  ##  ####  ##     ##           ##     ## ##     ## ######### ##   ##   ##     ##
- ##  ##   ###  ##     ##    ###    ##     ## ##     ## ##     ## ##    ##  ##     ##
-#### ##    ## ####    ##    ###    ########   #######  ##     ## ##     ## ########
-*/
-
 
 const Board = {
   create() {
     const board = [
-      [ null, null, null, null, null, null, null ],
-      [ null, null, null, null, null, null, null ],
-      [ null, null, null, null, null, null, null ],
-      [ null, null, null, null, null, null, null ],
-      [ null, null, null, null, null, null, null ],
-      [ null, null, null, null, null, null, null ],
-      [ null, null, null, null, null, null, null ],
-      [ null, null, null, null, null, null, null ]
+      [null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null],
     ];
 
     // Pieces starting posisions on Board
@@ -154,7 +120,7 @@ const Board = {
     newBoard[fromX][fromY] = null;
 
     return newBoard;
-  }
+  },
 };
 
 export default Board;

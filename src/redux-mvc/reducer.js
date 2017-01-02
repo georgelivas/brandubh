@@ -2,9 +2,6 @@ import {
   MOVE,
   UNDO,
   NEW_GAME,
-  move,
-  undo,
-  newGame,
 } from './actions';
 
 import Board from '../libs/brandubh';
@@ -16,14 +13,16 @@ export default (state = { board: null }, action) => {
         players: action.payload,
         board: Board.create(),
       };
-    case MOVE:
-      let currentMoveFrom = state.currentMoveFrom;
+
+    case MOVE: {
+      const currentMoveFrom = state.currentMoveFrom;
       if (!currentMoveFrom) {
         return {
           ...state,
           currentMoveFrom: action.payload,
         };
       }
+
       const board = Board.move(
         state.board,
         currentMoveFrom.x,
@@ -35,10 +34,13 @@ export default (state = { board: null }, action) => {
       if (board !== state.board) {
         const { host, guest, currentPlayer } = state.players;
 
-        let nextPlayer = (currentPlayer === host.name) ? guest.name : host.name;
+        const nextPlayer = (currentPlayer === host.name) ?
+        guest.name : host.name;
+
         const players = {
           ...state.players,
           currentPlayer,
+          nextPlayer,
         };
 
         return {
@@ -53,6 +55,7 @@ export default (state = { board: null }, action) => {
         ...state,
         currentMoveFrom: null,
       };
+    }
 
     case UNDO:
       return state;
