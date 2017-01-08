@@ -96,6 +96,52 @@ const Board = {
     return (fromX === toX && fromY !== toY) || (fromX !== toX && fromY === toY);
   },
 
+  capture(board, toX, toY) {
+
+    const canCaptureRight = (
+      board[toX + 1][toY] &&
+      board[toX + 2][toY] &&
+      board[toX + 1][toY].oppositeColor() &&
+      !board[toX + 2][toY].oppositeColor() &&
+      !board[toX][toY].isKing() &&
+      !board[toX + 1][toY].isKing() &&
+      !board[toX + 2][toY].isKing()
+    );
+
+    if (canCaptureRight ||
+
+      (
+        board[toX - 1][toY] &&
+        board[toX - 2][toY] &&
+        board[toX - 1][toY].oppositeColor() &&
+      !board[toX - 2][toY].oppositeColor() &&
+      !board[toX][toY].isKing() &&
+      !board[toX - 1][toY].isKing() &&
+      !board[toX - 2][toY].isKing()) ||
+
+      (
+        board[toX][toY + 1] &&
+        board[toX][toY + 2] &&
+        board[toX][toY + 1].oppositeColor() &&
+      !board[toX][toY + 2].oppositeColor() &&
+      !board[toX][toY].isKing() &&
+      !board[toX][toY + 1].isKing() &&
+      !board[toX][toY + 2].isKing()) ||
+
+      (
+        board[toX][toY - 1] &&
+        board[toX][toY - 2] &&
+        board[toX][toY - 1].oppositeColor() &&
+      !board[toX][toY - 2].oppositeColor() &&
+      !board[toX][toY].isKing() &&
+      !board[toX][toY - 1].isKing() &&
+      !board[toX][toY - 2].isKing())
+    ) {
+      return true;
+    }
+    return false;
+  },
+
   move(board, fromX, fromY, toX, toY) {
     const piece = board[fromX][fromY];
     if (piece === null) {
@@ -109,6 +155,10 @@ const Board = {
     }
     if (!Board.isNotStraight(fromX, fromY, toX, toY)) {
       return board;
+    }
+    if (Board.capture(board, toX, toY)) {
+      const capturedPiece = board[toX + 1][toY] = null;
+      return capturedPiece;
     }
 
     const newBoard = [...board];

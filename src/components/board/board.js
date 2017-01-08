@@ -14,7 +14,14 @@ let Img = ({ piece, rowNum, colSymbol, dispatch }) => {
     return <span />;
   }
 
-  const imgStr = piece.isKing() ? kingImg : piece.isRed() ? redImg : greyImg;
+  let imgStr = kingImg;
+  if (piece.isKing()) {
+    imgStr = kingImg;
+  } else if (piece.isRed()) {
+    imgStr = redImg;
+  } else {
+    imgStr = greyImg;
+  }
 
   return (
     <img
@@ -62,19 +69,29 @@ const ColHeaders = () => (
 const Cell = ({ rowNum, colSymbol, piece, dispatch }) => (
   <td
     className={cellClass(rowNum, colSymbol)}
-    onDrop={() => {dispatch(actions.move(rowNum, colSymbol))}}
-    onDragOver={(ev) => ev.preventDefault()}>
+    onDrop={() => { dispatch(actions.move(rowNum, colSymbol)); }}
+
+    onDragOver={(ev) => ev.preventDefault()}
+  >
     <Img piece={piece} rowNum={rowNum} colSymbol={colSymbol} />
   </td>
 );
+
 const C = connect()(Cell);
+
+Cell.propTypes = {
+  piece: React.PropTypes.Object,
+  rowNum: React.PropTypes.string,
+  colSymbol: React.PropTypes.string,
+  dispatch: React.PropTypes.func,
+};
 
 const Board = ({ board }) => (
   board ? (
     <div>
       <table className="wooden-table">
         <ColHeaders />
-        {[ 1, 2, 3, 4, 5, 6, 7].map((rowNum) => (
+        {[1, 2, 3, 4, 5, 6, 7].map((rowNum) => (
           <tr key={`board-row-${rowNum}`}>
             <td className={'cellNum'} children={rowNum} />
             <C rowNum={rowNum} colSymbol={'A'} piece={board[rowNum - 1][0]} />
@@ -97,7 +114,7 @@ const Board = ({ board }) => (
 );
 
 Board.propTypes = {
-  board: React.PropTypes.array,
+  board: React.PropTypes.object,
 };
 
 export default connect(({ board }) => ({ board }))(Board);
