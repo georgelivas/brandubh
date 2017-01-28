@@ -96,49 +96,54 @@ const Board = {
     return (fromX === toX && fromY !== toY) || (fromX !== toX && fromY === toY);
   },
 
-  capture(board, toX, toY) {
-
-    const canCaptureRight = (
-      board[toX + 1][toY] &&
-      board[toX + 2][toY] &&
-      board[toX + 1][toY].oppositeColor() &&
-      !board[toX + 2][toY].oppositeColor() &&
-      !board[toX][toY].isKing() &&
-      !board[toX + 1][toY].isKing() &&
-      !board[toX + 2][toY].isKing()
-    );
-
-    if (canCaptureRight ||
-
-      (
-        board[toX - 1][toY] &&
-        board[toX - 2][toY] &&
-        board[toX - 1][toY].oppositeColor() &&
-      !board[toX - 2][toY].oppositeColor() &&
-      !board[toX][toY].isKing() &&
-      !board[toX - 1][toY].isKing() &&
-      !board[toX - 2][toY].isKing()) ||
-
-      (
-        board[toX][toY + 1] &&
-        board[toX][toY + 2] &&
-        board[toX][toY + 1].oppositeColor() &&
-      !board[toX][toY + 2].oppositeColor() &&
-      !board[toX][toY].isKing() &&
-      !board[toX][toY + 1].isKing() &&
-      !board[toX][toY + 2].isKing()) ||
-
-      (
-        board[toX][toY - 1] &&
-        board[toX][toY - 2] &&
-        board[toX][toY - 1].oppositeColor() &&
-      !board[toX][toY - 2].oppositeColor() &&
-      !board[toX][toY].isKing() &&
-      !board[toX][toY - 1].isKing() &&
-      !board[toX][toY - 2].isKing())
-    ) {
+  isInBoard(x, y) {
+    if (x >= 0 && x <= 6 && y >= 0 && y <= 6) {
       return true;
     }
+    return false;
+  },
+
+  isEmpty(board, x, y) {
+    if (Board.isInBoard(x, y) && board[x][y] === null) {
+      return true;
+    }
+    return false;
+  },
+
+  isSameColor(board, x, y, allyX, allyY) {
+    if (!Board.isEmpty(board, x, y)
+      && !Board.isEmpty(board, allyX, allyY)
+      && board[x][y].color === board[allyX][allyY].color) {
+      return true;
+    }
+    return false;
+  },
+
+  isAlly(board, x, y, allyX, allyY) {
+    if (!Board.isInBoard(x, y) || Board.isEmpty(board, x, y)) {
+      return false;
+    }
+    if (!Board.isInBoard(allyX, allyY)) {
+      return true;
+    }
+    return Board.isSameColor(board, x, y, allyX, allyY);
+  },
+
+  capture(board, x, y, toX, toY) {
+    if (Board.isEmpty(board, x, y) || Board.isEmpty(board, toX, toY)) {
+      return false;
+    }
+
+    if (Board.isAlly(board, x, y, toX + 1, toY)
+      && Board.isAlly(board, x, y, toX - 1, toY)) {
+      return true;
+    }
+
+    if (Board.isAlly(board, x, y, toX, toY + 1)
+      && Board.isAlly(board, x, y, toX, toY - 1)) {
+      return true;
+    }
+
     return false;
   },
 
