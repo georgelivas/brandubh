@@ -129,42 +129,65 @@ const Board = {
     return Board.isSameColor(board, x, y, allyX, allyY);
   },
 
-  capture(board, x, y, toX, toY) {
-    if (Board.isEmpty(board, x, y) || Board.isEmpty(board, toX, toY)) {
+  isEnemy(board, x, y, enemyX, enemyY) {
+    if (!Board.isInBoard(x, y) || Board.isEmpty(board, x, y)) {
       return false;
     }
+    if (!Board.isInBoard(enemyX, enemyY)) {
+      return false;
+    }
+    return !Board.isSameColor(board, x, y, enemyX, enemyY);
+  },
 
-    if (Board.isAlly(board, x, y, toX + 1, toY)
-      && Board.isAlly(board, x, y, toX - 1, toY)) {
-      return true;
+  capture(board, piece, x, y) {
+    const captured = [];
+    if (!Board.isEmpty(board, x, y)) {
+      return captured;
     }
 
-    if (Board.isAlly(board, x, y, toX, toY + 1)
-      && Board.isAlly(board, x, y, toX, toY - 1)) {
-      return true;
+    if (Board.isAlly(board, x, y, x + 2, y)
+      && Board.isEnemy(board, x, y, x + 1, y)) {
+      const capturedPiece = { x: x + 1, y };
+      captured.push(capturedPiece);
     }
 
-    return false;
+    if (Board.isAlly(board, x, y, x - 2, y)
+      && Board.isEnemy(board, x, y, x - 1, y)) {
+      const capturedPiece = { x: x - 1, y };
+      captured.push(capturedPiece);
+    }
+
+    if (Board.isAlly(board, x, y, x, y + 2)
+      && Board.isEnemy(board, x, y, x, y + 1)) {
+      const capturedPiece = { x, y: y + 1 };
+      captured.push(capturedPiece);
+    }
+
+    if (Board.isAlly(board, x, y, x, y - 2)
+      && Board.isEnemy(board, x, y, x, y - 1)) {
+      const capturedPiece = { x, y: y - 1 };
+      captured.push(capturedPiece);
+    }
+
+    return captured;
   },
 
   move(board, fromX, fromY, toX, toY) {
+    if (Board.isEmpty(board, fromX, fromY) || !Board.isEmpty(board, toX, toY)) {
+      return board;
+    }
+
     const piece = board[fromX][fromY];
-    if (piece === null) {
-      return board;
-    }
-    if (board[toX][toY] !== null) {
-      return board;
-    }
+
     if (Board.isCornerOrCenter(toX, toY) && !piece.isKing()) {
       return board;
     }
+
     if (!Board.isNotStraight(fromX, fromY, toX, toY)) {
       return board;
     }
-    if (Board.capture(board, toX, toY)) {
-      const capturedPiece = board[toX + 1][toY] = null;
-      return capturedPiece;
-    }
+
+    const capturedPieces = Board.capture(board, piece, toX, toY);
 
     const newBoard = [...board];
     newBoard[fromX] = [...board[fromX]];
@@ -173,6 +196,12 @@ const Board = {
     newBoard[toX][toY] = piece;
 
     newBoard[fromX][fromY] = null;
+
+    capturedPieces.forEach((cords) => {
+      const { x, y } = cords;
+      newBoard[x] = [...newBoard[x]];
+      newBoard[x][y] = null;
+    });
 
     return newBoard;
   },
