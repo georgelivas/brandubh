@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import AppBar from 'material-ui/AppBar';
-import ContentAdd from 'material-ui/svg-icons/content/add';
 import TextField from 'material-ui/TextField';
 import Popover from 'material-ui/Popover';
 import Menu from 'material-ui/Menu';
@@ -21,20 +20,8 @@ const TextFieldSimple = () => (
       floatingLabelText="Enter your Name"
       floatingLabelStyle={style.text.floatingLabel}
       floatingLabelFocusStyle={style.text.floatingLabelFocus}
-      textareaStyle={{color: 'white'}}
+      textareaStyle={{ color: 'white' }}
     /><br />
-    <br />
-  </div>
-);
-
-const RaisedButtonSimple = () => (
-  <div>
-    <RaisedButton
-      label="Submit" primary={true}
-      style={style.button} onTouchTap={() => {
-        alert('You pressed me!');
-      }}/>
-    <br />
     <br />
   </div>
 );
@@ -50,7 +37,6 @@ class AppBarMenu extends React.Component {
   }
 
   handleTouchTap = (event) => {
-
     event.preventDefault();
 
     this.setState({
@@ -73,9 +59,14 @@ class AppBarMenu extends React.Component {
             title={<span style={style.title} >Brandubh</span>}
             className='pageTitle'
             iconClassNameRight="muidocs-icon-navigation-expand-more"
-            onLeftIconButtonTouchTap={this.handleTouchTap} >
-            <FlatButton label="Submit" style={style.appBarButton}
-              onTouchTap={() => { alert('You pressed me!'); }}/>
+            onLeftIconButtonTouchTap={this.handleTouchTap}
+          >
+            <FlatButton
+              label="Submit" style={style.appBarButton}
+              onTouchTap={() => {
+                alert('You pressed me!');
+              }}
+            />
             <TextFieldSimple className="enterName" />
 
           </AppBar>
@@ -83,15 +74,24 @@ class AppBarMenu extends React.Component {
           <Popover
             open={this.state.open}
             anchorEl={this.state.anchorEl}
-            anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
-            targetOrigin={{horizontal: 'left', vertical: 'top'}}
+            anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+            targetOrigin={{ horizontal: 'left', vertical: 'top' }}
             onRequestClose={this.handleRequestClose}
           >
             <Menu>
-              <MenuItem primaryText="Undo" onTouchTap={() => { alert('You pressed me!'); }} />
-              <MenuItem primaryText="New Game" onTouchTap={() => {
-                dispatch(actions.newGame('George', 'George')); }} />
-              <MenuItem primaryText="Edit Name" onTouchTap={() => { alert('You pressed me!'); }} />
+              <MenuItem
+                primaryText="Undo" onTouchTap={() => {
+                  alert('You pressed me!'); }}
+              />
+              <MenuItem
+                primaryText="New Game" onTouchTap={() => {
+                  dispatch(actions.newGame('George', 'George'));
+                }}
+              />
+              <MenuItem
+                primaryText="Edit Name" onTouchTap={() => {
+                alert('You pressed me!'); }}
+              />
             </Menu>
           </Popover>
         </div>

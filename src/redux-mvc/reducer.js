@@ -23,6 +23,18 @@ export default (state = { board: null }, action) => {
         };
       }
 
+      const { x, y } = currentMoveFrom;
+      const { host, guest, currentPlayer } = state.players;
+      const isGrey = Board.isGreyAt(state.board, x, y);
+
+      if ((currentPlayer !== guest.name && isGrey)
+        || (currentPlayer === guest.name && !isGrey)) {
+        return {
+          ...state,
+          currentMoveFrom: null,
+        };
+      }
+
       const board = Board.move(
         state.board,
         currentMoveFrom.x,
@@ -32,15 +44,12 @@ export default (state = { board: null }, action) => {
       );
 
       if (board !== state.board) {
-        const { host, guest, currentPlayer } = state.players;
-
         const nextPlayer = (currentPlayer === host.name) ?
         guest.name : host.name;
 
         const players = {
           ...state.players,
-          currentPlayer,
-          nextPlayer,
+          currentPlayer: nextPlayer,
         };
 
         return {
