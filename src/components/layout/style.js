@@ -1,28 +1,27 @@
-import { orange500, cyan500 } from 'material-ui/styles/colors';
+import { orange500 } from 'material-ui/styles/colors';
 
 const style = {
   title: {
     color: 'white',
   },
   fab: {
-      marginRight: 20,
-      top: 'auto',
-      right: 20,
-      bottom: 20,
-      left: 'auto',
-      position: 'fixed',
+    marginRight: 20,
+    top: 'auto',
+    right: 20,
+    bottom: 20,
+    left: 'auto',
+    position: 'fixed',
   },
   text: {
-      marginRight: 20,
-      marginTop: 0,
-      right: 120,
-      bottom: 'auto',
-      left: 'auto',
-      position: 'absolute',
-      color: 'white',
-
-      underline: {
-      borderColor: 'white',
+    marginRight: 20,
+    marginTop: 0,
+    right: 120,
+    bottom: 'auto',
+    left: 'auto',
+    position: 'absolute',
+    color: 'white',
+    underline: {
+    borderColor: 'white',
       },
       floatingLabel: {
         color: 'white',

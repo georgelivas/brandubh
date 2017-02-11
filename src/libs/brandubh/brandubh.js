@@ -213,15 +213,18 @@ const Board = {
     newBoard[toX][toY] = piece;
 
     newBoard[fromX][fromY] = null;
-
-    console.log('XXXXXXXXXXX', capturedPieces);
+    console.log('RRRRRRRRRRRRRRRRRRRRRRRRR ', capturedPieces);
     capturedPieces.forEach((cords) => {
       const { x, y } = cords;
       newBoard[x] = [...newBoard[x]];
       newBoard[x][y] = null;
+      // Not reaching it!!
+      console.log('RRRRRRRRRRRRRRRRRRRRRRRRR ', newBoard[x][y]);
     });
 
     return newBoard;
+    console.log('RRRRRRRRRRRRRRRRRRRRRRRRR ', newBoard);
+
   },
 };
 
