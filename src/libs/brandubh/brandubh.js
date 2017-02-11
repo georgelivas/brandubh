@@ -1,4 +1,3 @@
-
 class Piece {
   static type = 'PIECE';
 
@@ -90,7 +89,6 @@ const Board = {
   },
 
   isColorAt(board, color, x, y) {
-    console.log('PPPPPPPPPPP', Board.isEmpty(board, x, y), board[x][y], color);
     if (!Board.isEmpty(board, x, y)
       && board[x][y].color === color) {
       return true;
@@ -144,9 +142,9 @@ const Board = {
 
   isEnemy(board, color, x, y) {
     if (Board.isInBoard(x, y)) {
-      return false;
+      return !Board.isColorAt(board, color, x, y);
     }
-    return !Board.isColorAt(board, color, x, y);
+    return false;
   },
 
   capture(board, piece, x, y) {
@@ -174,17 +172,11 @@ const Board = {
       captured.push(capturedPiece);
     }
 
-    console.log('YYYYYYYYYYYY', color, x, y, x, y - 2, y - 1,
-      Board.isAlly(board, color, x, y - 2),
-      Board.isEnemy(board, color, x, y - 1));
-
     if (Board.isAlly(board, color, x, y - 2)
       && Board.isEnemy(board, color, x, y - 1)) {
       const capturedPiece = { x, y: y - 1 };
       captured.push(capturedPiece);
     }
-
-    console.log('YYYYYYYYYYYY END', captured);
 
     return captured;
   },
@@ -213,18 +205,14 @@ const Board = {
     newBoard[toX][toY] = piece;
 
     newBoard[fromX][fromY] = null;
-    console.log('RRRRRRRRRRRRRRRRRRRRRRRRR ', capturedPieces);
     capturedPieces.forEach((cords) => {
       const { x, y } = cords;
       newBoard[x] = [...newBoard[x]];
       newBoard[x][y] = null;
       // Not reaching it!!
-      console.log('RRRRRRRRRRRRRRRRRRRRRRRRR ', newBoard[x][y]);
     });
 
     return newBoard;
-    console.log('RRRRRRRRRRRRRRRRRRRRRRRRR ', newBoard);
-
   },
 };
 

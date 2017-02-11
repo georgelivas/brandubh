@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
@@ -18,6 +19,7 @@ import { muiTheme } from '../../styles';
 
 import style from './style';
 import AppBarMenu from './app-bar';
+import { actions } from '../../redux-mvc';
 
 const FlatButtonIcon = () => (
   <div>
@@ -44,6 +46,7 @@ const paperStyle = {
 
 class Layout extends Component {
   render() {
+    const { dispatch } = this.props;
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <div>
@@ -62,7 +65,7 @@ class Layout extends Component {
           <div>
               <FloatingActionButton
                 zDepth={2} style={style.fab}
-                onTouchTap={() => { alert('You pressed me!'); }}>
+                onTouchTap={() => { dispatch(actions.undo()); }} >
                 <ContentAdd />
               </FloatingActionButton>
           </div>
@@ -72,4 +75,4 @@ class Layout extends Component {
   }
 }
 
-export default Layout;
+export default connect()(Layout);
