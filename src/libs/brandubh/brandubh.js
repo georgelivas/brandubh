@@ -82,14 +82,16 @@ const Board = {
   },
 
   isGreyAt(board, x, y) {
-    if (!Board.isEmpty(board, x, y) && board[x][y].isGrey()) {
+    if (Board.isInBoard(x, y) &&
+      !Board.isEmpty(board, x, y) && board[x][y].isGrey()) {
       return true;
     }
     return false;
   },
 
   isColorAt(board, color, x, y) {
-    if (!Board.isEmpty(board, x, y)
+    if (Board.isInBoard(x, y)
+      && !Board.isEmpty(board, x, y)
       && board[x][y].color === color) {
       return true;
     }
@@ -125,7 +127,9 @@ const Board = {
   },
 
   isSameColor(board, x, y, allyX, allyY) {
-    if (!Board.isEmpty(board, x, y)
+    if (Board.isInBoard(x, y)
+      && Board.isInBoard(allyX, allyY)
+      && !Board.isEmpty(board, x, y)
       && !Board.isEmpty(board, allyX, allyY)
       && board[x][y].color === board[allyX][allyY].color) {
       return true;
@@ -141,13 +145,6 @@ const Board = {
   },
 
   isEnemy(board, color, x, y) {
-    console.log('--------------------- isEnemy',
-      x, y,
-      Board.isInBoard(x, y),
-      Board.isCornerOrCenter(x, y),
-      Board.isEmpty(board, x, y),
-      (!Board.isEmpty(board, x, y) && Board.isColorAt(board, color, x, y)) || 'NA'
-    );
     if (!Board.isInBoard(x, y) || Board.isCornerOrCenter(x, y)) {
       return true;
     }
@@ -157,7 +154,7 @@ const Board = {
     return !Board.isColorAt(board, color, x, y);
   },
 
-  isKingCaptured(board) {
+  kingPosition(board) {
     let x;
     let y;
     board.forEach((row, i) => row.forEach((piece, j) => {
@@ -165,26 +162,36 @@ const Board = {
         [x, y] = [i, j];
       }
     }));
+    return { x, y };
+  },
 
+  isKingCaptured(board) {
+    const { x, y } = Board.kingPosition(board);
     if (Board.isEnemy(board, Grey.color, x + 1, y)
       && Board.isEnemy(board, Grey.color, x - 1, y)
       && Board.isEnemy(board, Grey.color, x, y + 1)
       && Board.isEnemy(board, Grey.color, x, y - 1)) {
-      console.log('================= king is captured',
-        x,
-        y,
-        Board.isEnemy(board, Grey.color, x + 1, y),
-        Board.isEnemy(board, Grey.color, x - 1, y),
-        Board.isEnemy(board, Grey.color, x, y + 1),
-        Board.isEnemy(board, Grey.color, x, y - 1)
-      );
+      return true;
+    }
+    return false;
+  },
+
+  isKingOnCorner(board) {
+    const { x, y } = Board.kingPosition(board);
+
+    if ((x === 0 && y === 0) ||
+      (x === 0 && y === 6) ||
+      (x === 6 && y === 6) ||
+      (x === 6 && y === 0)) {
       return true;
     }
     return false;
   },
 
   isKingAt(board, x, y) {
-    return !Board.isEmpty(board, x, y) && board[x][y].isKing();
+    return Board.isInBoard(x, y)
+      && !Board.isEmpty(board, x, y)
+      && board[x][y].isKing();
   },
 
   capture(board, piece, x, y) {

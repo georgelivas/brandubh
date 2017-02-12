@@ -20,7 +20,6 @@ export default class Header extends Component  {
 
   handleToggle() {
     this.setState({open: !this.state.open});
-    console.log("open")
    }
   handleClose() { this.setState({open: false}); }
         render() {

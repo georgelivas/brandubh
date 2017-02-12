@@ -12,10 +12,12 @@ export default (state = { board: null }, action) => {
       const newState = {
         players: action.payload,
         board: Board.create(),
+        winner: null,
       };
       return {
         ...newState,
         previewsState: null,
+
         // {
         //   ...newState,
         //   currentMoveFrom: null,
@@ -28,12 +30,17 @@ export default (state = { board: null }, action) => {
         return state;
       }
 
+      if (Board.isKingOnCorner(state.board)) {
+        return state;
+      }
+
       const currentMoveFrom = state.currentMoveFrom;
       if (!currentMoveFrom) {
         return {
           ...state,
           currentMoveFrom: action.payload,
           previewsState: null,
+
           // {
           //   ...state,
           //   currentMoveFrom: null,
@@ -51,6 +58,7 @@ export default (state = { board: null }, action) => {
           ...state,
           currentMoveFrom: null,
           previewsState: null,
+
           // {
           //   ...state,
           //   currentMoveFrom: null,
@@ -80,12 +88,23 @@ export default (state = { board: null }, action) => {
           // },
         };
 
+        let winner = null;
+        if (Board.isKingCaptured(board)) {
+          winner = 'host';
+        }
+
+        if (Board.isKingOnCorner(board)) {
+          winner = 'guest';
+        }
+
         return {
           ...state,
           board,
           players,
+          winner,
           currentMoveFrom: null,
           previewsState: null,
+
           // {
           //   ...state,
           //   currentMoveFrom: null,

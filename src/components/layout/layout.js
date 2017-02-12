@@ -29,51 +29,53 @@ const FlatButtonIcon = () => (
   </div>
 );
 
-const PaperExampleSimple = () => (
+const PaperExampleSimple = ({ dispatch }) => (
   <div>
     <Paper style={style.paper} zDepth={5} />
+    <RaisedButton
+      label="Start Game!"
+      primary
+      style={style.undoButton} onTouchTap={() => {
+        dispatch(actions.newGame());
+      }
+      }
+    />
   </div>
 );
 
-class Layout extends Component {
-  render() {
-    const { dispatch } = this.props;
-    return (
-      <MuiThemeProvider muiTheme={muiTheme}>
-        <div>
-          <AppBarMenu />
-          {/* <PaperExampleSimple /> */}
-          <RaisedButton
-            label="Start Game!" primary={true}
-            style={style.undoButton} onTouchTap={() => {
-              dispatch(actions.newGame());
-            }
-            }
-          />
-          <FlatButtonIcon />
-          <RaisedButton
-            label="Undo" primary={true}
-            style={style.undoButton} onTouchTap={() => {
-              dispatch(actions.undo());
-            }
-            }
-          />
-          <br />
-          <br />
-          <Board />
+const Layout = ({ dispatch, gameNotStarted }) => (
+  <MuiThemeProvider muiTheme={muiTheme}>
+    <div>
+      <AppBarMenu />
+      {gameNotStarted &&
+        <PaperExampleSimple dispatch={dispatch} />
+      }
 
-          <div>
-            <FloatingActionButton
-              zDepth={2} style={style.fab}
-              onTouchTap={() => { dispatch(actions.undo()); }}
-            >
-              <ContentAdd />
-            </FloatingActionButton>
-          </div>
-        </div>
-      </MuiThemeProvider>
-    );
-  }
-}
+      <FlatButtonIcon />
+      <RaisedButton
+        label="Undo"
+        primary
+        style={style.undoButton} onTouchTap={() => {
+          dispatch(actions.undo());
+        }
+        }
+      />
+      <br />
+      <br />
+      <Board />
 
-export default connect()(Layout);
+      <div>
+        <FloatingActionButton
+          zDepth={2} style={style.fab}
+          onTouchTap={() => { dispatch(actions.undo()); }}
+        >
+          <ContentAdd />
+        </FloatingActionButton>
+      </div>
+    </div>
+  </MuiThemeProvider>
+);
+
+export default connect((state) => ({
+  gameNotStarted: !state.board,
+}))(Layout);
