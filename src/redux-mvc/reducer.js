@@ -15,23 +15,29 @@ export default (state = { board: null }, action) => {
       };
       return {
         ...newState,
-        previewsState: {
-          ...newState,
-          currentMoveFrom: null,
-        },
+        previewsState: null,
+        // {
+        //   ...newState,
+        //   currentMoveFrom: null,
+        // },
       };
     }
 
     case MOVE: {
+      if (Board.isKingCaptured(state.board)) {
+        return state;
+      }
+
       const currentMoveFrom = state.currentMoveFrom;
       if (!currentMoveFrom) {
         return {
           ...state,
           currentMoveFrom: action.payload,
-          previewsState: {
-            ...state,
-            currentMoveFrom: null,
-          },
+          previewsState: null,
+          // {
+          //   ...state,
+          //   currentMoveFrom: null,
+          // },
         };
       }
 
@@ -44,10 +50,11 @@ export default (state = { board: null }, action) => {
         return {
           ...state,
           currentMoveFrom: null,
-          previewsState: {
-            ...state,
-            currentMoveFrom: null,
-          },
+          previewsState: null,
+          // {
+          //   ...state,
+          //   currentMoveFrom: null,
+          // },
         };
       }
 
@@ -66,10 +73,11 @@ export default (state = { board: null }, action) => {
         const players = {
           ...state.players,
           currentPlayer: nextPlayer,
-          previewsState: {
-            ...state,
-            currentMoveFrom: null,
-          },
+          previewsState: null,
+          // {
+          //   ...state,
+          //   currentMoveFrom: null,
+          // },
         };
 
         return {
@@ -77,20 +85,22 @@ export default (state = { board: null }, action) => {
           board,
           players,
           currentMoveFrom: null,
-          previewsState: {
-            ...state,
-            currentMoveFrom: null,
-          },
+          previewsState: null,
+          // {
+          //   ...state,
+          //   currentMoveFrom: null,
+          // },
         };
       }
 
       return {
         ...state,
         currentMoveFrom: null,
-        previewsState: {
-          ...state,
-          currentMoveFrom: null,
-        },
+        previewsState: null,
+        // {
+        //   ...state,
+        //   currentMoveFrom: null,
+        // },
       };
     }
 

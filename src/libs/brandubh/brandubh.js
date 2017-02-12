@@ -82,7 +82,7 @@ const Board = {
   },
 
   isGreyAt(board, x, y) {
-    if (!Board.isEmpty(board[x][y]) && board[x][y].isGrey()) {
+    if (!Board.isEmpty(board, x, y) && board[x][y].isGrey()) {
       return true;
     }
     return false;
@@ -141,39 +141,87 @@ const Board = {
   },
 
   isEnemy(board, color, x, y) {
-    if (Board.isInBoard(x, y)) {
-      return !Board.isColorAt(board, color, x, y);
+    console.log('--------------------- isEnemy',
+      x, y,
+      Board.isInBoard(x, y),
+      Board.isCornerOrCenter(x, y),
+      Board.isEmpty(board, x, y),
+      (!Board.isEmpty(board, x, y) && Board.isColorAt(board, color, x, y)) || 'NA'
+    );
+    if (!Board.isInBoard(x, y) || Board.isCornerOrCenter(x, y)) {
+      return true;
+    }
+    if (Board.isEmpty(board, x, y)) {
+      return false;
+    }
+    return !Board.isColorAt(board, color, x, y);
+  },
+
+  isKingCaptured(board) {
+    let x;
+    let y;
+    board.forEach((row, i) => row.forEach((piece, j) => {
+      if (piece !== null && piece.isKing()) {
+        [x, y] = [i, j];
+      }
+    }));
+
+    if (Board.isEnemy(board, Grey.color, x + 1, y)
+      && Board.isEnemy(board, Grey.color, x - 1, y)
+      && Board.isEnemy(board, Grey.color, x, y + 1)
+      && Board.isEnemy(board, Grey.color, x, y - 1)) {
+      console.log('================= king is captured',
+        x,
+        y,
+        Board.isEnemy(board, Grey.color, x + 1, y),
+        Board.isEnemy(board, Grey.color, x - 1, y),
+        Board.isEnemy(board, Grey.color, x, y + 1),
+        Board.isEnemy(board, Grey.color, x, y - 1)
+      );
+      return true;
     }
     return false;
+  },
+
+  isKingAt(board, x, y) {
+    return !Board.isEmpty(board, x, y) && board[x][y].isKing();
   },
 
   capture(board, piece, x, y) {
     const color = piece.color;
     const captured = [];
+    if (piece.isKing()) {
+      return captured;
+    }
+
     if (!Board.isEmpty(board, x, y)) {
       return captured;
     }
 
     if (Board.isAlly(board, color, x + 2, y)
-      && Board.isEnemy(board, color, x + 1, y)) {
+      && Board.isEnemy(board, color, x + 1, y)
+      && !Board.isKingAt(board, x + 1, y)) {
       const capturedPiece = { x: x + 1, y };
       captured.push(capturedPiece);
     }
 
     if (Board.isAlly(board, color, x - 2, y)
-      && Board.isEnemy(board, color, x - 1, y)) {
+      && Board.isEnemy(board, color, x - 1, y)
+      && !Board.isKingAt(board, x - 1, y)) {
       const capturedPiece = { x: x - 1, y };
       captured.push(capturedPiece);
     }
 
     if (Board.isAlly(board, color, x, y + 2)
-      && Board.isEnemy(board, color, x, y + 1)) {
+      && Board.isEnemy(board, color, x, y + 1)
+      && !Board.isKingAt(board, x, y + 1)) {
       const capturedPiece = { x, y: y + 1 };
       captured.push(capturedPiece);
     }
 
     if (Board.isAlly(board, color, x, y - 2)
-      && Board.isEnemy(board, color, x, y - 1)) {
+      && Board.isEnemy(board, color, x, y - 1)
+      && !Board.isKingAt(board, x, y - 1)) {
       const capturedPiece = { x, y: y - 1 };
       captured.push(capturedPiece);
     }
