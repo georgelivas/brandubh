@@ -55,10 +55,7 @@ const Layout = ({ dispatch, gameNotStarted }) => (
       <RaisedButton
         label="Undo"
         primary
-        style={style.undoButton} onTouchTap={() => {
-          dispatch(actions.undo());
-        }
-        }
+        style={style.undoButton} onTouchTap={() => dispatch(actions.undo())}
       />
       <br />
       <br />

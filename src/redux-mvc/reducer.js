@@ -16,12 +16,10 @@ export default (state = { board: null }, action) => {
       };
       return {
         ...newState,
-        previewsState: null,
-
-        // {
-        //   ...newState,
-        //   currentMoveFrom: null,
-        // },
+        previousState: {
+          ...newState,
+          currentMoveFrom: null,
+        },
       };
     }
 
@@ -39,12 +37,7 @@ export default (state = { board: null }, action) => {
         return {
           ...state,
           currentMoveFrom: action.payload,
-          previewsState: null,
-
-          // {
-          //   ...state,
-          //   currentMoveFrom: null,
-          // },
+          previousState: state,
         };
       }
 
@@ -57,12 +50,6 @@ export default (state = { board: null }, action) => {
         return {
           ...state,
           currentMoveFrom: null,
-          previewsState: null,
-
-          // {
-          //   ...state,
-          //   currentMoveFrom: null,
-          // },
         };
       }
 
@@ -81,11 +68,6 @@ export default (state = { board: null }, action) => {
         const players = {
           ...state.players,
           currentPlayer: nextPlayer,
-          previewsState: null,
-          // {
-          //   ...state,
-          //   currentMoveFrom: null,
-          // },
         };
 
         let winner = null;
@@ -103,29 +85,22 @@ export default (state = { board: null }, action) => {
           players,
           winner,
           currentMoveFrom: null,
-          previewsState: null,
-
-          // {
-          //   ...state,
-          //   currentMoveFrom: null,
-          // },
+          previousState: {
+            ...state,
+            currentMoveFrom: null,
+          },
         };
       }
 
       return {
         ...state,
         currentMoveFrom: null,
-        previewsState: null,
-        // {
-        //   ...state,
-        //   currentMoveFrom: null,
-        // },
       };
     }
 
     case UNDO:
       return {
-        ...state.previewsState,
+        ...state.previousState,
       };
     default:
       return state;

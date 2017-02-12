@@ -157,6 +157,7 @@ const Board = {
   kingPosition(board) {
     let x;
     let y;
+    console.log('111111111111111111111111111')
     board.forEach((row, i) => row.forEach((piece, j) => {
       if (piece !== null && piece.isKing()) {
         [x, y] = [i, j];
@@ -205,28 +206,32 @@ const Board = {
       return captured;
     }
 
-    if (Board.isAlly(board, color, x + 2, y)
+    if (Board.isInBoard(x + 1, y)
+      && Board.isAlly(board, color, x + 2, y)
       && Board.isEnemy(board, color, x + 1, y)
       && !Board.isKingAt(board, x + 1, y)) {
       const capturedPiece = { x: x + 1, y };
       captured.push(capturedPiece);
     }
 
-    if (Board.isAlly(board, color, x - 2, y)
+    if (Board.isInBoard(x - 1, y)
+      && Board.isAlly(board, color, x - 2, y)
       && Board.isEnemy(board, color, x - 1, y)
       && !Board.isKingAt(board, x - 1, y)) {
       const capturedPiece = { x: x - 1, y };
       captured.push(capturedPiece);
     }
 
-    if (Board.isAlly(board, color, x, y + 2)
+    if (Board.isInBoard(x, y + 1)
+      && Board.isAlly(board, color, x, y + 2)
       && Board.isEnemy(board, color, x, y + 1)
       && !Board.isKingAt(board, x, y + 1)) {
       const capturedPiece = { x, y: y + 1 };
       captured.push(capturedPiece);
     }
 
-    if (Board.isAlly(board, color, x, y - 2)
+    if (Board.isInBoard(x, y - 1)
+      && Board.isAlly(board, color, x, y - 2)
       && Board.isEnemy(board, color, x, y - 1)
       && !Board.isKingAt(board, x, y - 1)) {
       const capturedPiece = { x, y: y - 1 };
