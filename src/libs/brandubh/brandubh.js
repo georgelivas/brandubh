@@ -134,7 +134,7 @@ const Board = {
   },
 
   isAlly(board, color, x, y) {
-    if (!Board.isInBoard(x, y)) {
+    if (!Board.isInBoard(x, y) || Board.isCornerOrCenter(x, y)) {
       return true;
     }
     return Board.isColorAt(board, color, x, y);
@@ -209,7 +209,6 @@ const Board = {
       const { x, y } = cords;
       newBoard[x] = [...newBoard[x]];
       newBoard[x][y] = null;
-      // Not reaching it!!
     });
 
     return newBoard;
