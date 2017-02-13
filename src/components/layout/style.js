@@ -70,15 +70,15 @@ const style = {
   },
   startGame: {
     width: 540,
-    height: 40,
+    height: 50,
     marginRight: 20,
-    top: 220,
+    top: 320,
     right: 380,
     bottom: 'auto',
     left: 'auto',
     position: 'absolute',
     textAlign: 'center',
-    textSize: 40,
+    fontFamily: 'Play, sans-serif',
     display: 'inline-block',
   },
 };

@@ -5,6 +5,6 @@ body {
   background-image: url(./components/board/images/backgrounds/pageBackground.png);
   background-size: cover;
   background-repeat: no-repeat;
-  background-position: right;
+  background-position: center;
   min-height: 800px;
 }

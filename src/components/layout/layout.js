@@ -34,8 +34,10 @@ const FlatButtonIcon = () => (
 const PaperExampleSimple = ({ dispatch }) => (
   <div>
     <Paper style={style.paper} zDepth={5} />
+    <h1 >BRANDUBH</h1>
     <RaisedButton
       label="Start Game"
+      labelStyle={{ fontSize: '33px', color: 'white' }}
       primary
       style={style.startGame} onTouchTap={() => {
         dispatch(actions.newGame());
