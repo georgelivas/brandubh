@@ -66,6 +66,20 @@ const style = {
     position: 'absolute',
     textAlign: 'center',
     display: 'inline-block',
+    opacity: '0.9',
+  },
+  startGame: {
+    width: 540,
+    height: 40,
+    marginRight: 20,
+    top: 220,
+    right: 380,
+    bottom: 'auto',
+    left: 'auto',
+    position: 'absolute',
+    textAlign: 'center',
+    textSize: 40,
+    display: 'inline-block',
   },
 };
 

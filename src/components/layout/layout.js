@@ -7,6 +7,8 @@ import { fullWhite } from 'material-ui/styles/colors';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import FlatButton from 'material-ui/FlatButton';
 import ActionAndroid from 'material-ui/svg-icons/action/android';
 import Paper from 'material-ui/Paper';
@@ -33,9 +35,9 @@ const PaperExampleSimple = ({ dispatch }) => (
   <div>
     <Paper style={style.paper} zDepth={5} />
     <RaisedButton
-      label="Start Game!"
+      label="Start Game"
       primary
-      style={style.undoButton} onTouchTap={() => {
+      style={style.startGame} onTouchTap={() => {
         dispatch(actions.newGame());
       }
       }
@@ -44,14 +46,12 @@ const PaperExampleSimple = ({ dispatch }) => (
 );
 
 const Layout = ({ dispatch, gameNotStarted }) => (
-  <MuiThemeProvider muiTheme={muiTheme}>
+  <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
     <div>
       <AppBarMenu />
       {gameNotStarted &&
         <PaperExampleSimple dispatch={dispatch} />
       }
-
-      <FlatButtonIcon />
       <RaisedButton
         label="Undo"
         primary
@@ -63,7 +63,7 @@ const Layout = ({ dispatch, gameNotStarted }) => (
 
       <div>
         <FloatingActionButton
-          zDepth={2} style={style.fab}
+          zDepth={5} style={style.fab}
           onTouchTap={() => { dispatch(actions.undo()); }}
         >
           <ContentAdd />
