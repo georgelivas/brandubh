@@ -22,6 +22,8 @@ import style from './style';
 import AppBarMenu from './app-bar';
 import { actions } from '../../redux-mvc';
 
+import DialogExampleCustomWidth from '../utils/dialog';
+
 const FlatButtonIcon = () => (
   <div>
     <FlatButton
@@ -31,34 +33,48 @@ const FlatButtonIcon = () => (
   </div>
 );
 
-const PaperExampleSimple = ({ dispatch }) => (
-  <div>
-    <Paper style={style.paper} zDepth={5} />
-    <h1 >BRANDUBH</h1>
-    <RaisedButton
-      label="Start Game"
-      labelStyle={{ fontSize: '33px', color: 'white' }}
-      primary
-      style={style.startGame} onTouchTap={() => {
-        dispatch(actions.newGame());
-      }
-      }
-    />
+function Title({ winner }) {
+  return (<div style={style.paperTitle}>
+    <h1>BRANDUBH</h1>
+    <h3 style={{ marginTop: '240px' }} >{ winner }</h3>
+  </div>
+  );
+}
+
+const PaperExampleSimple = ({ winner, dispatch }) => (
+  <div style={{ width: '100%', height: '100%', margin: '200px auto 0 auto' }}>
+    <Paper style={style.paper} zDepth={5}>
+      <Title winner={winner} />
+      <RaisedButton
+        label="Start Game"
+        labelStyle={{ fontSize: '33px', color: 'white' }}
+        primary
+        style={style.startGame} onTouchTap={() => {
+          dispatch(actions.newGame());
+        }
+        }
+      />
+    </Paper>
   </div>
 );
 
-const Layout = ({ dispatch, gameNotStarted }) => (
+const Layout = ({ dispatch, gameNotStarted, winner }) => (
   <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-    <div>
-      <AppBarMenu />
+    <div style={{ width: '100%', height: '100%' }}>
+
+      {/* <AppBarMenu /> */}
+
       {gameNotStarted &&
         <PaperExampleSimple dispatch={dispatch} />
       }
-      <RaisedButton
+
+      <DialogExampleCustomWidth open={!!winner} />
+
+      {!gameNotStarted && <RaisedButton
         label="Undo"
         primary
         style={style.undoButton} onTouchTap={() => dispatch(actions.undo())}
-      />
+      />}
       <br />
       <br />
       <Board />
@@ -77,4 +93,5 @@ const Layout = ({ dispatch, gameNotStarted }) => (
 
 export default connect((state) => ({
   gameNotStarted: !state.board,
+  winner: state.winner,
 }))(Layout);
