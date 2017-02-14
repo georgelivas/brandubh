@@ -22,6 +22,9 @@ let MobileTearSheet = React.createClass({
         marginRight: 100,
         marginLeft: 20,
         width: 200,
+        width: 'auto',
+        minWidth: 200,
+        position: 'relative',
       },
 
       container: {

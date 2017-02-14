@@ -15,17 +15,17 @@ class WinnerDialog extends React.Component {
     super(props);
     this.state = {
       open: props.open,
-      winner: this.winner,
+      winner: props.winner,
     };
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({ open: nextProps.open });
+    this.setState({ winner: nextProps.winner });
   }
 
   render() {
-    let winner;
-    const actions = [
+    const action = [
       <FlatButton
         label="Close"
         primary={true}
@@ -40,18 +40,18 @@ class WinnerDialog extends React.Component {
         primary={true}
         onTouchTap={() => {
           this.setState({ open: false });
-          console.log('=====================', winner);
           dispatch(actions.newGame());
-          console.log(this.winner);
         }
         }
       />,
     ];
 
+    const title = this.state.winner + ' Is the winner!';
+
     return (
       <Dialog
-        title="Dialog With Custom Width"
-        actions={actions}
+        title={title}
+        actions={action}
         modal={true}
         contentStyle={customContentStyle}
         open={this.state.open}
