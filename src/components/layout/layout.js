@@ -49,7 +49,8 @@ const PaperExampleSimple = ({ winner, dispatch }) => (
         label="Start Game"
         labelStyle={{ fontSize: '33px', color: 'white' }}
         primary
-        style={style.startGame} onTouchTap={() => {
+        style={style.startGame}
+        onTouchTap={() => {
           dispatch(actions.newGame());
         }
         }
@@ -68,7 +69,6 @@ const Layout = ({ dispatch, gameNotStarted, winner }) => (
         <PaperExampleSimple dispatch={dispatch} />
       }
 
-      <DialogExampleCustomWidth open={!!winner} />
 
       {!gameNotStarted && <RaisedButton
         label="Undo"
@@ -78,6 +78,11 @@ const Layout = ({ dispatch, gameNotStarted, winner }) => (
       <br />
       <br />
       <Board />
+      <DialogExampleCustomWidth
+        open={!!winner}
+        dispatch={dispatch}
+        winner={winner}
+      />
 
       <div>
         <FloatingActionButton

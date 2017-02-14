@@ -23,6 +23,7 @@ class Red extends Piece {
   }
 
   isRed = () => true;
+  // eslint-disable-next-line
   oppositeColor = () => Grey.color;
 }
 
@@ -109,7 +110,8 @@ const Board = {
   },
 
   isNotStraight(fromX, fromY, toX, toY) {
-    return (fromX === toX && fromY !== toY) || (fromX !== toX && fromY === toY);
+    return (fromX === toX && fromY !== toY)
+      || (fromX !== toX && fromY === toY);
   },
 
   isInBoard(x, y) {
@@ -157,7 +159,6 @@ const Board = {
   kingPosition(board) {
     let x;
     let y;
-    console.log('111111111111111111111111111')
     board.forEach((row, i) => row.forEach((piece, j) => {
       if (piece !== null && piece.isKing()) {
         [x, y] = [i, j];

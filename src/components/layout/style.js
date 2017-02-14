@@ -63,12 +63,14 @@ const style = {
     opacity: '0.9',
   },
   startGame: {
-    width: '100%',
+    width: 550,
     height: 50,
     margin: 'auto',
     textAlign: 'center',
     fontFamily: 'Play, sans-serif',
-
+    position: 'relative',
+    bottom: 200,
+    right:25,
   },
   paperTitle: {
     WebkitTransition: 'all',

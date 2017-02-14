@@ -1,43 +1,50 @@
 import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
+import actions from '../../redux-mvc';
 
 const customContentStyle = {
   width: '100%',
   maxWidth: 'none',
 };
 
-/**
- * The dialog width has been set to occupy the full width of browser through the `contentStyle` property.
- */
 export default class DialogExampleCustomWidth extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       open: props.open,
+      dispatch: props.dispatch,
+      winner: props.winner,
     };
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({ open: nextProps.open });
+    this.setState({ dispatch: nextProps.dispatch });
   }
 
   render() {
+    let winner;
     const actions = [
       <FlatButton
-        label="Cancel"
+        label="Close"
         primary={true}
         onTouchTap={() => {
           this.setState({ open: false });
-        }}
+        }
+        }
       />,
+
       <FlatButton
-        label="Submit"
+        label="Play again"
         primary={true}
         onTouchTap={() => {
           this.setState({ open: false });
-        }}
+          console.log('=====================', winner);
+          this.dispatch(actions.newGame());
+          console.log(this.winner);
+        }
+        }
       />,
     ];
 
