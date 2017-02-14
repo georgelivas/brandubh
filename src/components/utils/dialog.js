@@ -1,26 +1,26 @@
 import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import actions from '../../redux-mvc';
+import { actions } from '../../redux-mvc';
+import { connect } from 'react-redux';
+
 
 const customContentStyle = {
   width: '100%',
   maxWidth: 'none',
 };
 
-export default class DialogExampleCustomWidth extends React.Component {
+class WinnerDialog extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       open: props.open,
-      dispatch: props.dispatch,
-      winner: props.winner,
+      winner: this.winner,
     };
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({ open: nextProps.open });
-    this.setState({ dispatch: nextProps.dispatch });
   }
 
   render() {
@@ -41,7 +41,7 @@ export default class DialogExampleCustomWidth extends React.Component {
         onTouchTap={() => {
           this.setState({ open: false });
           console.log('=====================', winner);
-          this.dispatch(actions.newGame());
+          dispatch(actions.newGame());
           console.log(this.winner);
         }
         }
@@ -61,3 +61,8 @@ export default class DialogExampleCustomWidth extends React.Component {
     );
   }
 }
+
+export default connect((state) => ({
+  gameNotStarted: !state.board,
+  winner: state.winner,
+}))(WinnerDialog);

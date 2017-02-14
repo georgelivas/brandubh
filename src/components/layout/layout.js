@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import FloatingActionButton from 'material-ui/FloatingActionButton';
-import ContentAdd from 'material-ui/svg-icons/content/add';
+import ContentAdd from 'material-ui/svg-icons/action/help';
 import { fullWhite } from 'material-ui/styles/colors';
 import RaisedButton from 'material-ui/RaisedButton';
 
@@ -19,19 +19,19 @@ import { Board } from '../../components';
 import { muiTheme } from '../../styles';
 
 import style from './style';
-import AppBarMenu from './app-bar';
 import { actions } from '../../redux-mvc';
 
-import DialogExampleCustomWidth from '../utils/dialog';
+import WinnerDialog from '../utils/dialog';
 
-const FlatButtonIcon = () => (
-  <div>
-    <FlatButton
-      icon={<ActionAndroid color={fullWhite} />}
-      style={style.icon}
-    />
-  </div>
-);
+import MobileTearSheet from '../utils/MobileTearSheet';
+import { List, ListItem } from 'material-ui/List';
+import ContentInbox from 'material-ui/svg-icons/content/undo';
+import ActionGrade from 'material-ui/svg-icons/hardware/gamepad';
+import ContentSend from 'material-ui/svg-icons/content/send';
+import ContentDrafts from 'material-ui/svg-icons/content/drafts';
+import Divider from 'material-ui/Divider';
+import Help from 'material-ui/svg-icons/action/help';
+
 
 function Title({ winner }) {
   return (<div style={style.paperTitle}>
@@ -40,6 +40,36 @@ function Title({ winner }) {
   </div>
   );
 }
+
+const ListMenu = ({ dispatch }) => (
+  <MobileTearSheet>
+    <List>
+      <ListItem
+        primaryText="Undo"
+        leftIcon={
+          <ContentInbox />
+        }
+        onTouchTap={() => {
+          dispatch(actions.undo());
+        }
+        }
+      />
+      <ListItem
+        primaryText="New Game"
+        leftIcon={
+          <ActionGrade />
+        }
+        onTouchTap={() => {
+          dispatch(actions.newGame());
+        }
+        }
+      />
+      <ListItem primaryText="Sent mail" leftIcon={<ContentSend />} />
+      <ListItem primaryText="Drafts" leftIcon={<ContentDrafts />} />
+      <ListItem primaryText="Inbox" leftIcon={<ContentInbox />} />
+    </List>
+  </MobileTearSheet>
+);
 
 const PaperExampleSimple = ({ winner, dispatch }) => (
   <div style={{ width: '100%', height: '100%', margin: '200px auto 0 auto' }}>
@@ -63,24 +93,19 @@ const Layout = ({ dispatch, gameNotStarted, winner }) => (
   <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
     <div style={{ width: '100%', height: '100%' }}>
 
-      {/* <AppBarMenu /> */}
-
       {gameNotStarted &&
         <PaperExampleSimple dispatch={dispatch} />
       }
 
+      {!gameNotStarted &&
+        <ListMenu dispatch={dispatch} />
+      }
 
-      {!gameNotStarted && <RaisedButton
-        label="Undo"
-        primary
-        style={style.undoButton} onTouchTap={() => dispatch(actions.undo())}
-      />}
       <br />
       <br />
       <Board />
-      <DialogExampleCustomWidth
+      <WinnerDialog
         open={!!winner}
-        dispatch={dispatch}
         winner={winner}
       />
 

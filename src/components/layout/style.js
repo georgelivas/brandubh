@@ -11,6 +11,7 @@ const style = {
     bottom: 20,
     left: 'auto',
     position: 'fixed',
+    materialIcons: '48',
   },
   text: {
     marginRight: 20,
