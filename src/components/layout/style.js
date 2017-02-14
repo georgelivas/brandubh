@@ -11,7 +11,7 @@ const style = {
     bottom: 20,
     left: 'auto',
     position: 'fixed',
-    materialIcons: '48',
+
   },
   text: {
     marginRight: 20,
@@ -71,7 +71,7 @@ const style = {
     fontFamily: 'Play, sans-serif',
     position: 'relative',
     bottom: 200,
-    right:25,
+    right: 25,
   },
   paperTitle: {
     WebkitTransition: 'all',

@@ -1,9 +1,8 @@
 import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import { actions } from '../../redux-mvc';
 import { connect } from 'react-redux';
-
+import { actions } from '../../redux-mvc';
 
 const customContentStyle = {
   width: '100%',
@@ -14,7 +13,7 @@ class WinnerDialog extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      open: props.open,
+      open: false,
       winner: props.winner,
     };
   }
@@ -29,24 +28,20 @@ class WinnerDialog extends React.Component {
       <FlatButton
         label="Close"
         primary={true}
-        onTouchTap={() => {
-          this.setState({ open: false });
-        }
-        }
+        onTouchTap={() => this.setState({ open: false })}
       />,
-
       <FlatButton
         label="Play again"
         primary={true}
         onTouchTap={() => {
           this.setState({ open: false });
-          dispatch(actions.newGame());
-        }
-        }
+          this.props.dispatch(actions.newGame());
+        }}
       />,
     ];
 
-    const title = this.state.winner + ' Is the winner!';
+    // const winnerName = winner.charAt(0).toUpperCase() + winner.slice(1);
+    const title = this.props.winner + ' is the winner!';
 
     return (
       <Dialog
@@ -56,13 +51,13 @@ class WinnerDialog extends React.Component {
         contentStyle={customContentStyle}
         open={this.state.open}
       >
-        This dialog spans the entire width of the screen.
+        Press close to remain on game or hit play again for one more round.
       </Dialog>
     );
   }
 }
 
-export default connect((state) => ({
-  gameNotStarted: !state.board,
-  winner: state.winner,
+export default connect(({ board, winner }) => ({
+  gameNotStarted: !board,
+  winner,
 }))(WinnerDialog);
