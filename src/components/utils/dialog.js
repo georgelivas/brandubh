@@ -37,6 +37,7 @@ class WinnerDialog extends React.Component {
           this.setState({ open: false });
           this.props.dispatch(actions.newGame());
         }}
+
       />,
     ];
 
