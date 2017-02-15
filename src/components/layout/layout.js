@@ -19,6 +19,12 @@ import Error from 'material-ui/svg-icons/alert/error';
 import ContentDrafts from 'material-ui/svg-icons/content/drafts';
 import Divider from 'material-ui/Divider';
 
+import {
+  kingImg,
+  redImg,
+  greyImg,
+} from '../board/images';
+
 import '../../App.css';
 import { Board } from '../../components';
 
@@ -44,6 +50,8 @@ Title.propTypes = {
 const ListMenu = ({ winner, dispatch }) => (
   <MobileTearSheet>
     <List>
+      <redImg />
+      <Divider />
       <ListItem
         primaryText="Undo"
         disabled={!!winner}
@@ -55,6 +63,7 @@ const ListMenu = ({ winner, dispatch }) => (
             dispatch(actions.undo());
           }
         }}
+
         style={{ opacity: (winner ? 0.2 : 1) }}
       />
       <ListItem
@@ -68,13 +77,20 @@ const ListMenu = ({ winner, dispatch }) => (
         }
       />
       <ListItem primaryText="Hint" leftIcon={<Error color={white} />} />
-      <ListItem primaryText="Drafts" leftIcon={<ContentDrafts color={white} />} />
+      <ListItem
+        primaryText="Drafts"
+        leftIcon={<ContentDrafts color={white} />}
+      />
       <ListItem primaryText="Help" leftIcon={<Help color={white} />} />
     </List>
   </MobileTearSheet>
 );
+ListMenu.propTypes = {
+  dispatch: PropTypes.func,
+  winner: PropTypes.string,
+};
 
-const PaperExampleSimple = ({ winner, dispatch }) => (
+const WelcomePaper = ({ winner, dispatch }) => (
   <div style={{ width: '100%', height: '100%', margin: '200px auto 0 auto' }}>
     <Paper style={style.paper} zDepth={5}>
       <Title winner={winner} />
@@ -91,18 +107,22 @@ const PaperExampleSimple = ({ winner, dispatch }) => (
     </Paper>
   </div>
 );
+WelcomePaper.propTypes = {
+  dispatch: PropTypes.func,
+  winner: PropTypes.string,
+};
 
 const Layout = ({ dispatch, gameNotStarted, winner }) => (
   <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
     <div style={{ width: '100%', height: '100%' }}>
 
       {gameNotStarted &&
-        <PaperExampleSimple dispatch={dispatch} />
+        <WelcomePaper dispatch={dispatch} />
       }
 
       <br />
       <br />
-
+      <redImg />
       <div style={{ align: 'center' }}>
         {!gameNotStarted &&
           <ListMenu dispatch={dispatch} winner={winner} />
