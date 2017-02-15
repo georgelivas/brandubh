@@ -19,7 +19,7 @@ import MobileTearSheet from './MobileTearSheet';
 const ListMenu = ({ winner, dispatch }) => (
   <MobileTearSheet>
     <List>
-      <ListItem> <img src={redImg} /></ListItem>
+      <ListItem > <img src={redImg} style={{ height: 100 }} /></ListItem>
       <Divider />
       <ListItem
         primaryText="Undo"
