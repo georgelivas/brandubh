@@ -14,12 +14,16 @@ import {
   redImg,
   greyImg,
 } from '../board/images';
+
 import { actions } from '../../redux-mvc';
 import MobileTearSheet from './MobileTearSheet';
+
 const ListMenu = ({ winner, dispatch }) => (
-  <MobileTearSheet>
+  <MobileTearSheet >
     <List>
-      <ListItem > <img src={redImg} style={{ height: 100 }} /></ListItem>
+      <ListItem >
+        <img src={redImg} style={{ height: 100 }} />
+      </ListItem>
       <Divider />
       <ListItem
         primaryText="Undo"
@@ -27,11 +31,7 @@ const ListMenu = ({ winner, dispatch }) => (
         leftIcon={
           <Undo color={white} />
         }
-        onTouchTap={() => {
-          if (!winner) {
-            dispatch(actions.undo());
-          }
-        }}
+        onTouchTap={() => (!winner && dispatch(actions.undo()))}
 
         style={{ opacity: (winner ? 0.2 : 1) }}
       />
@@ -40,10 +40,7 @@ const ListMenu = ({ winner, dispatch }) => (
         leftIcon={
           <VideogameAsset color={white} />
         }
-        onTouchTap={() => {
-          dispatch(actions.newGame());
-        }
-        }
+        onTouchTap={() => dispatch(actions.newGame())}
       />
       <ListItem
         primaryText="Hint" leftIcon={<Error color={white} />}

@@ -1,16 +1,14 @@
 import { createStore } from 'redux';
 import reducer from './reducer';
 
-// import DEBUG from './debug';
-//
-// let debugMiddleware = null;
-// if (DEBUG) {
-//   const devToolsExtension = window.devToolsExtension;
-//   if (typeof devToolsExtension === 'function') {
-//     debugMiddleware = devToolsExtension();
-//   }
-// }
+import DEBUG from './debug';
 
-const store = createStore(reducer, /*debugMiddleware*/);
+let store;
+
+if (DEBUG && typeof window.devToolsExtension === 'function') {
+  store = createStore(reducer, window.devToolsExtension());
+} else {
+  store = createStore(reducer);
+}
 
 export default store;
