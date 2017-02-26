@@ -9,17 +9,15 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-import '../../App.css';
 import { Board } from '../../components';
 
-import { muiTheme } from '../../styles';
-
-import style from './style';
 import { actions } from '../../redux-mvc';
-import WelcomePaper from './welcome-paper';
 import WinnerDialog from '../utils/dialog';
 
 import ListMenu from '../utils/list';
+
+import WelcomePaper from './welcome-paper';
+import style from './style';
 
 const Layout = ({ dispatch, gameNotStarted, winner }) => (
   <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>

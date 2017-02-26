@@ -9,7 +9,8 @@
     "comma-dangle": [2, "always-multiline"],
     "global-require": 0,
     "arrow-parens": ["error", "always"],
-    "max-len": [2, 80, 2, { "ignoreComments": true }]
+    "max-len": [2, 80, 2, { "ignoreComments": true }],
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
   },
   "env": {
     "node": true,

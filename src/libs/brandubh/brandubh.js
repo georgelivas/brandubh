@@ -1,54 +1,26 @@
-class Piece {
-  static type = 'PIECE';
+const RED = 'RED';
+const GREY = 'GREY';
 
-  constructor(color, type = Piece.type) {
-    this.type = type;
-    this.color = color;
-  }
+const Red = {
+  color: RED,
+  isGrey: false,
+  isRed: true,
+  isKing: false,
+};
 
-  isRed = () => false;
-  isGrey = () => false;
-  isKing = () => false;
+const Grey = {
+  color: GREY,
+  isGrey: true,
+  isRed: false,
+  isKing: false,
+};
 
-  toString() {
-    return `${this.type} ${this.color} ${this.x} ${this.y}`;
-  }
-}
-
-class Red extends Piece {
-  static color = 'RED';
-
-  constructor() {
-    super(Red.color);
-  }
-
-  isRed = () => true;
-  // eslint-disable-next-line
-  oppositeColor = () => Grey.color;
-}
-
-class Grey extends Piece {
-  static color = 'GREY';
-  constructor() {
-    super(Grey.color);
-  }
-
-  isGrey = () => true;
-  oppositeColor = () => Red.color;
-}
-
-class King extends Piece {
-  static color = 'GREY';
-  static type = 'KING';
-
-  constructor() {
-    super(King.type);
-  }
-
-  isKing = () => true;
-  isGrey = () => true;
-  oppositeColor = () => Red.color;
-}
+const King = {
+  color: GREY,
+  isGrey: true,
+  isRed: false,
+  isKing: true,
+};
 
 const Board = {
   create() {
@@ -65,28 +37,29 @@ const Board = {
 
     // Pieces starting posisions on Board
 
-    board[0][3] = new Red();
-    board[1][3] = new Red();
-    board[2][3] = new Grey();
-    board[3][3] = new King();
-    board[4][3] = new Grey();
-    board[5][3] = new Red();
-    board[6][3] = new Red();
-    board[3][0] = new Red();
-    board[3][1] = new Red();
-    board[3][2] = new Grey();
-    board[3][4] = new Grey();
-    board[3][5] = new Red();
-    board[3][6] = new Red();
+    board[0][3] = Red;
+    board[1][3] = Red;
+    board[2][3] = Grey;
+    board[3][3] = King;
+    board[4][3] = Grey;
+    board[5][3] = Red;
+    board[6][3] = Red;
+    board[3][0] = Red;
+    board[3][1] = Red;
+    board[3][2] = Grey;
+    board[3][4] = Grey;
+    board[3][5] = Red;
+    board[3][6] = Red;
 
     return board;
   },
 
   isGreyAt(board, x, y) {
     if (Board.isInBoard(x, y) &&
-      !Board.isEmpty(board, x, y) && board[x][y].isGrey()) {
+      !Board.isEmpty(board, x, y) && board[x][y].isGrey) {
       return true;
     }
+
     return false;
   },
 
@@ -96,6 +69,7 @@ const Board = {
       && board[x][y].color === color) {
       return true;
     }
+
     return false;
   },
 
@@ -118,6 +92,7 @@ const Board = {
     if (x >= 0 && x <= 6 && y >= 0 && y <= 6) {
       return true;
     }
+
     return false;
   },
 
@@ -125,6 +100,7 @@ const Board = {
     if (Board.isInBoard(x, y) && board[x][y] === null) {
       return true;
     }
+
     return false;
   },
 
@@ -136,6 +112,7 @@ const Board = {
       && board[x][y].color === board[allyX][allyY].color) {
       return true;
     }
+
     return false;
   },
 
@@ -143,6 +120,7 @@ const Board = {
     if (!Board.isInBoard(x, y) || Board.isCornerOrCenter(x, y)) {
       return true;
     }
+
     return Board.isColorAt(board, color, x, y);
   },
 
@@ -150,9 +128,11 @@ const Board = {
     if (!Board.isInBoard(x, y) || Board.isCornerOrCenter(x, y)) {
       return true;
     }
+
     if (Board.isEmpty(board, x, y)) {
       return false;
     }
+
     return !Board.isColorAt(board, color, x, y);
   },
 
@@ -160,7 +140,7 @@ const Board = {
     let x;
     let y;
     board.forEach((row, i) => row.forEach((piece, j) => {
-      if (piece !== null && piece.isKing()) {
+      if (piece !== null && piece.isKing) {
         [x, y] = [i, j];
       }
     }));
@@ -175,6 +155,7 @@ const Board = {
       && Board.isEnemy(board, Grey.color, x, y - 1)) {
       return true;
     }
+
     return false;
   },
 
@@ -187,19 +168,20 @@ const Board = {
       (x === 6 && y === 0)) {
       return true;
     }
+
     return false;
   },
 
   isKingAt(board, x, y) {
     return Board.isInBoard(x, y)
       && !Board.isEmpty(board, x, y)
-      && board[x][y].isKing();
+      && board[x][y].isKing;
   },
 
   capture(board, piece, x, y) {
     const color = piece.color;
     const captured = [];
-    if (piece.isKing()) {
+    if (piece.isKing) {
       return captured;
     }
 
@@ -249,7 +231,7 @@ const Board = {
 
     const piece = board[fromX][fromY];
 
-    if (Board.isCornerOrCenter(toX, toY) && !piece.isKing()) {
+    if (Board.isCornerOrCenter(toX, toY) && !piece.isKing) {
       return board;
     }
 
