@@ -70,7 +70,7 @@ const style = {
     textAlign: 'center',
     fontFamily: 'Play, sans-serif',
     position: 'relative',
-    bottom: 200,
+    bottom: -40,
     right: 25,
   },
   paperTitle: {
