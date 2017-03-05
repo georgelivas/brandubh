@@ -12,7 +12,6 @@ import Divider from 'material-ui/Divider';
 
 import {
   redImg,
-  greyImg,
 } from '../board/images';
 
 import { actions } from '../../redux-mvc';
@@ -22,7 +21,7 @@ const ListMenu = ({ winner, dispatch }) => (
   <MobileTearSheet >
     <List>
       <ListItem >
-        <img src={redImg} style={{ height: 100 }} />
+        <img alt="piece" src={redImg} style={{ height: 100 }} />
       </ListItem>
       <Divider />
       <ListItem
