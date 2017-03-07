@@ -6,25 +6,39 @@ import RaisedButton from 'material-ui/RaisedButton';
 import style from './style';
 import { actions } from '../../redux-mvc';
 
-const PlayerRegistration = ({ dispatch }) => (
+const PlayerRegistration = ({ dispatch, singleBox }) => (
   <div
     style={{
       width: '100%',
+      height: 400,
       margin: 'auto',
       position: 'relative',
-      bottom: 250,
+      top: 5,
     }}
   >
-    <TextField
-      style={{ width: '90%' }}
-      errorText="This field is required."
-      floatingLabelText="Grey Player Name"
-    />
-    <TextField
-      style={{ width: '90%' }}
-      errorText="This field is required."
-      floatingLabelText="Red Player Name"
-    />
+    {
+      singleBox &&
+      <div>
+        <TextField
+          style={{ width: '90%' }}
+          floatingLabelText="Grey Player Name"
+        />
+        <br />
+      </div>
+    }
+    {
+      !singleBox &&
+      <div>
+        <TextField
+          style={{ width: '90%' }}
+          floatingLabelText="Grey Player Name"
+        />
+        <TextField
+          style={{ width: '90%' }}
+          floatingLabelText="Red Player Name"
+        />
+      </div>
+    }
 
     <RaisedButton
       label="Start Game"
@@ -37,6 +51,7 @@ const PlayerRegistration = ({ dispatch }) => (
 );
 PlayerRegistration.propTypes = {
   dispatch: PropTypes.func,
+  singleBox: PropTypes.bool,
 };
 
 export default connect((state) => ({

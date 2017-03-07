@@ -81,7 +81,8 @@ class AppBarMenu extends React.Component {
             <Menu>
               <MenuItem
                 primaryText="Undo" onTouchTap={() => {
-                  alert('You pressed me!'); }}
+                  alert('You pressed me!');
+                }}
               />
               <MenuItem
                 primaryText="New Game" onTouchTap={() => {
@@ -90,7 +91,8 @@ class AppBarMenu extends React.Component {
               />
               <MenuItem
                 primaryText="Edit Name" onTouchTap={() => {
-                alert('You pressed me!'); }}
+                  alert('You pressed me!');
+                }}
               />
             </Menu>
           </Popover>

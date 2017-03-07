@@ -4,7 +4,7 @@ import style from './style';
 const Title = ({ winner }) => (
   <div style={style.paperTitle}>
     <h1>BRANDUBH</h1>
-    <h3 style={{ marginTop: '240px' }} >{ winner }</h3>
+    <h3 style={{ marginTop: '0px' }} >{ winner }</h3>
   </div>
 );
 Title.propTypes = {

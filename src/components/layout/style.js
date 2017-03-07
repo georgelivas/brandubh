@@ -65,7 +65,7 @@ const style = {
   },
   startGame: {
     width: 550,
-    height: 50,
+    height: 40,
     margin: 'auto',
     textAlign: 'center',
     fontFamily: 'Play, sans-serif',
