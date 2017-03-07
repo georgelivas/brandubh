@@ -83,6 +83,7 @@ const style = {
   },
   checkButton: {
     marginTop: 20,
+    marginRight: 30,
     marginBottom: 16,
     display: 'flex',
     width: '50%',

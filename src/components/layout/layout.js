@@ -26,7 +26,6 @@ const Layout = ({ dispatch, gameNotStarted, winner }) => (
       {gameNotStarted &&
         <WelcomePaper dispatch={dispatch} />
       }
-
       <br />
       <br />
       <redImg />
