@@ -70,7 +70,7 @@ const style = {
     textAlign: 'center',
     fontFamily: 'Play, sans-serif',
     position: 'relative',
-    bottom: -40,
+    bottom: 140,
     right: 25,
   },
   paperTitle: {
@@ -79,6 +79,20 @@ const style = {
     color: 'white',
     fontFamily: 'Iowan Old Style',
     fontSize: 30,
+    marginBottom: 0,
+  },
+  checkButton: {
+    marginTop: 20,
+    marginBottom: 16,
+    display: 'flex',
+    width: '50%',
+  },
+  playerRegistration: {
+    width: '100%',
+    height: 300,
+    margin: 'auto',
+    position: 'relative',
+    top: 5,
   },
 };
 

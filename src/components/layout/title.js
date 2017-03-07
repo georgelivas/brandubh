@@ -3,8 +3,7 @@ import style from './style';
 
 const Title = ({ winner }) => (
   <div style={style.paperTitle}>
-    <h1>BRANDUBH</h1>
-    <h3 style={{ marginTop: '0px' }} >{ winner }</h3>
+    <h1 style={{ marginBottom: 0 }}>BRANDUBH</h1>
   </div>
 );
 Title.propTypes = {
