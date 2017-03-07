@@ -22,7 +22,6 @@ import style from './style';
 const Layout = ({ dispatch, gameNotStarted, winner }) => (
   <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
     <div style={{ width: '100%', height: '100%' }}>
-
       {gameNotStarted &&
         <WelcomePaper dispatch={dispatch} />
       }

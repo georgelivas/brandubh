@@ -47,6 +47,7 @@ const ListMenu = ({ winner, dispatch }) => (
       <ListItem
         primaryText="Start Menu"
         leftIcon={<Menu color={white} />}
+        onTouchTap={() => dispatch(actions.gameNotStarted())}
       />
       <ListItem
         primaryText="Help"
@@ -61,5 +62,6 @@ ListMenu.propTypes = {
 };
 
 export default connect((state) => ({
+  gameNotStarted: !state.board,
   winner: state.winner,
 }))(ListMenu);

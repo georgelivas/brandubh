@@ -2,12 +2,19 @@ import {
   MOVE,
   UNDO,
   NEW_GAME,
+  GAME_NOT_STARTED,
 } from './actions';
 
 import Board from '../libs/brandubh';
 
 export default (state = { board: null }, action) => {
   switch (action.type) {
+    case GAME_NOT_STARTED: {
+      return {
+        board: null,
+      };
+    }
+
     case NEW_GAME: {
       const newState = {
         players: action.payload,
