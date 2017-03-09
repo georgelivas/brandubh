@@ -14,7 +14,7 @@ import { Board } from '../../components';
 import { actions } from '../../redux-mvc';
 import WinnerDialog from '../utils/dialog';
 
-import ListMenu from '../utils/list';
+import List from './list-component';
 
 import WelcomePaper from './welcome-paper';
 import style from './style';
@@ -30,7 +30,9 @@ const Layout = ({ dispatch, gameNotStarted, winner }) => (
       <redImg />
       <div style={{ align: 'center' }}>
         {!gameNotStarted &&
-          <ListMenu />
+          <div>
+            <List />
+          </div>
         }
         <Board />
       </div>

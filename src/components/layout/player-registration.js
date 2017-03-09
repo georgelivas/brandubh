@@ -9,15 +9,24 @@ const PlayerRegistration = ({ singleBox }) => (
     style={style.playerRegistration}
   >
     {
-      singleBox &&
+      (singleBox &&
       <div>
         <CheckButton style={{ width: '90%' }} />
         <TextField
           style={{ width: '90%' }}
           floatingLabelText="Grey Player Name"
         />
-      </div>
+      </div>) ||
+      ((singleBox &&
+      <div>
+        <CheckButton style={{ width: '90%' }} />
+        <TextField
+          style={{ width: '90%' }}
+          floatingLabelText="Red Player Name"
+        />
+      </div>))
     }
+
     {
       !singleBox &&
       <div>

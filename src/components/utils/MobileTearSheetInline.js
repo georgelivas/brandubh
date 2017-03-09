@@ -14,14 +14,17 @@ class MobileTearSheet extends React.Component {
   render() {
     const styles = {
       root: {
-        float: 'right',
-        marginTop: 0,
-        marginBottom: 24,
-        marginRight: 100,
-        marginLeft: 20,
+        float: 'center',
+        marginTop: 10,
+        marginBottom: 14,
+        marginRight: 'auto',
+        marginLeft: 200,
         width: 'auto',
         minWidth: 200,
         position: 'relative',
+        display: 'flex',
+        flexDirection: 'row',
+        padding: 0,
       },
 
       container: {

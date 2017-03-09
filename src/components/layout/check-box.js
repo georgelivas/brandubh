@@ -10,7 +10,7 @@ const CheckButton = () => (
       labelPosition="left"
       defaultSelected="grey"
       style={{ display: 'flex' }}
-      onChange={(value) => (alert(value))}
+      onChange={(event, value) => console.log(value)}
     >
       <RadioButton
         value="grey"
