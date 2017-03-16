@@ -10,15 +10,15 @@
 }
 
 .cell {
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
   height: 100px;
   width: 100px;
   min-width: 100px;
-  border: 2px solid white;
+/*  border: 2px solid white;*/
+  border-right: 2px solid white;
+  border-bottom: 2px solid white;
   text-align: center;
-}
-
-.tr {
-  border: 2px solid white;
 }
 
 .corner, .center {
