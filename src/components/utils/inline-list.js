@@ -11,6 +11,7 @@ import Help from 'material-ui/svg-icons/action/help';
 
 import { actions } from '../../redux-mvc';
 import MobileTearSheetInline from './MobileTearSheetInline';
+import Machine from '../../libs/brandubh/machine';
 
 const InlineListMenu = ({ winner, dispatch }) => (
   <MobileTearSheetInline >
@@ -40,6 +41,7 @@ const InlineListMenu = ({ winner, dispatch }) => (
       />
       <ListItem
         primaryText="Hint" rightIcon={<Error color={white} />}
+        onTouchTap={() => console.log(Machine.getRandomIntInclusive(1, 7))}
       />
       <ListItem
         primaryText="Start Menu"
@@ -57,6 +59,7 @@ InlineListMenu.propTypes = {
   dispatch: PropTypes.func,
   winner: PropTypes.string,
 };
+console.log(Machine.coordinates);
 
 export default connect((state) => ({
   gameNotStarted: !state.board,

@@ -1,37 +1,38 @@
-.wooden-table {
+.table {
  border: 2px solid white;
  height: 700px;
  width: 700px;
  min-width: 700px;
-
+ border-collapse: collapse;
  margin-bottom: 400px;
  /*background-image: url("../images/backgrounds/lightwood.jpg");*/
  margin: 50px auto 50px auto;
 }
 
 .cell {
-  margin: 0 0 0 0;
-  padding: 0 0 0 0;
   height: 100px;
   width: 100px;
   min-width: 100px;
-/*  border: 2px solid white;*/
-  border-right: 2px solid white;
-  border-bottom: 2px solid white;
+  border: 2px solid white;
   text-align: center;
+}
+
+.tr {
+  border: 2px solid white;
 }
 
 .corner, .center {
     /*background-image: url("../images/backgrounds/darkwood.jpg");*/
     /*background-color: #6b1111;*/
-    background-color: #000000;
+    background-color: #9b9b9b;
     text-align: center;
     border: 2px solid white;
+    opacity: 0.7;
 }
 
 .piece {
-  height: 90px;
-  width: 90px;
+  height: 70px;
+  width: 60px;
 }
 
 .button {

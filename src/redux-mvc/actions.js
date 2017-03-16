@@ -2,6 +2,8 @@ const MOVE = 'MOVE';
 const UNDO = 'UNDO';
 const NEW_GAME = 'NEW_GAME';
 const GAME_NOT_STARTED = 'GAME_NOT_STARTED';
+const SELECT_GAME_MODE = 'SELECT_GAME_MODE';
+const MACHINE_MOVE = 'MACHINE_MOVE';
 
 const move = (inX, inY) => {
   const x = parseInt(inX, 10) - 1;
@@ -16,8 +18,19 @@ const move = (inX, inY) => {
   };
 };
 
+const machineMove = () => ({
+  type: MACHINE_MOVE,
+});
+
 const undo = () => ({
   type: UNDO,
+});
+
+const selectGameMode = (isPlayerVsPlayer) => ({
+  type: SELECT_GAME_MODE,
+  payload: {
+    isPlayerVsPlayer,
+  },
 });
 
 const gameNotStarted = () => ({
@@ -42,9 +55,13 @@ export {
   UNDO,
   NEW_GAME,
   GAME_NOT_STARTED,
+  SELECT_GAME_MODE,
+  MACHINE_MOVE,
 
   move,
   undo,
   newGame,
   gameNotStarted,
+  selectGameMode,
+  machineMove,
 };

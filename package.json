@@ -8,6 +8,7 @@
     "react-dom": "^15.4.2",
     "react-media": "^1.5.1",
     "react-media-queries": "^2.0.1",
+    "react-random-code-generator": "^1.0.2",
     "react-redux": "^5.0.1",
     "react-swipeable-views": "^0.11.1",
     "react-tap-event-plugin": "^2.0.1",

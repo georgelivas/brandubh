@@ -3,12 +3,23 @@ import {
   UNDO,
   NEW_GAME,
   GAME_NOT_STARTED,
+  SELECT_GAME_MODE,
+  MACHINE_MOVE,
 } from './actions';
 
 import Board from '../libs/brandubh';
 
-export default (state = { board: null }, action) => {
+import Machine from '../libs/brandubh/machine';
+
+const reducer = (state = { board: null }, action) => {
   switch (action.type) {
+    case SELECT_GAME_MODE: {
+      return {
+        ...state,
+        isPlayerVsPlayer: action.payload.isPlayerVsPlayer,
+      };
+    }
+
     case GAME_NOT_STARTED: {
       return {
         board: null,
@@ -28,6 +39,26 @@ export default (state = { board: null }, action) => {
           currentMoveFrom: null,
         },
       };
+    }
+
+    case MACHINE_MOVE: {
+      if (!state.isPlayerVsPlayer) {
+        return state;
+      }
+
+      if (Board.isKingCaptured(state.board)) {
+        return state;
+      }
+
+      if (Board.isKingOnCorner(state.board)) {
+        return state;
+      }
+
+      if (state.currentPlayer !== state.players.host) {
+        return state;
+      }
+
+      return state;
     }
 
     case MOVE: {
@@ -113,3 +144,5 @@ export default (state = { board: null }, action) => {
       return state;
   }
 };
+
+export default reducer;
