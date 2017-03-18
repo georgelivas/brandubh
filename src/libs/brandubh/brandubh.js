@@ -54,6 +54,41 @@ const Board = {
     return board;
   },
 
+  findAllEmptySlots(board, x, y) {
+    const emptySlots = [];
+    for (let j = y + 1; j < board[x].length && !board[x][j]; j++) {
+      emptySlots.push({ x, y: j });
+    }
+
+    for (let j = y - 1; j >= 0 && !board[x][j]; j--) {
+      emptySlots.push({ x, y: j });
+    }
+
+    for (let i = x + 1; i < board.length && !board[i][y]; i++) {
+      emptySlots.push({ x: i, y });
+    }
+
+    for (let i = x - 1; i >= 0 && !board[i][y]; i--) {
+      emptySlots.push({ x: i, y });
+    }
+
+    return emptySlots;
+  },
+
+  findAllPiecesOfColor(board, color) {
+    const pieceLocation = [];
+
+    for (let i = 0; i < board.length; i++) {
+      for (let j = 0; j < board[i].length; j++) {
+        if (Board.isColorAt(board, color, i, j)) {
+          pieceLocation.push({ x: i, y: j });
+        }
+      }
+    }
+
+    return pieceLocation;
+  },
+
   isGreyAt(board, x, y) {
     if (Board.isInBoard(x, y) &&
       !Board.isEmpty(board, x, y) && board[x][y].isGrey) {
@@ -64,6 +99,7 @@ const Board = {
   },
 
   isColorAt(board, color, x, y) {
+    // console.log(Board.findAllPieces(board, color));
     if (Board.isInBoard(x, y)
       && !Board.isEmpty(board, x, y)
       && board[x][y].color === color) {
