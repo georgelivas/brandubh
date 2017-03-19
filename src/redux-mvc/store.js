@@ -1,5 +1,7 @@
 import { createStore } from 'redux';
 import reducer from './reducer';
+import { machineMove } from './actions';
+import Board from '../libs/brandubh/brandubh';
 
 import DEBUG from './debug';
 
@@ -10,5 +12,29 @@ if (DEBUG && typeof window.devToolsExtension === 'function') {
 } else {
   store = createStore(reducer);
 }
+
+setInterval(() => {
+  const state = store.getState();
+
+  if (state.isPlayerVsPlayer) {
+    return;
+  }
+
+  if (Board.isKingCaptured(state.board)) {
+    return;
+  }
+
+  if (Board.isKingOnCorner(state.board)) {
+    return;
+  }
+
+  const { currentPlayer, host } = state.players;
+
+  if (currentPlayer !== host.name) {
+    return;
+  }
+
+  store.dispatch(machineMove());
+}, 500);
 
 export default store;

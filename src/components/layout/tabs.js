@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
 import { Tabs, Tab } from 'material-ui/Tabs';
 import SwipeableViews from 'react-swipeable-views';
+import { selectGameMode } from '../../redux-mvc/actions';
 
 import PlayerRegistration from './player-registration';
 
-export default class PlayerTabs extends React.Component {
+class PlayerTabs extends React.Component {
 
   constructor(props) {
     super(props);
@@ -17,6 +19,11 @@ export default class PlayerTabs extends React.Component {
     this.setState({
       slideIndex: value,
     });
+    if (value === 0) {
+      this.props.dispatch(selectGameMode(false));
+    } else {
+      this.props.dispatch(selectGameMode(true));
+    }
   };
 
   render() {
@@ -44,3 +51,9 @@ export default class PlayerTabs extends React.Component {
     );
   }
 }
+
+PlayerTabs.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+};
+
+export default connect()(PlayerTabs);

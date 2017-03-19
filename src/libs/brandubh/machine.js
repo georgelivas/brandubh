@@ -1,32 +1,33 @@
+import _ from 'lodash';
 import Board from './brandubh';
 
-
 function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - (min + 1))) + min;
+  return min + Math.floor(Math.random() * (max - min));
 }
-
-console.log('xxxxxxxxxxxxxxxxxxxxxx', getRandomInt(1, 7));
-
-function createCoordinates() {
-  const x = getRandomInt(1, 7);
-  const y = getRandomInt(1, 7);
-  console.log('xxxxxxxxxxxxxxxxxxxxxx', x, y);
-  return ({ x, y });
-}
-
-const coordinates = createCoordinates();
-const x = coordinates.x;
-const y = coordinates.y;
-
 
 const Machine = {
-  nextMove(board, color) {
-    const availablePieces = Board.findAllPiecesOfColor(board, color);
-    const choosePiece =
-    findAllEmptySlots(board)
-  }
+  move(board, color) {
+    const availablePieces = _.shuffle(Board.findAllPiecesOfColor(board, color));
+    for (let i = 0; i < availablePieces.length; i++) {
+      const { x: fromX, y: fromY } = availablePieces[i];
+      const availableSlots =
+        _.shuffle(Board.findAllEmptySlots(board, fromX, fromY));
+      let slot = availableSlots.pop();
+      while (slot) {
+        const { x: toX, y: toY } = slot;
+
+        console.log('--------------', fromX, fromY, toX, toY, slot);
+        const newBoard = Board.move(board, fromX, fromY, toX, toY);
+        if (newBoard !== board) {
+          return newBoard;
+        }
+
+        slot = availableSlots.pop();
+      }
+
+      return board;
+    }
+  },
 };
 
 export default Machine;

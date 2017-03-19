@@ -42,7 +42,7 @@ const reducer = (state = { board: null }, action) => {
     }
 
     case MACHINE_MOVE: {
-      if (!state.isPlayerVsPlayer) {
+      if (state.isPlayerVsPlayer) {
         return state;
       }
 
@@ -54,11 +54,47 @@ const reducer = (state = { board: null }, action) => {
         return state;
       }
 
-      if (state.currentPlayer !== state.players.host) {
+      if (state.players.currentPlayer !== state.players.host.name) {
         return state;
       }
 
-      return state;
+      const board = Machine.move(state.board, 'RED');
+      console.log('11111111111', state.board === board);
+
+      if (state.board === board) {
+        return state;
+      }
+
+      const { host, guest, currentPlayer } = state.players;
+
+      const nextPlayer = (currentPlayer === host.name) ?
+      guest.name : host.name;
+
+      const players = {
+        ...state.players,
+        currentPlayer: nextPlayer,
+      };
+
+      let winner = null;
+      if (Board.isKingCaptured(board)) {
+        winner = 'host';
+      }
+
+      if (Board.isKingOnCorner(board)) {
+        winner = 'guest';
+      }
+
+      return {
+        ...state,
+        board,
+        players,
+        winner,
+        currentMoveFrom: null,
+        previousState: {
+          ...state,
+          currentMoveFrom: null,
+        },
+      };
     }
 
     case MOVE: {
