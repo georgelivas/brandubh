@@ -69,6 +69,8 @@ const ColHeaders = () => (
 const Cell = ({ rowNum, colSymbol, piece, dispatch }) => (
   <td
     className={cellClass(rowNum, colSymbol)}
+    onTouchTap={() => { dispatch(actions.move(rowNum, colSymbol)); }}
+
     onDrop={() => { dispatch(actions.move(rowNum, colSymbol)); }}
 
     onDragOver={(ev) => ev.preventDefault()}

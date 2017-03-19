@@ -15,8 +15,6 @@ const Machine = {
       let slot = availableSlots.pop();
       while (slot) {
         const { x: toX, y: toY } = slot;
-
-        console.log('--------------', fromX, fromY, toX, toY, slot);
         const newBoard = Board.move(board, fromX, fromY, toX, toY);
         if (newBoard !== board) {
           return newBoard;
