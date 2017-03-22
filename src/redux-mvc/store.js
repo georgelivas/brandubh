@@ -16,7 +16,7 @@ if (DEBUG && typeof window.devToolsExtension === 'function') {
 setInterval(() => {
   const state = store.getState();
 
-  if (state.isPlayerVsPlayer) {
+  if (!state.isPlayerVsPlayer) {
     return;
   }
 

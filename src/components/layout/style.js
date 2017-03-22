@@ -95,6 +95,33 @@ const style = {
     position: 'relative',
     top: 5,
   },
+  rules: {
+    h1: {
+      color: 'white',
+    },
+    p: {
+      margin: '0 0 100px 0',
+    },
+  },
+  logo: {
+    paddingTop: '10px',
+    paddingBottom: '10px',
+    width: '490px',
+  },
+  ruleImg: {
+    width: 300,
+  },
+  ruleImgSmall: {
+    width: 100,
+  },
+  ruleImgMedium: {
+    width: 200,
+    paddingRight: 10,
+  },
+  ruleImgRed: {
+    width: 100,
+    paddingRight: 40,
+  },
 };
 
 export default style;

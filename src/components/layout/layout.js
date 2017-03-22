@@ -8,10 +8,9 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { Board } from '../../components';
 
 import WinnerDialog from '../utils/dialog';
-
 import List from './list-component';
-import FloatingButton from './floating-button';
 import WelcomePaper from './welcome-paper';
+import logoImg from '../board/images';
 
 const Layout = ({ dispatch, gameNotStarted, winner }) => (
   <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
@@ -19,12 +18,12 @@ const Layout = ({ dispatch, gameNotStarted, winner }) => (
       {gameNotStarted &&
         <div>
           <WelcomePaper dispatch={dispatch} />
-          <FloatingButton dispatch={dispatch} />
         </div>
       }
       <br />
       <br />
-      <redImg />
+      <logoImg />
+
       <div style={{ align: 'center' }}>
         {!gameNotStarted &&
           <div>

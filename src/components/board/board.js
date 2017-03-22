@@ -56,15 +56,15 @@ const cellClass = (rowNum, colSymbol) => {
   return 'cell';
 };
 
-const ColHeaders = () => (
-  <tr>
-    {[' ', 'A', 'B', 'C', 'D', 'E', 'F', 'G'].map((colSymbol) => (
-      <td className={'cellNum'} key={`col-head${colSymbol}`}>
-        {colSymbol}
-      </td>
-    ))}
-  </tr>
-);
+// const ColHeaders = () => (
+//   <tr>
+//     {[' ', 'A', 'B', 'C', 'D', 'E', 'F', 'G'].map((colSymbol) => (
+//       <td className={'cellNum'} key={`col-head${colSymbol}`}>
+//         {colSymbol}
+//       </td>
+//     ))}
+//   </tr>
+// );
 
 const Cell = ({ rowNum, colSymbol, piece, dispatch }) => (
   <td

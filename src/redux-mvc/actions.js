@@ -46,7 +46,7 @@ const newGame = (guestName, starterName) => ({
     guest: {
       name: guestName,
     },
-    currentPlayer: starterName,
+    currentPlayer: 'Marvin',
   },
 });
 

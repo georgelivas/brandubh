@@ -7,6 +7,7 @@ import style from './style';
 import Title from './title';
 import PlayerTabs from './tabs';
 import StartGameButton from './start-game';
+import HelpRules from './help-rules';
 
 const WelcomePaper = () => (
   <div style={{ width: '100%', height: '100%', margin: '200px auto 0 auto' }}>
@@ -15,6 +16,7 @@ const WelcomePaper = () => (
       <PlayerTabs />
       <StartGameButton />
     </Paper>
+    <HelpRules />
   </div>
 );
 WelcomePaper.propTypes = {

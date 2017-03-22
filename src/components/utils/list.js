@@ -11,6 +11,7 @@ import Help from 'material-ui/svg-icons/action/help';
 
 import { actions } from '../../redux-mvc';
 import MobileTearSheet from './MobileTearSheet';
+import HelpRules from '../layout/help-rules';
 
 const ListMenu = ({ winner, dispatch }) => (
   <MobileTearSheet >
@@ -43,6 +44,7 @@ const ListMenu = ({ winner, dispatch }) => (
       <ListItem
         primaryText="Help"
         leftIcon={<Help color={white} />}
+        onTouchTap={HelpRules.handleClose}
       />
     </List>
   </MobileTearSheet>

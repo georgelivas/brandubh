@@ -1,23 +1,22 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import Help from 'material-ui/svg-icons/action/help';
 import { white } from 'material-ui/styles/colors';
-
-import { actions } from '../../redux-mvc';
+import HelpRules from './help-rules';
 import style from './style';
 
-const FloatingButton = ({ dispatch }) => (
+let open = true;
+const FloatingButton = () => (
+
   <FloatingActionButton
     zDepth={5} style={style.fab}
-    onTouchTap={() => { dispatch(actions.undo()); }}
+
   >
     <Help color={white} />
+    <HelpRules open={open} />
   </FloatingActionButton>
 );
-FloatingButton.propTypes = {
-  dispatch: PropTypes.func,
-};
 
 export default connect(() => ({ }))(FloatingButton);
