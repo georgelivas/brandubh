@@ -59,8 +59,6 @@ const reducer = (state = { board: null }, action) => {
       }
 
       const board = Machine.move(state.board, 'RED');
-      console.log('11111111111', state.board === board);
-
       if (state.board === board) {
         return state;
       }

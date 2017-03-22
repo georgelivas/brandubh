@@ -6,7 +6,7 @@ import InlineListMenu from '../utils/inline-list';
 
 const List = () => (
   <div>
-    <Media query="(max-width: 1150px)">
+    <Media query="(max-width: 1200px)">
       {(matches) => (
         matches ? (
           <InlineListMenu />

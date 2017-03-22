@@ -92,10 +92,8 @@ const Board = ({ board }) => (
   board ? (
     <div>
       <table className="table">
-        <ColHeaders />
         {[1, 2, 3, 4, 5, 6, 7].map((rowNum) => (
           <tr key={`board-row-${rowNum}`}>
-            <td className={'cellNum'}>{rowNum}</td>
             <C rowNum={rowNum} colSymbol={'A'} piece={board[rowNum - 1][0]} />
             <C rowNum={rowNum} colSymbol={'B'} piece={board[rowNum - 1][1]} />
             <C rowNum={rowNum} colSymbol={'C'} piece={board[rowNum - 1][2]} />
@@ -103,10 +101,9 @@ const Board = ({ board }) => (
             <C rowNum={rowNum} colSymbol={'E'} piece={board[rowNum - 1][4]} />
             <C rowNum={rowNum} colSymbol={'F'} piece={board[rowNum - 1][5]} />
             <C rowNum={rowNum} colSymbol={'G'} piece={board[rowNum - 1][6]} />
-            <td className={'cellNum'}>{rowNum}</td>
+
           </tr>
         ))}
-        <ColHeaders />
       </table>
     </div>
   ) : (

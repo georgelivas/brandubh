@@ -35,6 +35,6 @@ setInterval(() => {
   }
 
   store.dispatch(machineMove());
-}, 500);
+}, 1000);
 
 export default store;

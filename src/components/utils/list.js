@@ -8,11 +8,6 @@ import VideogameAsset from 'material-ui/svg-icons/hardware/videogame-asset';
 import Error from 'material-ui/svg-icons/alert/error';
 import Menu from 'material-ui/svg-icons/navigation/menu';
 import Help from 'material-ui/svg-icons/action/help';
-import Divider from 'material-ui/Divider';
-
-import {
-  redImg,
-} from '../board/images';
 
 import { actions } from '../../redux-mvc';
 import MobileTearSheet from './MobileTearSheet';
@@ -20,10 +15,6 @@ import MobileTearSheet from './MobileTearSheet';
 const ListMenu = ({ winner, dispatch }) => (
   <MobileTearSheet >
     <List>
-      <ListItem >
-        <img alt="piece" src={redImg} style={{ height: 100 }} />
-      </ListItem>
-      <Divider />
       <ListItem
         primaryText="Undo"
         disabled={!!winner}

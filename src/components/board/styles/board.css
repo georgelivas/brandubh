@@ -15,6 +15,7 @@
   min-width: 100px;
   border: 2px solid white;
   text-align: center;
+  vertical-align: baseline;
 }
 
 .tr {
@@ -22,17 +23,15 @@
 }
 
 .corner, .center {
-    /*background-image: url("../images/backgrounds/darkwood.jpg");*/
-    /*background-color: #6b1111;*/
     background-color: #9b9b9b;
     text-align: center;
     border: 2px solid white;
-    opacity: 0.7;
+    vertical-align: baseline;
 }
 
 .piece {
-  height: 70px;
-  width: 60px;
+  height: 100px;
+  width: 100px;
 }
 
 .button {

@@ -1,10 +1,6 @@
 import _ from 'lodash';
 import Board from './brandubh';
 
-function getRandomInt(min, max) {
-  return min + Math.floor(Math.random() * (max - min));
-}
-
 const Machine = {
   move(board, color) {
     const availablePieces = _.shuffle(Board.findAllPiecesOfColor(board, color));
