@@ -9,19 +9,20 @@ class MobileTearSheet extends React.Component {
 
   defaultProps = {
     height: 260,
+    width: '100%',
   };
 
   render() {
     const styles = {
       root: {
-        float: 'center',
-        marginTop: 10,
+        // float: 'left',
+        marginTop: -30,
         marginBottom: 14,
         marginRight: 'auto',
-        marginLeft: 200,
-        width: 'auto',
-        minWidth: 200,
-        position: 'relative',
+        marginLeft: 'auto',
+        width: '100%',
+        minWidth: 300,
+        // position: 'relative',
         display: 'flex',
         flexDirection: 'row',
         padding: 0,
