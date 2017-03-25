@@ -11,12 +11,18 @@ import Board from '../libs/brandubh';
 
 import Machine from '../libs/brandubh/machine';
 
-const reducer = (state = { board: null }, action) => {
+const reducer = (
+  state = {
+    board: null
+  },
+  action
+) => {
   switch (action.type) {
     case SELECT_GAME_MODE: {
+      console.log('cccccccccccccccccccccc', action.payload);
       return {
         ...state,
-        isPlayerVsPlayer: action.payload.isPlayerVsPlayer,
+        gameMode: { ...action.payload },
       };
     }
 
@@ -27,10 +33,27 @@ const reducer = (state = { board: null }, action) => {
     }
 
     case NEW_GAME: {
+      const gameMode = state.gameMode ? { ...state.gameMode } : {
+        isPlayerVsPlayer: true,
+        nameGrey: 'Giorgos',
+        nameRed: 'Marvin',
+      };
+
+      const players = {
+        host: {
+          name: 'Marvin',
+        },
+        guest: {
+          name: guestName,
+        },
+        currentPlayer: 'Marvin',
+      };
+
       const newState = {
         players: action.payload,
         board: Board.create(),
         winner: null,
+        gameMode,
       };
       return {
         ...newState,

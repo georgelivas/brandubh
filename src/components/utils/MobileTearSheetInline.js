@@ -1,49 +1,34 @@
 import React, { PropTypes } from 'react';
 
-class MobileTearSheet extends React.Component {
+const styles = {
+  root: {
+    margin: '-30px auto 14px auto',
+    width: '640px',
+    minWidth: '640px',
+    display: 'flex',
+    flexDirection: 'row',
+    padding: 0,
+  },
 
-  propTypes = {
-    height: PropTypes.number,
-    children: PropTypes.node,
-  };
+  container: {
+    border: 'solid 1px #d9d9d9',
+    height: '50px',
+    overflow: 'hidden',
+    margin: '0 auto 0 auto',
+  },
 
-  defaultProps = {
-    height: 260,
-    width: '100%',
-  };
+};
 
-  render() {
-    const styles = {
-      root: {
-        // float: 'left',
-        marginTop: -30,
-        marginBottom: 14,
-        marginRight: 'auto',
-        marginLeft: 'auto',
-        width: '100%',
-        minWidth: 300,
-        // position: 'relative',
-        display: 'flex',
-        flexDirection: 'row',
-        padding: 0,
-      },
+const MobileTearSheet = ({ children }) => (
+  <div style={styles.root}>
+    <div style={styles.container}>
+      {children}
+    </div>
+  </div>
+);
 
-      container: {
-        border: 'solid 1px #d9d9d9',
-        height: this.props.height,
-        overflow: 'hidden',
-      },
-
-    };
-
-    return (
-      <div style={styles.root}>
-        <div style={styles.container}>
-          {this.props.children}
-        </div>
-      </div>
-    );
-  }
-}
+MobileTearSheet.propTypes = {
+  children: PropTypes.node,
+};
 
 export default MobileTearSheet;

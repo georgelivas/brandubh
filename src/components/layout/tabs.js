@@ -20,9 +20,18 @@ class PlayerTabs extends React.Component {
       slideIndex: value,
     });
     if (value === 0) {
-      this.props.dispatch(selectGameMode(false));
+      this.props.dispatch(selectGameMode({
+        isPlayerVsPlayer: false,
+        team: 'GREY', // GREY or RED
+        nameGrey: 'Giorgos',
+        nameRed: 'Marvin',
+      }));
     } else {
-      this.props.dispatch(selectGameMode(true));
+      this.props.dispatch(selectGameMode({
+        isPlayerVsPlayer: true,
+        nameGrey: 'Giorgos',
+        nameRed: 'Marvin',
+      }));
     }
   };
 

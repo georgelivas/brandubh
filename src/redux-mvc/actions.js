@@ -26,10 +26,18 @@ const undo = () => ({
   type: UNDO,
 });
 
-const selectGameMode = (isPlayerVsPlayer) => ({
+const selectGameMode = ({
+  isPlayerVsPlayer,
+  team, // GREY or RED
+  nameGrey,
+  nameRed,
+}) => ({
   type: SELECT_GAME_MODE,
   payload: {
     isPlayerVsPlayer,
+    team,
+    nameGrey,
+    nameRed,
   },
 });
 
