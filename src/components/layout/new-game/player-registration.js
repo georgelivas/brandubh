@@ -39,19 +39,19 @@ const PlayerRegistration = ({
   return (
     <div style={style.playerRegistration}>
       {
-        (singleBox &&
+        singleBox &&
         <div>
-          <TextField
-            onChange={handlePlayerVsMachineName}
-            style={{ width: '90%' }}
-            floatingLabelText="Player Name"
-          />
-        </div>) ||
-        ((singleBox &&
-        <div>
-          <CheckButton style={{ width: '90%' }} />
-          <CheckButton style={{ width: '90%' }} />
-        </div>))
+          <div>
+            <CheckButton style={{ width: '90%' }} />
+          </div>
+          <div>
+            <TextField
+              onChange={handlePlayerVsMachineName}
+              style={{ width: '90%' }}
+              floatingLabelText="Player Name"
+            />
+          </div>
+        </div>
       }
 
       {

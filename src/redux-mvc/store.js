@@ -28,9 +28,9 @@ setInterval(() => {
     return;
   }
 
-  const { currentPlayer, host } = state.players;
+  const { currentPlayer } = state.players;
 
-  if (currentPlayer !== host.name) {
+  if (currentPlayer !== 'Marvin') {
     return;
   }
 

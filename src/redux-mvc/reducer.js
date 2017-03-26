@@ -131,9 +131,10 @@ const reducer = (
       }
 
       const marvinColor = state.players.grey === 'Marvin' ? 'GREY' : 'RED';
-
+      console.log('===============', marvinColor);
       const board = Machine.move(state.board, marvinColor);
       if (state.board === board) {
+        console.log('--------------=', marvinColor);
         return state;
       }
 
