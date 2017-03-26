@@ -11,13 +11,7 @@ import Board from '../libs/brandubh';
 
 import Machine from '../libs/brandubh/machine';
 
-const reducer = (
-  state = {
-    board: null,
-    gameMode: null,
-  },
-  action
-) => {
+const reducer = (state = { board: null }, action) => {
   switch (action.type) {
     case SELECT_GAME_MODE: {
       const {
@@ -131,10 +125,8 @@ const reducer = (
       }
 
       const marvinColor = state.players.grey === 'Marvin' ? 'GREY' : 'RED';
-      console.log('===============', marvinColor);
       const board = Machine.move(state.board, marvinColor);
       if (state.board === board) {
-        console.log('--------------=', marvinColor);
         return state;
       }
 

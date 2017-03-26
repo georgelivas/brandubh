@@ -109,13 +109,24 @@ const Board = {
     return false;
   },
 
-  isCornerOrCenter(x, y) {
+  isCorner(x, y) {
     return (
       (x === 0 && y === 0) ||
       (x === 0 && y === 6) ||
       (x === 6 && y === 6) ||
-      (x === 6 && y === 0) ||
+      (x === 6 && y === 0)
+    );
+  },
+
+  isCenter(x, y) {
+    return (
       (x === 3 && y === 3)
+    );
+  },
+
+  isCornerOrCenter(x, y) {
+    return (
+      Board.isCorner(x, y) || Board.isCenter(x, y)
     );
   },
 
@@ -153,7 +164,7 @@ const Board = {
   },
 
   isAlly(board, color, x, y) {
-    if (!Board.isInBoard(x, y) || Board.isCornerOrCenter(x, y)) {
+    if (Board.isCornerOrCenter(x, y)) {
       return true;
     }
 
@@ -225,26 +236,35 @@ const Board = {
       return captured;
     }
 
-    if (Board.isInBoard(x + 1, y)
+    if (
+      Board.isInBoard(x + 1, y)
       && Board.isAlly(board, color, x + 2, y)
       && Board.isEnemy(board, color, x + 1, y)
-      && !Board.isKingAt(board, x + 1, y)) {
+      && !Board.isKingAt(board, x + 1, y)
+      && !Board.isKingAt(board, x + 2, y)
+    ) {
       const capturedPiece = { x: x + 1, y };
       captured.push(capturedPiece);
     }
 
-    if (Board.isInBoard(x - 1, y)
+    if (
+      Board.isInBoard(x - 1, y)
       && Board.isAlly(board, color, x - 2, y)
       && Board.isEnemy(board, color, x - 1, y)
-      && !Board.isKingAt(board, x - 1, y)) {
+      && !Board.isKingAt(board, x - 1, y)
+      && !Board.isKingAt(board, x - 2, y)
+    ) {
       const capturedPiece = { x: x - 1, y };
       captured.push(capturedPiece);
     }
 
-    if (Board.isInBoard(x, y + 1)
+    if (
+      Board.isInBoard(x, y + 1)
       && Board.isAlly(board, color, x, y + 2)
       && Board.isEnemy(board, color, x, y + 1)
-      && !Board.isKingAt(board, x, y + 1)) {
+      && !Board.isKingAt(board, x, y + 1)
+      && !Board.isKingAt(board, x, y + 2)
+    ) {
       const capturedPiece = { x, y: y + 1 };
       captured.push(capturedPiece);
     }
@@ -252,7 +272,9 @@ const Board = {
     if (Board.isInBoard(x, y - 1)
       && Board.isAlly(board, color, x, y - 2)
       && Board.isEnemy(board, color, x, y - 1)
-      && !Board.isKingAt(board, x, y - 1)) {
+      && !Board.isKingAt(board, x, y - 1)
+      && !Board.isKingAt(board, x, y - 2)
+    ) {
       const capturedPiece = { x, y: y - 1 };
       captured.push(capturedPiece);
     }
@@ -271,7 +293,14 @@ const Board = {
       return board;
     }
 
-    if (!Board.isNotStraight(fromX, fromY, toX, toY)) {
+    if (piece.isKing && Board.isCenter(toX, toY)) {
+      return board;
+    }
+
+    const availableSlots = Board.findAllEmptySlots(board, fromX, fromY);
+    const to = availableSlots.find(({ x, y }) => (x === toX && y === toY));
+
+    if (!to) {
       return board;
     }
 
