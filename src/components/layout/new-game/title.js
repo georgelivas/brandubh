@@ -1,6 +1,6 @@
 import React from 'react';
 import style from './style';
-import { logo } from './images';
+import { logo } from '../images';
 
 const Title = () => (
   <div>

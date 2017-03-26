@@ -25,8 +25,8 @@ export default class HelpRules extends React.Component {
     const actions = [
       <FlatButton
         label="Close"
-        primary={true}
-        keyboardFocused={true}
+        primary
+        keyboardFocused
         onTouchTap={this.handleClose}
       />,
     ];
@@ -45,7 +45,7 @@ export default class HelpRules extends React.Component {
           modal={false}
           open={this.state.open}
           onRequestClose={this.handleClose}
-          autoScrollBodyContent={true}
+          autoScrollBodyContent
         >
           <Rules />
         </Dialog>

@@ -1,8 +1,6 @@
 import React, { PropTypes } from 'react';
-import { connect } from 'react-redux';
 import { Tabs, Tab } from 'material-ui/Tabs';
 import SwipeableViews from 'react-swipeable-views';
-import { selectGameMode } from '../../redux-mvc/actions';
 
 import PlayerRegistration from './player-registration';
 
@@ -19,20 +17,6 @@ class PlayerTabs extends React.Component {
     this.setState({
       slideIndex: value,
     });
-    if (value === 0) {
-      this.props.dispatch(selectGameMode({
-        isPlayerVsPlayer: false,
-        team: 'GREY', // GREY or RED
-        nameGrey: 'Giorgos',
-        nameRed: 'Marvin',
-      }));
-    } else {
-      this.props.dispatch(selectGameMode({
-        isPlayerVsPlayer: true,
-        nameGrey: 'Giorgos',
-        nameRed: 'Marvin',
-      }));
-    }
   };
 
   render() {
@@ -65,4 +49,4 @@ PlayerTabs.propTypes = {
   dispatch: PropTypes.func.isRequired,
 };
 
-export default connect()(PlayerTabs);
+export default PlayerTabs;

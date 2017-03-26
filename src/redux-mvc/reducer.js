@@ -13,16 +13,33 @@ import Machine from '../libs/brandubh/machine';
 
 const reducer = (
   state = {
-    board: null
+    board: null,
+    gameMode: null,
   },
   action
 ) => {
   switch (action.type) {
     case SELECT_GAME_MODE: {
-      console.log('cccccccccccccccccccccc', action.payload);
+      const {
+        gameMode: {
+          playerVsPlayer,
+          playerVsMachine,
+        } = {},
+      } = state;
+      const { payload } = action;
       return {
         ...state,
-        gameMode: { ...action.payload },
+        gameMode: {
+          ...payload,
+          playerVsPlayer: {
+            ...(playerVsPlayer || {}),
+            ...(payload.playerVsPlayer || {}),
+          },
+          playerVsMachine: {
+            ...(playerVsMachine || {}),
+            ...(payload.playerVsMachine || {}),
+          },
+        },
       };
     }
 
@@ -33,27 +50,55 @@ const reducer = (
     }
 
     case NEW_GAME: {
-      const gameMode = state.gameMode ? { ...state.gameMode } : {
-        isPlayerVsPlayer: true,
-        nameGrey: 'Giorgos',
-        nameRed: 'Marvin',
-      };
+      if (!state.gameMode) {
+        return state;
+      }
+      const {
+        isPlayerVsPlayer,
+        playerVsPlayer: {
+          greyPlayerName,
+          redPlayerName,
+        } = {},
+        playerVsMachine: {
+          playerName,
+          playerColor,
+        } = {},
+      } = state.gameMode;
 
-      const players = {
-        host: {
-          name: 'Marvin',
-        },
-        guest: {
-          name: guestName,
-        },
-        currentPlayer: 'Marvin',
-      };
+      if (isPlayerVsPlayer && !(greyPlayerName && redPlayerName)) {
+        return state;
+      }
+
+      if (!isPlayerVsPlayer && !(playerName && playerColor)) {
+        return state;
+      }
+
+      let players;
+      if (isPlayerVsPlayer) {
+        players = {
+          grey: greyPlayerName,
+          red: redPlayerName,
+          currentPlayer: redPlayerName,
+        };
+      } else if (playerColor === 'GREY') {
+        players = {
+          grey: playerName,
+          red: 'Marvin',
+          currentPlayer: 'Marvin',
+        };
+      } else {
+        players = {
+          grey: 'Marvin',
+          red: playerName,
+          currentPlayer: playerName,
+        };
+      }
 
       const newState = {
-        players: action.payload,
+        players,
         board: Board.create(),
         winner: null,
-        gameMode,
+        gameMode: { ...state.gameMode },
       };
       return {
         ...newState,
@@ -65,7 +110,11 @@ const reducer = (
     }
 
     case MACHINE_MOVE: {
-      if (state.isPlayerVsPlayer) {
+      const {
+        isPlayerVsPlayer,
+      } = state.gameMode || {};
+
+      if (isPlayerVsPlayer) {
         return state;
       }
 
@@ -77,19 +126,20 @@ const reducer = (
         return state;
       }
 
-      if (state.players.currentPlayer !== state.players.host.name) {
+      if (state.players.currentPlayer !== 'Marvin') {
         return state;
       }
 
-      const board = Machine.move(state.board, 'RED');
+      const marvinColor = state.players.grey === 'Marvin' ? 'GREY' : 'RED';
+
+      const board = Machine.move(state.board, marvinColor);
       if (state.board === board) {
         return state;
       }
 
-      const { host, guest, currentPlayer } = state.players;
+      const { grey, red, currentPlayer } = state.players;
 
-      const nextPlayer = (currentPlayer === host.name) ?
-      guest.name : host.name;
+      const nextPlayer = (currentPlayer === grey) ? red : grey;
 
       const players = {
         ...state.players,
@@ -98,11 +148,11 @@ const reducer = (
 
       let winner = null;
       if (Board.isKingCaptured(board)) {
-        winner = 'host';
+        winner = red;
       }
 
       if (Board.isKingOnCorner(board)) {
-        winner = 'guest';
+        winner = grey;
       }
 
       return {
@@ -137,11 +187,11 @@ const reducer = (
       }
 
       const { x, y } = currentMoveFrom;
-      const { host, guest, currentPlayer } = state.players;
+      const { grey, red, currentPlayer } = state.players;
       const isGrey = Board.isGreyAt(state.board, x, y);
 
-      if ((currentPlayer !== guest.name && isGrey)
-        || (currentPlayer === guest.name && !isGrey)) {
+      if ((currentPlayer === red && isGrey)
+        || (currentPlayer === grey && !isGrey)) {
         return {
           ...state,
           currentMoveFrom: null,
@@ -157,8 +207,7 @@ const reducer = (
       );
 
       if (board !== state.board) {
-        const nextPlayer = (currentPlayer === host.name) ?
-        guest.name : host.name;
+        const nextPlayer = (currentPlayer === grey) ? red : grey;
 
         const players = {
           ...state.players,
@@ -167,11 +216,11 @@ const reducer = (
 
         let winner = null;
         if (Board.isKingCaptured(board)) {
-          winner = 'host';
+          winner = red;
         }
 
         if (Board.isKingOnCorner(board)) {
-          winner = 'guest';
+          winner = grey;
         }
 
         return {

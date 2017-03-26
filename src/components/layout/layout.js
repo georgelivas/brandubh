@@ -9,7 +9,7 @@ import { Board } from '../../components';
 
 import WinnerDialog from '../utils/dialog';
 import List from './list-component';
-import WelcomePaper from './welcome-paper';
+import WelcomePaper from './new-game/welcome-paper';
 import logoImg from '../board/images';
 
 const Layout = ({ dispatch, gameNotStarted, winner }) => (

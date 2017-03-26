@@ -11,7 +11,7 @@ import Help from 'material-ui/svg-icons/action/help';
 
 import { actions } from '../../redux-mvc';
 import MobileTearSheet from './MobileTearSheet';
-import HelpRules from '../layout/help-rules';
+import HelpRules from '../layout/new-game/help-rules';
 
 const ListMenu = ({ winner, dispatch }) => (
   <MobileTearSheet >

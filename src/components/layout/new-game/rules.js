@@ -7,12 +7,12 @@ import {
   captureVer,
   captureHor,
   tie,
-  kingWins } from './images';
+  kingWins } from '../images';
 import {
   kingImg,
   redImg,
   greyImg,
-  } from '../board/images';
+} from '../../board/images';
 
 const Rules = () => (
   <div>

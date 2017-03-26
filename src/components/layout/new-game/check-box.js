@@ -1,24 +1,32 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
-
+import { actions } from '../../../redux-mvc';
 import style from './style';
 
-const CheckButton = () => (
+const CheckButton = ({ dispatch }) => (
   <div>
     <RadioButtonGroup
       name="shipSpeed"
       labelPosition="left"
       defaultSelected="grey"
       style={{ display: 'flex' }}
-      onChange={(event, value) => console.log(value)}
+      onChange={(event, value) => dispatch(
+        actions.selectGameMode({
+          isPlayerVsPlayer: false,
+          playerVsMachine: {
+            playerColor: value,
+          },
+        })
+      )}
     >
       <RadioButton
-        value="grey"
+        value="GREY"
         label="Grey Team"
         style={style.checkButton}
       />
       <RadioButton
-        value="red"
+        value="RED"
         label="Red Team"
         style={style.checkButton}
       />
@@ -26,4 +34,8 @@ const CheckButton = () => (
   </div>
 );
 
-export default CheckButton;
+CheckButton.propTypes = {
+  dispatch: React.PropTypes.func,
+};
+
+export default connect()(CheckButton);
