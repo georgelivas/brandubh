@@ -1,21 +1,12 @@
-import kingImg from './pieces/king.png';
-import redImg from './pieces/black.png';
-import greyImg from './pieces/white.png';
-
-export {
-  kingImg,
-  redImg,
-  greyImg,
-};
-.wooden-table {
+.table {
  border: 2px solid white;
  height: 700px;
  width: 700px;
  min-width: 700px;
-
+ border-collapse: collapse;
  margin-bottom: 400px;
  /*background-image: url("../images/backgrounds/lightwood.jpg");*/
- margin: 50px auto 50px auto;
+ margin: 0 auto 0 auto;
 }
 
 .cell {
@@ -24,6 +15,7 @@ export {
   min-width: 100px;
   border: 2px solid white;
   text-align: center;
+  vertical-align: baseline;
 }
 
 .tr {
@@ -31,16 +23,15 @@ export {
 }
 
 .corner, .center {
-    /*background-image: url("../images/backgrounds/darkwood.jpg");*/
-    /*background-color: #6b1111;*/
-    background-color: #000000;
+    background-color: #9b9b9b;
     text-align: center;
     border: 2px solid white;
+    vertical-align: baseline;
 }
 
 .piece {
-  height: 90px;
-  width: 90px;
+  height: 100px;
+  width: 100px;
 }
 
 .button {
@@ -65,7 +56,9 @@ export {
   height: 30px;
 }
 import classes from './board.css';
+
 export { classes };
+export default classes;
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -83,9 +76,9 @@ let Img = ({ piece, rowNum, colSymbol, dispatch }) => {
   }
 
   let imgStr = kingImg;
-  if (piece.isKing()) {
+  if (piece.isKing) {
     imgStr = kingImg;
-  } else if (piece.isRed()) {
+  } else if (piece.isRed) {
     imgStr = redImg;
   } else {
     imgStr = greyImg;
@@ -124,19 +117,21 @@ const cellClass = (rowNum, colSymbol) => {
   return 'cell';
 };
 
-const ColHeaders = () => (
-  <tr>
-    {[' ', 'A', 'B', 'C', 'D', 'E', 'F', 'G'].map((colSymbol) => (
-      <td className={'cellNum'} key={`col-head${colSymbol}`}>
-        {colSymbol}
-      </td>
-    ))}
-  </tr>
-);
+// const ColHeaders = () => (
+//   <tr>
+//     {[' ', 'A', 'B', 'C', 'D', 'E', 'F', 'G'].map((colSymbol) => (
+//       <td className={'cellNum'} key={`col-head${colSymbol}`}>
+//         {colSymbol}
+//       </td>
+//     ))}
+//   </tr>
+// );
 
 const Cell = ({ rowNum, colSymbol, piece, dispatch }) => (
   <td
     className={cellClass(rowNum, colSymbol)}
+    onTouchTap={() => { dispatch(actions.move(rowNum, colSymbol)); }}
+
     onDrop={() => { dispatch(actions.move(rowNum, colSymbol)); }}
 
     onDragOver={(ev) => ev.preventDefault()}
@@ -157,11 +152,9 @@ Cell.propTypes = {
 const Board = ({ board }) => (
   board ? (
     <div>
-      <table className="wooden-table">
-        <ColHeaders />
+      <table className="table">
         {[1, 2, 3, 4, 5, 6, 7].map((rowNum) => (
           <tr key={`board-row-${rowNum}`}>
-            <td className={'cellNum'} children={rowNum} />
             <C rowNum={rowNum} colSymbol={'A'} piece={board[rowNum - 1][0]} />
             <C rowNum={rowNum} colSymbol={'B'} piece={board[rowNum - 1][1]} />
             <C rowNum={rowNum} colSymbol={'C'} piece={board[rowNum - 1][2]} />
@@ -169,10 +162,9 @@ const Board = ({ board }) => (
             <C rowNum={rowNum} colSymbol={'E'} piece={board[rowNum - 1][4]} />
             <C rowNum={rowNum} colSymbol={'F'} piece={board[rowNum - 1][5]} />
             <C rowNum={rowNum} colSymbol={'G'} piece={board[rowNum - 1][6]} />
-            <td className={'cellNum'} children={rowNum} />
+
           </tr>
         ))}
-        <ColHeaders />
       </table>
     </div>
   ) : (
@@ -182,78 +174,324 @@ const Board = ({ board }) => (
 );
 
 Board.propTypes = {
-  board: React.PropTypes.object,
+  board: React.PropTypes.arrayOf(Object),
 };
 
 export default connect(({ board }) => ({ board }))(Board);
-import React, { PropTypes } from 'react';
-import { connect } from 'react-redux';
+import Board from './board';
 
+export { Board };
+export default Board;
+import React from 'react';
+import { connect } from 'react-redux';
+import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
+import { actions } from '../../../redux-mvc';
+import style from './style';
+
+const CheckButton = ({ dispatch }) => (
+  <div>
+    <RadioButtonGroup
+      name="shipSpeed"
+      labelPosition="left"
+      defaultSelected="grey"
+      style={{ display: 'flex' }}
+      onChange={(event, value) => dispatch(
+        actions.selectGameMode({
+          isPlayerVsPlayer: false,
+          playerVsMachine: {
+            playerColor: value,
+          },
+        })
+      )}
+    >
+      <RadioButton
+        value="GREY"
+        label="Grey Team"
+        style={style.checkButton}
+      />
+      <RadioButton
+        value="RED"
+        label="Red Team"
+        style={style.checkButton}
+      />
+    </RadioButtonGroup>
+  </div>
+);
+
+CheckButton.propTypes = {
+  dispatch: React.PropTypes.func,
+};
+
+export default connect()(CheckButton);
+import React from 'react';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import Help from 'material-ui/svg-icons/action/help';
 import { white } from 'material-ui/styles/colors';
 
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-
-import '../../App.css';
-import { Board } from '../../components';
-
-import { muiTheme } from '../../styles';
-
 import style from './style';
-import { actions } from '../../redux-mvc';
-import WelcomePaper from './welcome-paper';
-import WinnerDialog from '../utils/dialog';
+import Rules from './rules';
 
-import ListMenu from '../utils/list';
+export default class HelpRules extends React.Component {
+  state = {
+    open: false,
+  };
 
-const Layout = ({ dispatch, gameNotStarted, winner }) => (
-  <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-    <div style={{ width: '100%', height: '100%' }}>
+  handleOpen = () => {
+    this.setState({ open: true });
+  };
 
-      {gameNotStarted &&
-        <WelcomePaper dispatch={dispatch} />
-      }
+  handleClose = () => {
+    this.setState({ open: false });
+  };
 
-      <br />
-      <br />
-      <redImg />
-      <div style={{ align: 'center' }}>
-        {!gameNotStarted &&
-          <ListMenu />
-        }
-        <Board />
-      </div>
+  render() {
+    const actions = [
+      <FlatButton
+        label="Close"
+        primary
+        keyboardFocused
+        onTouchTap={this.handleClose}
+      />,
+    ];
 
-      <WinnerDialog
-        open={!!winner}
-        winner={winner}
-      />
-
+    return (
       <div>
         <FloatingActionButton
           zDepth={5} style={style.fab}
-          onTouchTap={() => { dispatch(actions.undo()); }}
+          onTouchTap={this.handleOpen}
         >
           <Help color={white} />
         </FloatingActionButton>
+        <Dialog
+          title="How to play.."
+          actions={actions}
+          modal={false}
+          open={this.state.open}
+          onRequestClose={this.handleClose}
+          autoScrollBodyContent
+        >
+          <Rules />
+        </Dialog>
       </div>
-    </div>
-  </MuiThemeProvider>
-);
+    );
+  }
+}
+import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
+import TextField from 'material-ui/TextField';
+import { selectGameMode } from '../../../redux-mvc/actions';
+import CheckButton from './check-box';
+import style from './style';
 
-Layout.propTypes = {
-  dispatch: PropTypes.func,
-  gameNotStarted: PropTypes.bool,
-  winner: PropTypes.string,
+const PlayerRegistration = ({
+  singleBox,
+  dispatch,
+}) => {
+  const handlePlayerVsMachineName = (event) => {
+    dispatch(selectGameMode({
+      isPlayerVsPlayer: false,
+      playerVsMachine: {
+        playerName: event.target.value,
+      },
+    }));
+  };
+
+  const handlePlayerVsPlayerRedName = (event) => {
+    dispatch(selectGameMode({
+      isPlayerVsPlayer: true,
+      playerVsPlayer: {
+        redPlayerName: event.target.value,
+      },
+    }));
+  };
+
+  const handlePlayerVsPlayerGreyName = (event) => {
+    dispatch(selectGameMode({
+      isPlayerVsPlayer: true,
+      playerVsPlayer: {
+        greyPlayerName: event.target.value,
+      },
+    }));
+  };
+
+  return (
+    <div style={style.playerRegistration}>
+      {
+        singleBox &&
+        <div>
+          <div>
+            <CheckButton style={{ width: '90%' }} />
+          </div>
+          <div>
+            <TextField
+              onChange={handlePlayerVsMachineName}
+              style={{ width: '90%' }}
+              floatingLabelText="Player Name"
+            />
+          </div>
+        </div>
+      }
+
+      {
+        !singleBox &&
+        <div>
+          <TextField
+            onChange={handlePlayerVsPlayerGreyName}
+            style={{ width: '90%' }}
+            floatingLabelText="Grey Player Name"
+          />
+          <TextField
+            onChange={handlePlayerVsPlayerRedName}
+            style={{ width: '90%' }}
+            floatingLabelText="Red Player Name"
+          />
+        </div>
+      }
+    </div>
+  );
 };
 
-export default connect((state) => ({
-  gameNotStarted: !state.board,
-  winner: state.winner,
-}))(Layout);
+PlayerRegistration.propTypes = {
+  singleBox: PropTypes.bool,
+  dispatch: PropTypes.func,
+};
+
+export default connect()(PlayerRegistration);
+import React from 'react';
+import style from './style';
+import {
+  startingBoard,
+  move,
+  captureKing,
+  captureVer,
+  captureHor,
+  tie,
+  kingWins } from '../images';
+import {
+  kingImg,
+  redImg,
+  greyImg,
+} from '../../board/images';
+
+const Rules = () => (
+  <div>
+    <h3 style={style.h1}>Teams:</h3>
+
+    <pre style={style.p}>
+      &emsp; Attackers: 8 red pieces.<br />
+      &emsp; Defenders: 4 white pieces, and a King.<br />
+    </pre>
+    <img src={redImg} alt={'black'} style={style.ruleImgRed} />
+    <img src={greyImg} alt={'white'} style={style.ruleImgSmall} />
+    <img src={kingImg} alt={'king'} style={style.ruleImgSmall} />
+
+    <h3 style={style.h1}>Starting Piece Positions:</h3>
+
+    <pre style={style.p}>
+      &emsp; • The King is placed at the center of the 7X7 board surrounded
+      <br />
+      &emsp;&emsp;&emsp; on 4 sides (North, East, South, West) by his defenders.
+      <br />
+      &emsp; • The 8 attacking pieces are placed in pairs alongside the King's
+      <br />
+      &emsp;&emsp;&emsp; defenders.
+    </pre>
+
+    <img src={startingBoard} alt={'startingBoard'} style={style.ruleImg} />
+
+    <h3 style={style.h1}>Moves:</h3>
+
+    <pre style={style.p}>
+      &emsp; • The attackers move first.<br />
+      &emsp; • The pieces can only move along the same Row or Column<br />
+      &emsp;&emsp;&emsp; by as many empty cells as the player wishes but,<br />
+      &emsp; • Cannot, jump over other pieces.<br />
+      &emsp; • Pieces can only occupy empty cells.<br />
+      &emsp; • Only the King can occupy the center cell but cannot return<br />
+      &emsp;&emsp;&emsp; to it once he has left it. He is also the only<br />
+      &emsp;&emsp;&emsp; piece that can occupy the 4 corner cells.<br />
+      &emsp; • Pieces can pass over the center cell only if it is empty.<br />
+    </pre>
+
+    <img src={move} alt={'move'} style={style.ruleImg} />
+
+    <h3 style={style.h1}>Capture:</h3>
+
+    <pre style={style.p}>
+      &emsp; • Including the King, pieces are captured when surrounded <br />
+      &emsp;&emsp;&emsp; either above and below OR to their right and left<br />
+      &emsp;&emsp;&emsp; by enemy pieces. The corner cells function as <br />
+      &emsp;&emsp;&emsp; enemy pieces. <br />
+      &emsp; • To capture the King still at the center cell he must be <br />
+      &emsp;&emsp;&emsp; surrounded N, E, S and W by attackers. At a cell <br />
+      &emsp;&emsp;&emsp; next to the center cell the King must be surrounded
+      <br />
+      &emsp;&emsp;&emsp; by attackers on the remaining 3 sides.<br />
+      &emsp; • More than 2 pieces can be captured simultaneously if surrounded
+      <br />
+      &emsp;&emsp;&emsp; on the same row or column by enemy pieces.<br />
+    </pre>
+
+    <img src={captureVer} alt={'captureVer'} style={style.ruleImgMedium} />
+    <img src={captureKing} alt={'captureKing'} style={style.ruleImgMedium} />
+    <img src={captureHor} alt={'startingBoard'} style={style.ruleImgMedium} />
+
+    <h3 style={style.h1}>The Winner :</h3>
+
+    <pre style={style.p}>
+      &emsp; • Defenders: If the King reaches one of the 4 corner cells.<br />
+      &emsp; • Attackers: If they capture the King.<br />
+    </pre>
+
+    <img src={captureKing} alt={'captureKing'} style={style.ruleImgMedium} />
+    <img src={kingWins} alt={'kingWins'} style={style.ruleImgMedium} />
+
+
+    <h3 style={style.h1}>Tie Conditions:</h3>
+
+    <pre style={style.p}>
+      &emsp; • Inability to make a legal move. All pieces are blocked.<br />
+      &emsp; • Repetitive sequence of moves that do not lead to the capture
+      <br />
+      &emsp;&emsp;&emsp; of an enemy piece.<br />
+      &emsp; • Player agreement.<br />
+    </pre>
+
+    <img src={tie} alt={'tie'} style={style.ruleImg} />
+
+    <h3 style={style.h1}>Opening Moves:</h3>
+
+    <pre style={style.p}>
+      &emsp; • YouTube links.<br />
+    </pre>
+  </div>
+);
+
+export default Rules;
+import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
+import RaisedButton from 'material-ui/RaisedButton';
+
+import style from './style';
+import { actions } from '../../../redux-mvc';
+
+const StartGameButton = ({ dispatch }) => (
+  <RaisedButton
+    label="Start Game"
+    labelStyle={{ fontSize: '33px', color: 'white' }}
+    primary
+    style={style.startGame}
+    onTouchTap={() => dispatch(actions.newGame())}
+  />
+);
+StartGameButton.propTypes = {
+  dispatch: PropTypes.func,
+};
+
+export default connect(() => ({
+}))(StartGameButton);
 import { orange500 } from 'material-ui/styles/colors';
 
 const style = {
@@ -321,12 +559,12 @@ const style = {
   },
   startGame: {
     width: 550,
-    height: 50,
+    height: 40,
     margin: 'auto',
     textAlign: 'center',
     fontFamily: 'Play, sans-serif',
     position: 'relative',
-    bottom: 200,
+    bottom: 140,
     right: 25,
   },
   paperTitle: {
@@ -335,53 +573,138 @@ const style = {
     color: 'white',
     fontFamily: 'Iowan Old Style',
     fontSize: 30,
+    marginBottom: 0,
+  },
+  checkButton: {
+    marginTop: 20,
+    marginRight: 30,
+    marginBottom: 16,
+    display: 'flex',
+    width: '50%',
+  },
+  playerRegistration: {
+    width: '100%',
+    height: 300,
+    margin: 'auto',
+    position: 'relative',
+    top: 5,
+  },
+  rules: {
+    h1: {
+      color: 'white',
+    },
+    p: {
+      margin: '0 0 100px 0',
+    },
+  },
+  logo: {
+    paddingTop: '10px',
+    paddingBottom: '10px',
+    width: '490px',
+  },
+  ruleImg: {
+    width: 300,
+  },
+  ruleImgSmall: {
+    width: 100,
+  },
+  ruleImgMedium: {
+    width: 200,
+    paddingRight: 10,
+  },
+  ruleImgRed: {
+    width: 100,
+    paddingRight: 40,
   },
 };
 
 export default style;
 import React, { PropTypes } from 'react';
-import style from './style';
+import { Tabs, Tab } from 'material-ui/Tabs';
+import SwipeableViews from 'react-swipeable-views';
 
-const Title = ({ winner }) => (
-  <div style={style.paperTitle}>
-    <h1>BRANDUBH</h1>
-    <h3 style={{ marginTop: '240px' }} >{ winner }</h3>
+import PlayerRegistration from './player-registration';
+
+class PlayerTabs extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      slideIndex: 0,
+    };
+  }
+
+  handleChange = (value) => {
+    this.setState({
+      slideIndex: value,
+    });
+  };
+
+  render() {
+    return (
+      <div style={{ height: '100%' }}>
+        <Tabs
+          onChange={this.handleChange}
+          value={this.state.slideIndex}
+        >
+          <Tab label="Player VS Machine" value={0} />
+          <Tab label="Player VS Player" value={1} />
+        </Tabs>
+        <SwipeableViews
+          index={this.state.slideIndex}
+          onChangeIndex={this.handleChange}
+        >
+          <div>
+            <PlayerRegistration singleBox />
+          </div>
+          <div>
+            <PlayerRegistration />
+          </div>
+        </SwipeableViews>
+      </div>
+    );
+  }
+}
+
+PlayerTabs.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+};
+
+export default PlayerTabs;
+import React from 'react';
+import style from './style';
+import { logo } from '../images';
+
+const Title = () => (
+  <div>
+    <img src={logo} alt={'Brandubh'} style={style.logo} />
+    { /* <h1 style={{ marginBottom: 0 }}>BRANDUBH</h1> */ }
   </div>
 );
-Title.propTypes = {
-  winner: PropTypes.string,
-};
 
 export default Title;
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import Paper from 'material-ui/Paper';
-import RaisedButton from 'material-ui/RaisedButton';
 
 import style from './style';
 import Title from './title';
-import { actions } from '../../redux-mvc';
+import PlayerTabs from './tabs';
+import StartGameButton from './start-game';
+import HelpRules from './help-rules';
 
-const WelcomePaper = ({ winner, dispatch }) => (
+const WelcomePaper = () => (
   <div style={{ width: '100%', height: '100%', margin: '200px auto 0 auto' }}>
     <Paper style={style.paper} zDepth={5}>
-      <Title winner={winner} />
-      <RaisedButton
-        label="Start Game"
-        labelStyle={{ fontSize: '33px', color: 'white' }}
-        primary
-        style={style.startGame}
-        onTouchTap={() => {
-          dispatch(actions.newGame());
-        }
-        }
-      />
+      <Title />
+      <PlayerTabs />
+      <StartGameButton />
     </Paper>
+    <HelpRules />
   </div>
 );
 WelcomePaper.propTypes = {
-  dispatch: PropTypes.func,
   winner: PropTypes.string,
 };
 
@@ -389,6 +712,254 @@ export default connect((state) => ({
   gameNotStarted: !state.board,
   winner: state.winner,
 }))(WelcomePaper);
+import React from 'react';
+import { connect } from 'react-redux';
+
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import Help from 'material-ui/svg-icons/action/help';
+import { white } from 'material-ui/styles/colors';
+import HelpRules from './help-rules';
+import style from './style';
+
+let open = true;
+const FloatingButton = () => (
+
+  <FloatingActionButton
+    zDepth={5} style={style.fab}
+
+  >
+    <Help color={white} />
+    <HelpRules open={open} />
+  </FloatingActionButton>
+);
+
+export default connect(() => ({ }))(FloatingButton);
+import Layout from './layout';
+
+export default Layout;
+import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
+
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+
+import { Board } from '../../components';
+
+import WinnerDialog from '../utils/dialog';
+import List from './list-component';
+import WelcomePaper from './new-game/welcome-paper';
+import logoImg from '../board/images';
+
+const Layout = ({ dispatch, gameNotStarted, winner }) => (
+  <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
+    <div style={{ width: '100%', height: '100%' }}>
+      {gameNotStarted &&
+        <div>
+          <WelcomePaper dispatch={dispatch} />
+        </div>
+      }
+      <br />
+      <br />
+      <logoImg />
+
+      <div style={{ align: 'center' }}>
+        {!gameNotStarted &&
+          <div>
+            <List />
+          </div>
+        }
+        <Board />
+      </div>
+
+      <WinnerDialog
+        open={!!winner}
+        winner={winner}
+      />
+    </div>
+  </MuiThemeProvider>
+);
+
+Layout.propTypes = {
+  dispatch: PropTypes.func,
+  gameNotStarted: PropTypes.bool,
+  winner: PropTypes.string,
+};
+
+export default connect((state) => ({
+  gameNotStarted: !state.board,
+  winner: state.winner,
+}))(Layout);
+import React from 'react';
+import Media from 'react-media';
+
+import ListMenu from '../utils/list';
+import InlineListMenu from '../utils/inline-list';
+
+const List = () => (
+  <div>
+    <Media query="(max-width: 1200px)">
+      {(matches) => (
+        matches ? (
+          <InlineListMenu />
+        ) : (
+          <ListMenu />
+        )
+      )}
+    </Media>
+  </div>
+);
+
+export default List;
+import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
+import RaisedButton from 'material-ui/RaisedButton';
+
+import style from './style';
+import { actions } from '../../redux-mvc';
+
+const StartGameButton = ({ dispatch }) => (
+  <RaisedButton
+    label="Start Game"
+    labelStyle={{ fontSize: '33px', color: 'white' }}
+    primary
+    style={style.startGame}
+    onTouchTap={() => dispatch(actions.newGame())}
+  />
+);
+StartGameButton.propTypes = {
+  dispatch: PropTypes.func,
+};
+
+export default connect(() => ({
+}))(StartGameButton);
+import { orange500 } from 'material-ui/styles/colors';
+
+const style = {
+  title: {
+    color: 'white',
+  },
+  fab: {
+    marginRight: 20,
+    top: 'auto',
+    right: 20,
+    bottom: 20,
+    left: 'auto',
+    position: 'fixed',
+
+  },
+  text: {
+    marginRight: 20,
+    marginTop: 0,
+    right: 120,
+    bottom: 'auto',
+    left: 'auto',
+    position: 'absolute',
+    color: 'white',
+    underline: {
+      borderColor: 'white',
+    },
+    floatingLabel: {
+      color: 'white',
+    },
+    floatingLabelFocus: {
+      color: orange500,
+    },
+  },
+  icon: {
+    margin: 12,
+  },
+  button: {
+    marginRight: 20,
+    top: 160,
+    right: 20,
+    bottom: 'auto',
+    left: 'auto',
+    position: 'absolute',
+    color: 'white',
+  },
+  undoButton: {
+    marginRight: 20,
+    top: 200,
+    right: 'auto',
+    bottom: 'auto',
+    left: 20,
+    position: 'absolute',
+    color: 'white',
+  },
+  appBarButton: {
+    marginRight: 20,
+    top: 30,
+  },
+  paper: {
+    height: 400,
+    width: 500,
+    margin: '200px auto  0 auto',
+    textAlign: 'center',
+    opacity: '0.9',
+  },
+  startGame: {
+    width: 550,
+    height: 40,
+    margin: 'auto',
+    textAlign: 'center',
+    fontFamily: 'Play, sans-serif',
+    position: 'relative',
+    bottom: 140,
+    right: 25,
+  },
+  paperTitle: {
+    WebkitTransition: 'all',
+    msTransition: 'all',
+    color: 'white',
+    fontFamily: 'Iowan Old Style',
+    fontSize: 30,
+    marginBottom: 0,
+  },
+  checkButton: {
+    marginTop: 20,
+    marginRight: 30,
+    marginBottom: 16,
+    display: 'flex',
+    width: '50%',
+  },
+  playerRegistration: {
+    width: '100%',
+    height: 300,
+    margin: 'auto',
+    position: 'relative',
+    top: 5,
+  },
+  rules: {
+    h1: {
+      color: 'white',
+    },
+    p: {
+      margin: '0 0 100px 0',
+    },
+  },
+  logo: {
+    paddingTop: '10px',
+    paddingBottom: '10px',
+    width: '490px',
+  },
+  ruleImg: {
+    width: 300,
+  },
+  ruleImgSmall: {
+    width: 100,
+  },
+  ruleImgMedium: {
+    width: 200,
+    paddingRight: 10,
+  },
+  ruleImgRed: {
+    width: 100,
+    paddingRight: 40,
+  },
+};
+
+export default style;
 .button {
     display: inline-block;
     border-radius: 4px;
@@ -442,8 +1013,6 @@ import './button.css';
 const Button = () => (
   <button className="button"><span>Start game!</span></button>
 );
-
-export default Button;
 import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
@@ -508,6 +1077,72 @@ export default connect(({ board, winner }) => ({
   gameNotStarted: !board,
   winner,
 }))(WinnerDialog);
+import React from 'react';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
+import { connect } from 'react-redux';
+import { actions } from '../../redux-mvc';
+
+const customContentStyle = {
+  width: '100%',
+  maxWidth: 'none',
+};
+
+class WinnerDialog extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: false,
+      winner: props.winner,
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({ open: nextProps.open });
+    this.setState({ winner: nextProps.winner });
+  }
+
+  render() {
+    const action = [
+      <FlatButton
+        label="Close"
+        primary={true}
+        onTouchTap={() => this.setState({ open: false })}
+      />,
+      <FlatButton
+        label="Play again"
+        primary={true}
+        onTouchTap={() => {
+          this.setState({ open: false });
+          this.props.dispatch(actions.newGame());
+        }}
+
+      />,
+    ];
+
+    // const winnerName = winner.charAt(0).toUpperCase() + winner.slice(1);
+    const title = this.props.winner + ' is the winner!';
+
+    return (
+      <Dialog
+        title={title}
+        actions={action}
+        modal={true}
+        contentStyle={customContentStyle}
+        open={this.state.open}
+      >
+        Press close to remain on game or hit play again for one more round.
+      </Dialog>
+    );
+  }
+}
+
+export default connect(({ board, winner }) => ({
+  gameNotStarted: !board,
+  winner,
+}))(WinnerDialog);
+
+export default Button;
 import React, { Component } from 'react'
 import { Drawer, AppBar, MenuItem} from 'material-ui'
 import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme'
@@ -561,12 +1196,140 @@ import Button from './button';
 export {
   Button,
 };
-import React from 'react';
+import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
+
+import { List, ListItem } from 'material-ui/List';
+import { white } from 'material-ui/styles/colors';
+import Undo from 'material-ui/svg-icons/content/undo';
+import VideogameAsset from 'material-ui/svg-icons/hardware/videogame-asset';
+import Error from 'material-ui/svg-icons/alert/error';
+import Menu from 'material-ui/svg-icons/navigation/menu';
+import Help from 'material-ui/svg-icons/action/help';
+
+import { actions } from '../../redux-mvc';
+import MobileTearSheetInline from './MobileTearSheetInline';
+import Machine from '../../libs/brandubh/machine';
+
+const InlineListMenu = ({ winner, dispatch }) => (
+  <MobileTearSheetInline >
+    <List
+      style={{
+        display: 'flex',
+        flexDirection: 'row',
+        padding: 0,
+      }}
+    >
+      <ListItem
+        primaryText="Undo"
+        disabled={!!winner}
+        rightIcon={
+          <Undo color={white} />
+        }
+        onTouchTap={() => (!winner && dispatch(actions.undo()))}
+
+        style={{ opacity: (winner ? 0.2 : 1) }}
+      />
+      <ListItem
+        primaryText="New Game"
+        rightIcon={
+          <VideogameAsset color={white} />
+        }
+        onTouchTap={() => dispatch(actions.newGame())}
+      />
+      <ListItem
+        primaryText="Hint" rightIcon={<Error color={white} />}
+        onTouchTap={() => console.log(Machine.getRandomIntInclusive(1, 7))}
+      />
+      <ListItem
+        primaryText="Start Menu"
+        rightIcon={<Menu color={white} />}
+        onTouchTap={() => dispatch(actions.gameNotStarted())}
+      />
+      <ListItem
+        primaryText="Help"
+        rightIcon={<Help color={white} />}
+      />
+    </List>
+  </MobileTearSheetInline>
+);
+InlineListMenu.propTypes = {
+  dispatch: PropTypes.func,
+  winner: PropTypes.string,
+};
+console.log(Machine.coordinates);
+
+export default connect((state) => ({
+  gameNotStarted: !state.board,
+  winner: state.winner,
+}))(InlineListMenu);
+import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
+
+import { List, ListItem } from 'material-ui/List';
+import { white } from 'material-ui/styles/colors';
+import Undo from 'material-ui/svg-icons/content/undo';
+import VideogameAsset from 'material-ui/svg-icons/hardware/videogame-asset';
+import Error from 'material-ui/svg-icons/alert/error';
+import Menu from 'material-ui/svg-icons/navigation/menu';
+import Help from 'material-ui/svg-icons/action/help';
+
+import { actions } from '../../redux-mvc';
+import MobileTearSheet from './MobileTearSheet';
+import HelpRules from '../layout/new-game/help-rules';
+
+const ListMenu = ({ winner, dispatch }) => (
+  <MobileTearSheet >
+    <List>
+      <ListItem
+        primaryText="Undo"
+        disabled={!!winner}
+        leftIcon={
+          <Undo color={white} />
+        }
+        onTouchTap={() => (!winner && dispatch(actions.undo()))}
+
+        style={{ opacity: (winner ? 0.2 : 1) }}
+      />
+      <ListItem
+        primaryText="New Game"
+        leftIcon={
+          <VideogameAsset color={white} />
+        }
+        onTouchTap={() => dispatch(actions.newGame())}
+      />
+      <ListItem
+        primaryText="Hint" leftIcon={<Error color={white} />}
+      />
+      <ListItem
+        primaryText="Start Menu"
+        leftIcon={<Menu color={white} />}
+        onTouchTap={() => dispatch(actions.gameNotStarted())}
+      />
+      <ListItem
+        primaryText="Help"
+        leftIcon={<Help color={white} />}
+        onTouchTap={HelpRules.handleClose}
+      />
+    </List>
+  </MobileTearSheet>
+);
+ListMenu.propTypes = {
+  dispatch: PropTypes.func,
+  winner: PropTypes.string,
+};
+
+export default connect((state) => ({
+  gameNotStarted: !state.board,
+  winner: state.winner,
+}))(ListMenu);
+import React, { PropTypes } from 'react';
 
 class MobileTearSheet extends React.Component {
 
   propTypes = {
-    height: React.PropTypes.number,
+    height: PropTypes.number,
+    children: PropTypes.node,
   };
 
   defaultProps = {
@@ -577,10 +1340,10 @@ class MobileTearSheet extends React.Component {
     const styles = {
       root: {
         float: 'right',
-        marginTop: 85,
+        marginTop: 0,
         marginBottom: 24,
-        marginRight: 100,
-        marginLeft: 20,
+        marginRight: 250,
+        marginLeft: 0,
         width: 'auto',
         minWidth: 200,
         position: 'relative',
@@ -605,66 +1368,63 @@ class MobileTearSheet extends React.Component {
 }
 
 export default MobileTearSheet;
-import { Board } from './board';
-import { Button } from './utils';
-import Layout from './layout';
+import React, { PropTypes } from 'react';
 
-export {
-  Board,
-  Button,
-  Layout,
+const styles = {
+  root: {
+    margin: '-30px auto 14px auto',
+    width: '640px',
+    minWidth: '640px',
+    display: 'flex',
+    flexDirection: 'row',
+    padding: 0,
+  },
+
+  container: {
+    border: 'solid 1px #d9d9d9',
+    height: '50px',
+    overflow: 'hidden',
+    margin: '0 auto 0 auto',
+  },
+
 };
-class Piece {
-  static type = 'PIECE';
 
-  constructor(color, type = Piece.type) {
-    this.type = type;
-    this.color = color;
-  }
+const MobileTearSheet = ({ children }) => (
+  <div style={styles.root}>
+    <div style={styles.container}>
+      {children}
+    </div>
+  </div>
+);
 
-  isRed = () => false;
-  isGrey = () => false;
-  isKing = () => false;
+MobileTearSheet.propTypes = {
+  children: PropTypes.node,
+};
 
-  toString() {
-    return `${this.type} ${this.color} ${this.x} ${this.y}`;
-  }
-}
+export default MobileTearSheet;
+const RED = 'RED';
+const GREY = 'GREY';
 
-class Red extends Piece {
-  static color = 'RED';
+const Red = {
+  color: RED,
+  isGrey: false,
+  isRed: true,
+  isKing: false,
+};
 
-  constructor() {
-    super(Red.color);
-  }
+const Grey = {
+  color: GREY,
+  isGrey: true,
+  isRed: false,
+  isKing: false,
+};
 
-  isRed = () => true;
-  // eslint-disable-next-line
-  oppositeColor = () => Grey.color;
-}
-
-class Grey extends Piece {
-  static color = 'GREY';
-  constructor() {
-    super(Grey.color);
-  }
-
-  isGrey = () => true;
-  oppositeColor = () => Red.color;
-}
-
-class King extends Piece {
-  static color = 'GREY';
-  static type = 'KING';
-
-  constructor() {
-    super(King.type);
-  }
-
-  isKing = () => true;
-  isGrey = () => true;
-  oppositeColor = () => Red.color;
-}
+const King = {
+  color: GREY,
+  isGrey: true,
+  isRed: false,
+  isKing: true,
+};
 
 const Board = {
   create() {
@@ -681,47 +1441,96 @@ const Board = {
 
     // Pieces starting posisions on Board
 
-    board[0][3] = new Red();
-    board[1][3] = new Red();
-    board[2][3] = new Grey();
-    board[3][3] = new King();
-    board[4][3] = new Grey();
-    board[5][3] = new Red();
-    board[6][3] = new Red();
-    board[3][0] = new Red();
-    board[3][1] = new Red();
-    board[3][2] = new Grey();
-    board[3][4] = new Grey();
-    board[3][5] = new Red();
-    board[3][6] = new Red();
+    board[0][3] = Red;
+    board[1][3] = Red;
+    board[2][3] = Grey;
+    board[3][3] = King;
+    board[4][3] = Grey;
+    board[5][3] = Red;
+    board[6][3] = Red;
+    board[3][0] = Red;
+    board[3][1] = Red;
+    board[3][2] = Grey;
+    board[3][4] = Grey;
+    board[3][5] = Red;
+    board[3][6] = Red;
 
     return board;
   },
 
+  findAllEmptySlots(board, x, y) {
+    const emptySlots = [];
+    for (let j = y + 1; j < board[x].length && !board[x][j]; j++) {
+      emptySlots.push({ x, y: j });
+    }
+
+    for (let j = y - 1; j >= 0 && !board[x][j]; j--) {
+      emptySlots.push({ x, y: j });
+    }
+
+    for (let i = x + 1; i < board.length && !board[i][y]; i++) {
+      emptySlots.push({ x: i, y });
+    }
+
+    for (let i = x - 1; i >= 0 && !board[i][y]; i--) {
+      emptySlots.push({ x: i, y });
+    }
+
+    return emptySlots;
+  },
+
+  findAllPiecesOfColor(board, color) {
+    const pieceLocation = [];
+
+    for (let i = 0; i < board.length; i++) {
+      for (let j = 0; j < board[i].length; j++) {
+        if (Board.isColorAt(board, color, i, j)) {
+          pieceLocation.push({ x: i, y: j });
+        }
+      }
+    }
+
+    return pieceLocation;
+  },
+
   isGreyAt(board, x, y) {
     if (Board.isInBoard(x, y) &&
-      !Board.isEmpty(board, x, y) && board[x][y].isGrey()) {
+      !Board.isEmpty(board, x, y) && board[x][y].isGrey) {
       return true;
     }
+
     return false;
   },
 
   isColorAt(board, color, x, y) {
+    // console.log(Board.findAllPieces(board, color));
     if (Board.isInBoard(x, y)
       && !Board.isEmpty(board, x, y)
       && board[x][y].color === color) {
       return true;
     }
+
     return false;
   },
 
-  isCornerOrCenter(x, y) {
+  isCorner(x, y) {
     return (
       (x === 0 && y === 0) ||
       (x === 0 && y === 6) ||
       (x === 6 && y === 6) ||
-      (x === 6 && y === 0) ||
+      (x === 6 && y === 0)
+    );
+  },
+
+  isCenter(x, y) {
+    return (
       (x === 3 && y === 3)
+    );
+  },
+
+  isCornerOrCenter(x, y) {
+    return (
+      Board.isCorner(x, y) || Board.isCenter(x, y)
     );
   },
 
@@ -734,6 +1543,7 @@ const Board = {
     if (x >= 0 && x <= 6 && y >= 0 && y <= 6) {
       return true;
     }
+
     return false;
   },
 
@@ -741,6 +1551,7 @@ const Board = {
     if (Board.isInBoard(x, y) && board[x][y] === null) {
       return true;
     }
+
     return false;
   },
 
@@ -752,13 +1563,15 @@ const Board = {
       && board[x][y].color === board[allyX][allyY].color) {
       return true;
     }
+
     return false;
   },
 
   isAlly(board, color, x, y) {
-    if (!Board.isInBoard(x, y) || Board.isCornerOrCenter(x, y)) {
+    if (Board.isCornerOrCenter(x, y)) {
       return true;
     }
+
     return Board.isColorAt(board, color, x, y);
   },
 
@@ -766,9 +1579,11 @@ const Board = {
     if (!Board.isInBoard(x, y) || Board.isCornerOrCenter(x, y)) {
       return true;
     }
+
     if (Board.isEmpty(board, x, y)) {
       return false;
     }
+
     return !Board.isColorAt(board, color, x, y);
   },
 
@@ -776,7 +1591,7 @@ const Board = {
     let x;
     let y;
     board.forEach((row, i) => row.forEach((piece, j) => {
-      if (piece !== null && piece.isKing()) {
+      if (piece !== null && piece.isKing) {
         [x, y] = [i, j];
       }
     }));
@@ -791,6 +1606,7 @@ const Board = {
       && Board.isEnemy(board, Grey.color, x, y - 1)) {
       return true;
     }
+
     return false;
   },
 
@@ -803,19 +1619,20 @@ const Board = {
       (x === 6 && y === 0)) {
       return true;
     }
+
     return false;
   },
 
   isKingAt(board, x, y) {
     return Board.isInBoard(x, y)
       && !Board.isEmpty(board, x, y)
-      && board[x][y].isKing();
+      && board[x][y].isKing;
   },
 
   capture(board, piece, x, y) {
     const color = piece.color;
     const captured = [];
-    if (piece.isKing()) {
+    if (piece.isKing) {
       return captured;
     }
 
@@ -823,26 +1640,35 @@ const Board = {
       return captured;
     }
 
-    if (Board.isInBoard(x + 1, y)
+    if (
+      Board.isInBoard(x + 1, y)
       && Board.isAlly(board, color, x + 2, y)
       && Board.isEnemy(board, color, x + 1, y)
-      && !Board.isKingAt(board, x + 1, y)) {
+      && !Board.isKingAt(board, x + 1, y)
+      && !Board.isKingAt(board, x + 2, y)
+    ) {
       const capturedPiece = { x: x + 1, y };
       captured.push(capturedPiece);
     }
 
-    if (Board.isInBoard(x - 1, y)
+    if (
+      Board.isInBoard(x - 1, y)
       && Board.isAlly(board, color, x - 2, y)
       && Board.isEnemy(board, color, x - 1, y)
-      && !Board.isKingAt(board, x - 1, y)) {
+      && !Board.isKingAt(board, x - 1, y)
+      && !Board.isKingAt(board, x - 2, y)
+    ) {
       const capturedPiece = { x: x - 1, y };
       captured.push(capturedPiece);
     }
 
-    if (Board.isInBoard(x, y + 1)
+    if (
+      Board.isInBoard(x, y + 1)
       && Board.isAlly(board, color, x, y + 2)
       && Board.isEnemy(board, color, x, y + 1)
-      && !Board.isKingAt(board, x, y + 1)) {
+      && !Board.isKingAt(board, x, y + 1)
+      && !Board.isKingAt(board, x, y + 2)
+    ) {
       const capturedPiece = { x, y: y + 1 };
       captured.push(capturedPiece);
     }
@@ -850,7 +1676,9 @@ const Board = {
     if (Board.isInBoard(x, y - 1)
       && Board.isAlly(board, color, x, y - 2)
       && Board.isEnemy(board, color, x, y - 1)
-      && !Board.isKingAt(board, x, y - 1)) {
+      && !Board.isKingAt(board, x, y - 1)
+      && !Board.isKingAt(board, x, y - 2)
+    ) {
       const capturedPiece = { x, y: y - 1 };
       captured.push(capturedPiece);
     }
@@ -865,11 +1693,18 @@ const Board = {
 
     const piece = board[fromX][fromY];
 
-    if (Board.isCornerOrCenter(toX, toY) && !piece.isKing()) {
+    if (Board.isCornerOrCenter(toX, toY) && !piece.isKing) {
       return board;
     }
 
-    if (!Board.isNotStraight(fromX, fromY, toX, toY)) {
+    if (piece.isKing && Board.isCenter(toX, toY)) {
+      return board;
+    }
+
+    const availableSlots = Board.findAllEmptySlots(board, fromX, fromY);
+    const to = availableSlots.find(({ x, y }) => (x === toX && y === toY));
+
+    if (!to) {
       return board;
     }
 
@@ -896,9 +1731,39 @@ export default Board;
 import Board from './brandubh';
 
 export default Board;
+import _ from 'lodash';
+import Board from './brandubh';
+
+const Machine = {
+  move(board, color) {
+    const availablePieces = _.shuffle(Board.findAllPiecesOfColor(board, color));
+    for (let i = 0; i < availablePieces.length; i++) {
+      const { x: fromX, y: fromY } = availablePieces[i];
+      const availableSlots =
+        _.shuffle(Board.findAllEmptySlots(board, fromX, fromY));
+      let slot = availableSlots.pop();
+      while (slot) {
+        const { x: toX, y: toY } = slot;
+        const newBoard = Board.move(board, fromX, fromY, toX, toY);
+        if (newBoard !== board) {
+          return newBoard;
+        }
+
+        slot = availableSlots.pop();
+      }
+
+      return board;
+    }
+  },
+};
+
+export default Machine;
 const MOVE = 'MOVE';
 const UNDO = 'UNDO';
 const NEW_GAME = 'NEW_GAME';
+const GAME_NOT_STARTED = 'GAME_NOT_STARTED';
+const SELECT_GAME_MODE = 'SELECT_GAME_MODE';
+const MACHINE_MOVE = 'MACHINE_MOVE';
 
 const move = (inX, inY) => {
   const x = parseInt(inX, 10) - 1;
@@ -913,31 +1778,77 @@ const move = (inX, inY) => {
   };
 };
 
+const machineMove = () => ({
+  type: MACHINE_MOVE,
+});
+
 const undo = () => ({
   type: UNDO,
 });
 
-const newGame = (guestName, starterName) => ({
+const selectGameMode = (options) => {
+  const {
+    isPlayerVsPlayer = false,
+    playerVsPlayer: {
+      greyPlayerName,
+      redPlayerName,
+    } = {},
+    playerVsMachine: {
+      playerName,
+      playerColor,
+    } = {},
+  } = options || {};
+
+  const payload = {
+    isPlayerVsPlayer,
+  };
+
+  if (greyPlayerName) {
+    payload.playerVsPlayer = {
+      greyPlayerName,
+    };
+  } else if (redPlayerName) {
+    payload.playerVsPlayer = {
+      redPlayerName,
+    };
+  } else if (playerName) {
+    payload.playerVsMachine = {
+      playerName,
+    };
+  } else if (playerColor) {
+    payload.playerVsMachine = {
+      playerColor,
+    };
+  }
+
+  return {
+    type: SELECT_GAME_MODE,
+    payload,
+  };
+};
+
+const gameNotStarted = () => ({
+  type: GAME_NOT_STARTED,
+});
+
+const newGame = () => ({
   type: NEW_GAME,
-  payload: {
-    host: {
-      name: 'Marvin',
-    },
-    guest: {
-      name: guestName,
-    },
-    currentPlayer: starterName,
-  },
 });
 
 export {
   MOVE,
   UNDO,
   NEW_GAME,
+  GAME_NOT_STARTED,
+  SELECT_GAME_MODE,
+  MACHINE_MOVE,
 
   move,
   undo,
   newGame,
+  gameNotStarted,
+  selectGameMode,
+  machineMove,
 };
 const DEBUG = true;
 
@@ -955,22 +1866,160 @@ import {
   MOVE,
   UNDO,
   NEW_GAME,
+  GAME_NOT_STARTED,
+  SELECT_GAME_MODE,
+  MACHINE_MOVE,
 } from './actions';
 
 import Board from '../libs/brandubh';
 
-export default (state = { board: null }, action) => {
+import Machine from '../libs/brandubh/machine';
+
+const reducer = (state = { board: null }, action) => {
   switch (action.type) {
+    case SELECT_GAME_MODE: {
+      const {
+        gameMode: {
+          playerVsPlayer,
+          playerVsMachine,
+        } = {},
+      } = state;
+      const { payload } = action;
+      return {
+        ...state,
+        gameMode: {
+          ...payload,
+          playerVsPlayer: {
+            ...(playerVsPlayer || {}),
+            ...(payload.playerVsPlayer || {}),
+          },
+          playerVsMachine: {
+            ...(playerVsMachine || {}),
+            ...(payload.playerVsMachine || {}),
+          },
+        },
+      };
+    }
+
+    case GAME_NOT_STARTED: {
+      return {
+        board: null,
+      };
+    }
+
     case NEW_GAME: {
+      if (!state.gameMode) {
+        return state;
+      }
+      const {
+        isPlayerVsPlayer,
+        playerVsPlayer: {
+          greyPlayerName,
+          redPlayerName,
+        } = {},
+        playerVsMachine: {
+          playerName,
+          playerColor,
+        } = {},
+      } = state.gameMode;
+
+      if (isPlayerVsPlayer && !(greyPlayerName && redPlayerName)) {
+        return state;
+      }
+
+      if (!isPlayerVsPlayer && !(playerName && playerColor)) {
+        return state;
+      }
+
+      let players;
+      if (isPlayerVsPlayer) {
+        players = {
+          grey: greyPlayerName,
+          red: redPlayerName,
+          currentPlayer: redPlayerName,
+        };
+      } else if (playerColor === 'GREY') {
+        players = {
+          grey: playerName,
+          red: 'Marvin',
+          currentPlayer: 'Marvin',
+        };
+      } else {
+        players = {
+          grey: 'Marvin',
+          red: playerName,
+          currentPlayer: playerName,
+        };
+      }
+
       const newState = {
-        players: action.payload,
+        players,
         board: Board.create(),
         winner: null,
+        gameMode: { ...state.gameMode },
       };
       return {
         ...newState,
         previousState: {
           ...newState,
+          currentMoveFrom: null,
+        },
+      };
+    }
+
+    case MACHINE_MOVE: {
+      const {
+        isPlayerVsPlayer,
+      } = state.gameMode || {};
+
+      if (isPlayerVsPlayer) {
+        return state;
+      }
+
+      if (Board.isKingCaptured(state.board)) {
+        return state;
+      }
+
+      if (Board.isKingOnCorner(state.board)) {
+        return state;
+      }
+
+      if (state.players.currentPlayer !== 'Marvin') {
+        return state;
+      }
+
+      const marvinColor = state.players.grey === 'Marvin' ? 'GREY' : 'RED';
+      const board = Machine.move(state.board, marvinColor);
+      if (state.board === board) {
+        return state;
+      }
+
+      const { grey, red, currentPlayer } = state.players;
+
+      const nextPlayer = (currentPlayer === grey) ? red : grey;
+
+      const players = {
+        ...state.players,
+        currentPlayer: nextPlayer,
+      };
+
+      let winner = null;
+      if (Board.isKingCaptured(board)) {
+        winner = red;
+      }
+
+      if (Board.isKingOnCorner(board)) {
+        winner = grey;
+      }
+
+      return {
+        ...state,
+        board,
+        players,
+        winner,
+        currentMoveFrom: null,
+        previousState: {
+          ...state,
           currentMoveFrom: null,
         },
       };
@@ -995,11 +2044,11 @@ export default (state = { board: null }, action) => {
       }
 
       const { x, y } = currentMoveFrom;
-      const { host, guest, currentPlayer } = state.players;
+      const { grey, red, currentPlayer } = state.players;
       const isGrey = Board.isGreyAt(state.board, x, y);
 
-      if ((currentPlayer !== guest.name && isGrey)
-        || (currentPlayer === guest.name && !isGrey)) {
+      if ((currentPlayer === red && isGrey)
+        || (currentPlayer === grey && !isGrey)) {
         return {
           ...state,
           currentMoveFrom: null,
@@ -1015,8 +2064,7 @@ export default (state = { board: null }, action) => {
       );
 
       if (board !== state.board) {
-        const nextPlayer = (currentPlayer === host.name) ?
-        guest.name : host.name;
+        const nextPlayer = (currentPlayer === grey) ? red : grey;
 
         const players = {
           ...state.players,
@@ -1025,11 +2073,11 @@ export default (state = { board: null }, action) => {
 
         let winner = null;
         if (Board.isKingCaptured(board)) {
-          winner = 'host';
+          winner = red;
         }
 
         if (Board.isKingOnCorner(board)) {
-          winner = 'guest';
+          winner = grey;
         }
 
         return {
@@ -1059,20 +2107,76 @@ export default (state = { board: null }, action) => {
       return state;
   }
 };
+
+export default reducer;
 import { createStore } from 'redux';
 import reducer from './reducer';
+import {
+  machineMove,
+} from './actions';
+import Board from '../libs/brandubh/brandubh';
 
 import DEBUG from './debug';
 
-let store;
+const storeParams = [reducer];
 
 if (DEBUG && typeof window.devToolsExtension === 'function') {
-  store = createStore(reducer, window.devToolsExtension());
-} else {
-  store = createStore(reducer);
+  storeParams.push(window.devToolsExtension());
 }
 
+const store = createStore(...storeParams);
+
+setInterval(() => {
+  const state = store.getState();
+  const {
+    board,
+    players,
+    gameMode,
+  } = state || {};
+
+  if (!gameMode || gameMode.isPlayerVsPlayer) {
+    return;
+  }
+
+  if (Board.isKingCaptured(board)) {
+    return;
+  }
+
+  if (Board.isKingOnCorner(board)) {
+    return;
+  }
+
+  const { currentPlayer } = players;
+
+  if (currentPlayer !== 'Marvin') {
+    return;
+  }
+
+  store.dispatch(machineMove());
+}, 1000);
+
 export default store;
+import muiTheme from './mui-theme';
+
+export {
+  muiTheme,
+};
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+import { cyan500 } from 'material-ui/styles/colors';
+
+injectTapEventPlugin();
+
+const muiTheme = getMuiTheme({
+  palette: {
+    textColor: cyan500,
+  },
+  appBar: {
+    height: 50,
+  },
+});
+
+export default muiTheme;
 .App {
   text-align: center;
  }
@@ -1113,18 +2217,26 @@ FlatButt: hover {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
-import React, { Component } from 'react';
+import React from 'react';
+
+import './styles';
+import './App.css';
+
 import { Layout } from './components';
 
-class App extends Component {
-  render() {
-    return (
-      <Layout />
-    );
-  }
-}
+const App = () => (
+  <Layout />
+);
 
 export default App;
+// import React from 'react';
+// import ReactDOM from 'react-dom';
+// import App from './App';
+
+it('renders without crashing', () => {
+  // const div = document.createElement('div');
+  // ReactDOM.render(<App />, div);
+});
 body {
   margin: 0;
   padding: 0;
@@ -1133,7 +2245,7 @@ body {
   background-size: '100%';
   background-repeat: no-repeat;
   background-position: center;
-  min-height: '100%';
+  height: '100%';
 }
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -1149,38 +2261,3 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root')
 );
-import muiTheme from './mui-theme';
-
-export {
-  muiTheme,
-};
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
-import injectTapEventPlugin from 'react-tap-event-plugin';
-import { cyan500 } from 'material-ui/styles/colors';
-
-injectTapEventPlugin();
-
-const muiTheme = getMuiTheme({
-  palette: {
-    textColor: cyan500,
-  },
-  appBar: {
-    height: 50,
-  },
-});
-
-export default muiTheme;
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="./src/favicon.ico">
-    <title>Brandubh</title>
-  </head>
-  <body>
-    <div id="root"  style="width: 100%; height: 100%;"}}></div>
-  </body>
-</html>

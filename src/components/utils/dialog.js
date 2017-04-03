@@ -27,12 +27,12 @@ class WinnerDialog extends React.Component {
     const action = [
       <FlatButton
         label="Close"
-        primary={true}
+        primary
         onTouchTap={() => this.setState({ open: false })}
       />,
       <FlatButton
         label="Play again"
-        primary={true}
+        primary
         onTouchTap={() => {
           this.setState({ open: false });
           this.props.dispatch(actions.newGame());
@@ -48,7 +48,7 @@ class WinnerDialog extends React.Component {
       <Dialog
         title={title}
         actions={action}
-        modal={true}
+        modal
         contentStyle={customContentStyle}
         open={this.state.open}
       >

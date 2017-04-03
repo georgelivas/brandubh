@@ -27,11 +27,7 @@
 }
 
 .pageTitle {
-    text-decoration-color: white;
-}
-
-FlatButt: hover {
-  color: white;
+  text-decoration-color: white;
 }
 
 @keyframes App-logo-spin {
