@@ -23,7 +23,6 @@ const Layout = ({ dispatch, gameNotStarted, winner }) => (
       <br />
       <br />
       <logoImg />
-
       <div style={{ align: 'center' }}>
         {!gameNotStarted &&
           <div>

@@ -57,20 +57,18 @@ const style = {
     top: 30,
   },
   paper: {
-    height: 400,
+    height: 300,
     width: 500,
     margin: '200px auto  0 auto',
     textAlign: 'center',
     opacity: '0.9',
   },
   startGame: {
-    width: 550,
+    width: 500,
     height: 40,
-    margin: 'auto',
-    textAlign: 'center',
     fontFamily: 'Play, sans-serif',
     position: 'relative',
-    bottom: 140,
+    bottom: 10,
     right: 25,
   },
   paperTitle: {
@@ -121,6 +119,28 @@ const style = {
   ruleImgRed: {
     width: 100,
     paddingRight: 40,
+  },
+  startGameButton: {
+    width: 500,
+    height: 40,
+    margin: 'auto',
+    textAlign: 'center',
+    fontFamily: 'Play, sans-serif',
+    position: 'relative',
+    bottom: 140,
+    right: 25,
+    marginBottom: 10,
+  },
+  downloadButton: {
+    marginTop: 10,
+    width: 500,
+    height: 40,
+    margin: 'auto',
+    textAlign: 'center',
+    fontFamily: 'Play, sans-serif',
+    position: 'relative',
+    bottom: 500,
+    right: 25,
   },
 };
 
