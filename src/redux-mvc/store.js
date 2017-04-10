@@ -23,7 +23,7 @@ setInterval(() => {
     gameMode,
   } = state || {};
 
-  if (!gameMode || gameMode.isPlayerVsPlayer) {
+  if (!board || !gameMode || gameMode.isPlayerVsPlayer) {
     return;
   }
 

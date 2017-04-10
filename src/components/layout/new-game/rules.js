@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import style from './style';
 import {
@@ -20,7 +21,7 @@ const Rules = () => (
 
     <pre style={style.p}>
       &emsp; Attackers: 8 red pieces.<br />
-      &emsp; Defenders: 4 white pieces, and a King.<br />
+      &emsp; Defenders: 4 grey pieces, and a King.<br />
     </pre>
     <img src={redImg} alt={'black'} style={style.ruleImgRed} />
     <img src={greyImg} alt={'white'} style={style.ruleImgSmall} />
@@ -59,18 +60,22 @@ const Rules = () => (
     <h3 style={style.h1}>Capture:</h3>
 
     <pre style={style.p}>
-      &emsp; • Including the King, pieces are captured when surrounded <br />
-      &emsp;&emsp;&emsp; either above and below OR to their right and left<br />
-      &emsp;&emsp;&emsp; by enemy pieces. The corner cells function as <br />
-      &emsp;&emsp;&emsp; enemy pieces. <br />
+      &emsp; • Pieces are captured when surrounded either above and below <br />
+      &emsp;&emsp;&emsp; OR to their left and right by enemy pieces. The corner
+      <br />
+      &emsp;&emsp;&emsp; and the center cells function as enemy pieces. <br />
+      &emsp; • The king is unarmed and cannot aid in capture. <br />
       &emsp; • To capture the King still at the center cell he must be <br />
       &emsp;&emsp;&emsp; surrounded N, E, S and W by attackers. At a cell <br />
-      &emsp;&emsp;&emsp; next to the center cell the King must be surrounded
+      &emsp;&emsp;&emsp; next to the center cell or at a boarder cell the King
       <br />
-      &emsp;&emsp;&emsp; by attackers on the remaining 3 sides.<br />
+      &emsp;&emsp;&emsp; must be surrounded by attackers on the remaining
+      3 sides.<br />
       &emsp; • More than 2 pieces can be captured simultaneously if surrounded
       <br />
-      &emsp;&emsp;&emsp; on the same row or column by enemy pieces.<br />
+      &emsp;&emsp;&emsp; (above and below or left and right)
+      on the same row or column <br />
+      &emsp;&emsp;&emsp; by enemy pieces.<br />
     </pre>
 
     <img src={captureVer} alt={'captureVer'} style={style.ruleImgMedium} />
@@ -104,6 +109,29 @@ const Rules = () => (
 
     <pre style={style.p}>
       &emsp; • YouTube links.<br />
+      <a href="https://youtu.be/vBxOrOD2eD8"
+        style={{
+          color: 'white',
+          textDecoration: 'none',
+        }}>
+        &emsp;&emsp;&emsp;&emsp;Part 1
+      </a>
+      <br />
+      <a href="https://youtu.be/Lv6rFWB8He4"
+        style={{
+          color: 'white',
+          textDecoration: 'none',
+        }}>
+        &emsp;&emsp;&emsp;&emsp;Part 2
+      </a>
+      <br />
+      <a href="https://youtu.be/bU025qZ0Yxo"
+        style={{
+          color: 'white',
+          textDecoration: 'none',
+        }}>
+        &emsp;&emsp;&emsp;&emsp;Part 3
+      </a>
     </pre>
   </div>
 );

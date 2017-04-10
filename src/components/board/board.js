@@ -79,8 +79,6 @@ const Cell = ({ rowNum, colSymbol, piece, dispatch }) => (
   </td>
 );
 
-const C = connect()(Cell);
-
 Cell.propTypes = {
   piece: React.PropTypes.Object,
   rowNum: React.PropTypes.string,
@@ -88,22 +86,26 @@ Cell.propTypes = {
   dispatch: React.PropTypes.func,
 };
 
+const C = connect()(Cell);
+
 const Board = ({ board }) => (
   board ? (
     <div>
       <table className="table">
-        {[1, 2, 3, 4, 5, 6, 7].map((rowNum) => (
-          <tr key={`board-row-${rowNum}`}>
-            <C rowNum={rowNum} colSymbol={'A'} piece={board[rowNum - 1][0]} />
-            <C rowNum={rowNum} colSymbol={'B'} piece={board[rowNum - 1][1]} />
-            <C rowNum={rowNum} colSymbol={'C'} piece={board[rowNum - 1][2]} />
-            <C rowNum={rowNum} colSymbol={'D'} piece={board[rowNum - 1][3]} />
-            <C rowNum={rowNum} colSymbol={'E'} piece={board[rowNum - 1][4]} />
-            <C rowNum={rowNum} colSymbol={'F'} piece={board[rowNum - 1][5]} />
-            <C rowNum={rowNum} colSymbol={'G'} piece={board[rowNum - 1][6]} />
+        <tbody>
+          {[1, 2, 3, 4, 5, 6, 7].map((rowNum) => (
+            <tr key={`board-row-${rowNum}`}>
+              <C rowNum={rowNum} colSymbol={'A'} piece={board[rowNum - 1][0]} />
+              <C rowNum={rowNum} colSymbol={'B'} piece={board[rowNum - 1][1]} />
+              <C rowNum={rowNum} colSymbol={'C'} piece={board[rowNum - 1][2]} />
+              <C rowNum={rowNum} colSymbol={'D'} piece={board[rowNum - 1][3]} />
+              <C rowNum={rowNum} colSymbol={'E'} piece={board[rowNum - 1][4]} />
+              <C rowNum={rowNum} colSymbol={'F'} piece={board[rowNum - 1][5]} />
+              <C rowNum={rowNum} colSymbol={'G'} piece={board[rowNum - 1][6]} />
 
-          </tr>
-        ))}
+            </tr>
+          ))}
+        </tbody>
       </table>
     </div>
   ) : (
@@ -113,7 +115,7 @@ const Board = ({ board }) => (
 );
 
 Board.propTypes = {
-  board: React.PropTypes.arrayOf(Object),
+  board: React.PropTypes.arrayOf(React.PropTypes.Object),
 };
 
 export default connect(({ board }) => ({ board }))(Board);

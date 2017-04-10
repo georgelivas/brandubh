@@ -46,7 +46,7 @@ class PlayerTabs extends React.Component {
 }
 
 PlayerTabs.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  dispatch: PropTypes.func,
 };
 
 export default PlayerTabs;
