@@ -55,11 +55,11 @@ const InlineListMenu = ({ winner, dispatch }) => (
     </List>
   </MobileTearSheetInline>
 );
+
 InlineListMenu.propTypes = {
   dispatch: PropTypes.func,
   winner: PropTypes.string,
 };
-console.log(Machine.coordinates);
 
 export default connect((state) => ({
   gameNotStarted: !state.board,

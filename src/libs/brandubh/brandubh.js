@@ -76,21 +76,15 @@ const Board = {
   },
 
   findAllPiecesOfColor(board, color) {
-    console.log('function invoked');
     const pieceLocation = [];
-    console.log('create array');
     for (let i = 0; i < board.length; i++) {
-      console.log('first for-loop. times:', i);
       for (let j = 0; j < board[i].length; j++) {
-        console.log('second for-loop. times:', j);
         if (Board.isColorAt(board, color, i, j)) {
           pieceLocation.push({ x: i, y: j });
-          console.log('if statement times:', j);
         }
       }
     }
 
-    console.log('Return array');
     return pieceLocation;
   },
 

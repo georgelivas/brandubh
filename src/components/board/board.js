@@ -35,10 +35,17 @@ let Img = ({ piece, rowNum, colSymbol, dispatch }) => {
 };
 
 Img.propTypes = {
-  piece: React.PropTypes.Object,
-  rowNum: React.PropTypes.string,
+  piece: React.PropTypes.object,
+  rowNum: React.PropTypes.number,
   colSymbol: React.PropTypes.string,
   dispatch: React.PropTypes.func,
+};
+
+Img.defaultProps = {
+  piece: null,
+  rowNum: -1,
+  colSymbol: '',
+  dispatch: () => {},
 };
 
 Img = connect()(Img);
@@ -80,10 +87,17 @@ const Cell = ({ rowNum, colSymbol, piece, dispatch }) => (
 );
 
 Cell.propTypes = {
-  piece: React.PropTypes.Object,
-  rowNum: React.PropTypes.string,
+  piece: React.PropTypes.object,
+  rowNum: React.PropTypes.number,
   colSymbol: React.PropTypes.string,
   dispatch: React.PropTypes.func,
+};
+
+Cell.defaultProps = {
+  piece: null,
+  rowNum: -1,
+  colSymbol: '',
+  dispatch: () => {},
 };
 
 const C = connect()(Cell);
@@ -115,7 +129,11 @@ const Board = ({ board }) => (
 );
 
 Board.propTypes = {
-  board: React.PropTypes.arrayOf(React.PropTypes.Object),
+  board: React.PropTypes.arrayOf(React.PropTypes.array),
+};
+
+Board.defaultProps = {
+  board: [],
 };
 
 export default connect(({ board }) => ({ board }))(Board);

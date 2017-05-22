@@ -5,6 +5,7 @@ body {
   background-image: url(./components/board/images/backgrounds/pageBackground.png);
   background-size: '100%';
   background-repeat: no-repeat;
-  background-position: center;
+  background-attachment: fixed;
+  background-position: center; 
   height: '100%';
 }
