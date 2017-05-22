@@ -59,7 +59,7 @@ const style = {
   paper: {
     height: 400,
     width: 500,
-    margin: '200px auto  0 auto',
+    margin: '0 auto  0 auto',
     textAlign: 'center',
     opacity: '0.9',
   },
@@ -106,7 +106,7 @@ const style = {
   logo: {
     paddingTop: '10px',
     paddingBottom: '10px',
-    width: '490px',
+    width: '100px',
   },
   ruleImg: {
     width: 300,
