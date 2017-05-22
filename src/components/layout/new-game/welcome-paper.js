@@ -8,12 +8,15 @@ import Title from './title';
 import PlayerTabs from './tabs';
 import StartGameButton from './start-game';
 import HelpRules from './help-rules';
+import SelectTeam from './select-team';
+import Background from './menu-background';
 
 const WelcomePaper = () => (
   <div style={{ width: '100%', height: '100%', margin: '0 auto 0 auto' }}>
     <Paper style={style.paper} zDepth={5}>
       <Title />
     </Paper>
+    <Background />
     <HelpRules />
   </div>
 );

@@ -3,6 +3,7 @@ import { Tabs, Tab } from 'material-ui/Tabs';
 import SwipeableViews from 'react-swipeable-views';
 
 import PlayerRegistration from './player-registration';
+import style from './style';
 
 class PlayerTabs extends React.Component {
 
@@ -21,7 +22,7 @@ class PlayerTabs extends React.Component {
 
   render() {
     return (
-      <div style={{ height: '100%' }}>
+      <div style={style.tabs}>
         <Tabs
           onChange={this.handleChange}
           value={this.state.slideIndex}

@@ -8,9 +8,7 @@ const CheckButton = ({ dispatch }) => (
   <div>
     <RadioButtonGroup
       name="shipSpeed"
-      labelPosition="left"
-      defaultSelected="grey"
-      style={{ display: 'flex' }}
+      defaultSelected="GREY"
       onChange={(event, value) => dispatch(
         actions.selectGameMode({
           isPlayerVsPlayer: false,

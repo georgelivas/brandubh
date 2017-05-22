@@ -1,4 +1,4 @@
-import { orange500 } from 'material-ui/styles/colors';
+import { orange500, red800 } from 'material-ui/styles/colors';
 
 const style = {
   title: {
@@ -85,7 +85,6 @@ const style = {
     marginTop: 20,
     marginRight: 30,
     marginBottom: 16,
-    display: 'flex',
     width: '50%',
   },
   playerRegistration: {
@@ -121,6 +120,29 @@ const style = {
   ruleImgRed: {
     width: 100,
     paddingRight: 40,
+  },
+  selectTeam: {
+    block: {
+      maxWidth: 250,
+    },
+    radioButton: {
+      marginBottom: 16,
+    },
+  },
+  selectTeamTitle: {
+    marginLeft: 10,
+    color: red800,
+  },
+  tabs: {
+    height: '100%',
+    marginTop: -248,
+  },
+  background: {
+    height: 200,
+    width: '100%',
+    marginTop: '80px',
+    textAlign: 'center',
+    opacity: '0.7',
   },
 };
 
