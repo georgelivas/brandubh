@@ -1,6 +1,6 @@
 <div align="center">
 	<img src = "./readmerc/logo.png" />
-</div>
+
 
 <p align="center">
     <a align="center"><img src="https://img.shields.io/packagist/l/doctrine/orm.svg"></a>
@@ -15,7 +15,7 @@
 
 
 </p>
-
+</div>
 
 # Description
 Brandubh, is the Irish variant of hnefatafl. It is the smallest, using a board of seven rows of seven squares, with just thirteen pieces.
