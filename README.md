@@ -3,15 +3,7 @@
 
 
 <p align="center">
-    <a align="center"><img src="https://img.shields.io/packagist/l/doctrine/orm.svg"></a>
-
-    <a align="center"><img src="https://img.shields.io/badge/npm%20version-6.4.1-orange.svg"></a>
-    
-    <a align="center"><img src="https://img.shields.io/badge/version-0.1.2-red.svg"></a>
-    
-    <a align="center" href="http://georgelivas.site"><img src="https://img.shields.io/badge/Visit%20my-Blog-brightgreen.svg"></a>
-    
-    <a align="center" href="http://brandubh.club"><img src="https://img.shields.io/badge/Play-now-brightgreen.svg"></a>
+    <a align="center"><img src="https://img.shields.io/packagist/l/doctrine/orm.svg"></a> <a align="center"><img src="https://img.shields.io/badge/npm%20version-6.4.1-orange.svg"></a> <a align="center"><img src="https://img.shields.io/badge/version-0.1.2-red.svg"></a> <a align="center" href="http://georgelivas.site"><img src="https://img.shields.io/badge/Visit%20my-Blog-brightgreen.svg"></a> <a align="center" href="http://brandubh.club"><img src="https://img.shields.io/badge/Play-now-brightgreen.svg"></a>
 
 
 </p>
