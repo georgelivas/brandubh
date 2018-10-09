@@ -6,6 +6,7 @@
     <a align="center"><img src="https://img.shields.io/packagist/l/doctrine/orm.svg"></a>
 
     <a align="center" href=""><img src="https://img.shields.io/badge/npm%20version-6.4.1-orange.svg"></a>
+    
     <a align="center" href=""><img src="https://img.shields.io/badge/version-0.1.2-red.svg"></a>
     
     <a align="center" href="http://georgelivas.site"><img src="https://img.shields.io/badge/Visit%20my-Blog-brightgreen.svg"></a>
@@ -55,6 +56,22 @@ Brandubh, is the Irish variant of hnefatafl. It is the smallest, using a board o
 * Attackers: If they capture the King.
 
 
+## Tie Conditions:
+
+* Inability to make a legal move. All pieces are blocked.
+* Repetitive sequence of moves that do not lead to the capture of an enemy piece.
+*  Player agreement.
+
+## Opening Moves:
+
+> YouTube links
+
+1. [Part 1](https://youtu.be/vBxOrOD2eD8)
+1. [Part 2](https://youtu.be/Lv6rFWB8He4)
+1. [Part 3](https://youtu.be/bU025qZ0Yxo)
+
 
 # License
 This project is licensed under the MIT License - see the [LICENSE](https://github.com/georgelivas/brandubh/blob/master/Licence) file for details.
+
+# Other projects
